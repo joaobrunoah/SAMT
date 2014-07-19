@@ -15,7 +15,7 @@ samtServices.factory('Phone',
 samtServices.factory('Noticia', 
 		['$resource',
 		 function($resource){
-			return $resource('http://localhost:3000/api/noticias', {}, {
+			return $resource('http://localhost/api/noticias', {}, {
 				//query: {method:'GET', params:{noticiaId:'noticias'}, isArray:true}
 			});
 		}]);
@@ -23,7 +23,7 @@ samtServices.factory('Noticia',
 samtServices.factory('Parceiro', 
 		['$resource',
 		 function($resource){
-			return $resource('http://localhost:3000/api/parceiros', {}, {
+			return $resource('http://localhost/api/parceiros', {}, {
 				//query: {method:'GET', params:{parceiroId:'parceiros'}, isArray:true}
 			});
 		}]);
