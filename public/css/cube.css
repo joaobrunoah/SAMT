@@ -1,0 +1,95 @@
+.cubeBody{
+	text-align: center;
+	padding: 50px;
+	width: 100%;
+}
+
+.scene {
+	display: inline-block;
+	margin-bottom: 30px;
+	width: 400px;
+	height: 300px;
+	perspective: 600px;
+}
+
+.cube {
+	position: relative;
+	width: inherit;
+	height: inherit;
+	transform-style: preserve-3d;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	-ms-transition: 1s;
+	-o-transition: 1s;
+	transition: 1s;
+}
+
+.cube-face {
+	width: inherit;
+	height: inherit;
+	position: absolute;
+	opacity: 1;
+}
+
+.cube-face-front {
+	background-image: url('../img/cubo/artesanato.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	transform: translate3d(0, 0, 200px);
+	-webkit-transform: translate3d(0, 0, 200px);
+}
+
+.cube-face-back {
+	background-image: url('../img/cubo/artesanato2.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	transform: rotateY(180deg) translate3d(0, 0, 200px);
+	-webkit-transform: rotateY(180deg) translate3d(0, 0, 200px);
+}
+
+.cube-face-left {
+	background-image: url('../img/cubo/padaria.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	transform: rotateY(-90deg) translate3d(0, 0, 200px);
+	-webkit-transform: rotateY(-90deg) translate3d(0, 0, 200px);
+}
+
+.cube-face-right {
+	background-image: url('../img/cubo/loja.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	transform: rotateY(90deg) translate3d(0, 0, 200px);
+	-webkit-transform: rotateY(90deg) translate3d(0, 0, 200px);
+}
+
+.cube-face-top {
+	background-image: url('../img/cubo/logo.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	width: 400px;
+	height: 400px;
+	transform: rotateX(90deg) translate3d(0, 0, 200px);
+	-webkit-transform: rotateX(90deg) translate3d(0, 0, 200px);
+}
+
+.scene div.front-selected {
+	transform: rotateY(5deg) rotateX(-10deg);
+	-webkit-transform: rotateY(5deg) rotateX(-10deg);
+	
+}
+
+.scene div.back-selected {
+	transform: rotateY(185deg) rotateX(10deg);
+	-webkit-transform: rotateY(185deg) rotateX(10deg);
+}
+
+.scene div.left-selected {
+	transform: rotateY(95deg) rotateZ(-10deg);
+	-webkit-transform: rotateY(95deg) rotateZ(-10deg);
+}
+
+.scene div.right-selected {
+	transform: rotateY(-85deg) rotateZ(10deg);
+	-webkit-transform: rotateY(-85deg) rotateZ(10deg);
+}

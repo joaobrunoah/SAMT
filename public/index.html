@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" ng-app="samtApp">
+<head>
+<meta charset="utf-8">
+<title>SAMT</title>
+<link rel="stylesheet"
+	href="../bower_components/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="css/noticia.css">
+<link rel="stylesheet" href="css/inicio.css">
+<link rel="stylesheet" href="css/seletor_projetos.css">
+<link rel="stylesheet" href="css/cube.css">
+<link rel="stylesheet" href="css/parceiros.css">
+
+<script src="../bower_components/jquery/jquery.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<script src="../bower_components/angular-route/angular-route.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
+<script src="js/app.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/services.js"></script>
+
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script>
+        tinymce.init({
+    selector: "textarea",
+    plugins: [
+        "advlist autolink lists link image charmap print preview anchor",
+        "searchreplace visualblocks code fullscreen",
+        "insertdatetime media table contextmenu paste moxiemanager"
+    ],
+    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+});
+</script>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation"
+		ng-controller="TopNavCtrl">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#/inicio"><img
+					src="img/logo/logo.png"></a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav font-18">
+					<li class="navSamt" ng-class="getClass('/inicio')"><a
+						href="#/inicio">{{texts.inicio}}</a></li>
+					<li class="navSamt" ng-class="getClass('/quem_somos')"><a
+						href="#/quem_somos">{{texts.quem_somos}}</a></li>
+					<li class="navSamt" ng-class="getClass('/parceiros')"><a
+						href="#/parceiros">{{texts.parceiros}}</a></li>
+					<li class="navSamt" ng-class="getClass('/projetos')"><a
+						href="#/projetos">{{texts.projetos}}</a></li>
+					<li class="navSamt" ng-class="getClass('/trabalhe_conosco')"><a
+						href="#/trabalhe_conosco">{{texts.trabalhe_conosco}}</a></li>
+					<li class="navSamt" ng-class="getClass('/contato')"><a
+						href="#/contato">{{texts.contato}}</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right font-18">
+					<li class="navSamt"><a href="#/administrador">Administrador</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<div style="padding-top: 90px">
+		<textarea>Write right here!</textarea>
+		<div class="view-container">
+			<div ng-view class="view-frame"></div>
+		</div>
+	</div>
+
+</body>
+</html>

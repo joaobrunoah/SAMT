@@ -1,0 +1,52 @@
+[
+    {
+		"num_id":"1",
+        "id": "dell", 
+        "imagemUrl": "img/parceiros/dell.jpg", 
+        "nome": "Dell Computadores", 
+        "url": "http://www.dell.com.br/"
+    }, 
+	{
+		"num_id":"2",
+        "id": "Ekomposit", 
+        "imagemUrl": "img/parceiros/Ekomposit.jpg", 
+        "nome": "Ekomposit Lages", 
+        "url": "http://www.linkedin.com/company/ekomposit-madeiras-do-brasil-s-a"
+    }, 
+	{
+		"num_id":"3",
+        "id": "rbstv", 
+        "imagemUrl": "img/parceiros/rbstv.jpg", 
+        "nome": "RBS TV", 
+        "url": "http://redeglobo.globo.com/sc/rbstvsc/"
+    }, 
+	{
+		"num_id":"4",
+        "id": "sony", 
+        "imagemUrl": "img/parceiros/sony.jpg", 
+        "nome": "Sony", 
+        "url": "http://www.sony.com.br/"
+    }, 
+	{
+		"num_id":"5",
+        "id": "starbucks", 
+        "imagemUrl": "img/parceiros/starbucks.jpg", 
+        "nome": "Starbucks Café", 
+        "url": "http://www.starbucks.com.br/"
+    }, 
+	{
+		"num_id":"6",
+        "id": "visa", 
+        "imagemUrl": "img/parceiros/visa.jpg", 
+        "nome": "Visa", 
+        "url": "https://www.visa.com.br/site/home"
+    }, 
+	{
+		"num_id":"7",
+        "id": "windows", 
+        "imagemUrl": "img/parceiros/windows.jpg", 
+        "nome": "Windows", 
+        "url": "http://windows.microsoft.com/pt-br/windows/home"
+    }
+    
+]

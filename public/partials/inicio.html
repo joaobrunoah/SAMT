@@ -1,0 +1,77 @@
+<div class="container-fluid">
+
+	<div class="cubeBody" ng-controller="CubeCtrl">
+
+		<div class="scene">
+			<div class="cube" ng-class="getFaceSelected()">
+				<div class="cube-face  cube-face-top"></div>
+				<div class="cube-face  cube-face-front"></div>
+				<div class="cube-face  cube-face-back"></div>
+				<div class="cube-face  cube-face-left"></div>
+				<div class="cube-face  cube-face-right"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<p class="titulo_subsecao">{{texts.conheca_projetos}}</p>
+	</div>
+	<div class="row projetos">
+		<section class="galeria_projetos">
+			<div class="projeto_inicio"
+				ng-repeat="noticia in noticias | orderBy:'_id'"
+				ng-class="getActiveClass(noticia._id)">
+				<img style="width: 100%; height: 100%;"
+					ng-src="{{noticia.imagemUrl}}">
+			</div>
+			<div class="projeto_inicio_titulo">
+				<p>{{getActiveName()}}</p>
+			</div>
+			<div class="projeto_inicio_titulo_back"></div>
+		</section>
+		<ul class="seletor_projeto">
+			<li ng-repeat="noticia in noticias | orderBy:'_id'"
+				ng-class="getActiveClass(noticia._id)"><a href=""
+				ng-click="setActiveClass(noticia._id)">_</a></li>
+		</ul>
+	</div>
+	<div class="row">
+		<p class="titulo_subsecao">{{texts.titulo_noticia}}</p>
+	</div>
+	<div class="row">
+		<table class="procurar_noticia">
+			<tr>
+				<td>{{texts.procurar_noticias}}: <input ng-model="query"></td>
+				<td style="padding-left: 30px">{{texts.ordenar}}: <select
+					ng-model="ordenarPor">
+						<option value="-data">{{texts.novas}}</option>
+						<option value="data">{{texts.antigas}}</option>
+				</select></td>
+			</tr>
+		</table>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-lg-4 noticia_container"
+			ng-repeat="noticia in noticias | filter:query | orderBy:ordenarPor">
+
+			<table class="noticia">
+				<tr>
+					<th><a href="#/noticias/{{noticia._id}}">{{noticia.titulo}}</a></th>
+				</tr>
+				<tr>
+					<td class="data">{{texts.data_postado}} {{noticia.data |
+						date:'dd/MM/yyyy'}} {{texts.separador_dia_hora}} {{noticia.data |
+						date:'HH:mm'}}</td>
+				</tr>
+				<tr>
+					<td><a href="#/noticias/{{noticia._id}}"><img
+							ng-src="{{noticia.imagemUrl}}"></a></td>
+				</tr>
+				<tr>
+					<td>{{noticia.resumo}}</td>
+				</tr>
+			</table>
+
+		</div>
+	</div>
+</div>

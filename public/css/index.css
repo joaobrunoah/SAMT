@@ -1,0 +1,10 @@
+.nav > li.navSamt > a {
+	padding: 20px 20px;
+}
+
+a.navbar-brand > img{
+	height:60px; 
+	margin-left: auto; 
+	margin-right:auto; 
+	margin-top: -15px
+}

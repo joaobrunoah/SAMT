@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      <p>Procurar em Notícias: <input ng-model="query"></p>
+      
+      <p>Ordenar por:
+      <select ng-model="ordenarPor">
+        <option value="-data">Mais Novas</option>
+        <option value="data">Mais Antigas</option>
+      </select></p>
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+      <ul class="noticias">
+        <li ng-repeat="noticia in noticias | filter:query | orderBy:ordenarPor"
+            class="lista-noticias">
+          <a href="#/noticias/{{noticia.id}}">{{noticia.titulo}}</a>
+          <a href="#/noticias/{{noticia.id}}"><img ng-src="{{noticia.imageUrl}}"></a>
+          <p>{{noticia.resumo}}</p>
+          <p>{{noticia.data}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

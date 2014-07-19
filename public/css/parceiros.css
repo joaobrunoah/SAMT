@@ -1,0 +1,15 @@
+img.parceiro_img{
+	width: 200px;
+	height: 200px;
+	margin-bottom: 20px;
+}
+
+a.parceiro_nome{
+	color: #4d4d4d;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+div.parceiro_col {
+	margin-bottom: 40px;
+}

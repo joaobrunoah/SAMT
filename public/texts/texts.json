@@ -1,0 +1,28 @@
+{
+	"_comment1":"Barra de Navegação",
+	"inicio": "Início", 
+    "quem_somos": "Quem Somos", 
+    "parceiros": "Parceiros", 
+    "projetos": "Projetos", 
+    "trabalhe_conosco": "Trabalhe Conosco",
+	"contato": "Contato",
+	
+	"_comment2": "Página Inicial",
+	"conheca_projetos":"Conheça Nossos Projetos",
+	"titulo_noticia":"Notícias",
+	"procurar_noticias": "Procurar em notícias",
+	"ordenar": "Ordenar por",
+	"novas": "Mais novas",
+	"antigas": "Mais antigas",
+	"data_postado": "Postado em",
+	"separador_dia_hora": "às",
+	
+	"_comment3": "Quem Somos",
+	"quem_somos":"Quem Somos",
+	"quem_somos_text":"<b>Notícias</b>",
+	"diretoria": "Diretoria",
+	"diretoria_text": "Bla Bla Bla",
+	
+	"_comment4": "Parceiros",
+	"parceiros":"Parceiros"
+}
