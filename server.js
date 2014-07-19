@@ -29,7 +29,7 @@ var Noticia = mongoose.model('Noticia',noticiaSchema);
 
 mongoose.connect('localhost');
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
