@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-	<div class="cubeBody" ng-controller="CubeCtrl">
+	<!-- <div class="cubeBody" ng-controller="CubeCtrl">
 
 		<div class="scene">
 			<div class="cube" ng-class="getFaceSelected()">
@@ -11,10 +11,12 @@
 				<div class="cube-face  cube-face-right"></div>
 			</div>
 		</div>
-	</div>
+	</div>  -->
 
+	<!-- NOTÍCIAS E EVENTOS -->
 	<div class="row">
-		<p class="titulo_subsecao">{{texts.conheca_projetos}}</p>
+		<div class="samt_news" style="background-image:url({{getActiveNoticia().imagemUrl}});">
+		</div>
 	</div>
 	<div class="row projetos">
 		<section class="galeria_projetos">

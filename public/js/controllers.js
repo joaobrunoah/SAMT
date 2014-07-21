@@ -61,7 +61,6 @@ samtControllers.controller('InicioCtrl',
 				$scope.activeClass=$scope.noticias[0]._id;
 			},200,1);
 			
-			
 			$scope.getActiveClass = function(idProjeto){
 				if (idProjeto==$scope.activeClass){
 					return "active";
@@ -83,13 +82,13 @@ samtControllers.controller('InicioCtrl',
 				},5000);
 			}
 			
-			$scope.getActiveName = function(){
+			$scope.getActiveNoticia = function(){
 				for (var i=0; i<$scope.noticias.length; i++) {
 					if($scope.noticias[i]._id==$scope.activeClass){
-						return $scope.noticias[i].titulo;
+						return $scope.noticias[i];
 					}
 				}
-				return "Nenhum Projeto Selecionado ";
+				return null;
 			}
 			
 			$scope.iterateOverProjects = $interval(function(){
