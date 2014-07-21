@@ -1,8 +1,8 @@
 .samt_news {
-	height: 275px;
+	height: 400px;
 	width: 100%;
-	-ms-background-position-x: center;
-  	-ms-background-position-y: center;
- 	background-position: center center;
+	-ms-background-position-x: 0%;
+  	-ms-background-position-y: 28%;
+ 	background-position: 0% 28%;
  	background-size: cover;
 }
