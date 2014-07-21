@@ -91,6 +91,17 @@ samtControllers.controller('InicioCtrl',
 				return null;
 			}
 			
+			$scope.getImgHeight = function(){
+				// Width of screen
+				var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+				
+				if (w>1400){
+					return '400px';
+				} else {
+					return '300px';
+				}
+			}
+			
 			$scope.iterateOverProjects = $interval(function(){
 				$scope.projectCounter += 1;
 				if($scope.projectCounter >= $scope.noticias.length){
