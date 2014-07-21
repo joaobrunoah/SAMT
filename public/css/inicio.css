@@ -6,10 +6,59 @@
  	background-size: cover;
 }
 
-.samt_news_lg {
-	height: 400px;
+.samt_news_body {
+	display: block;
+	width: 400px;
+	float: right;
+	margin-right: 200px;
+	margin-top: 100px;
+	height: 100%
 }
 
-.samt_news_md {
-	height: 275px;
+.samt_news_aba {
+	margin-top:6px;
+	background-color: #FFF100;
+	padding: 2px 5px;
+	display: inline-block;
+	border: none;
+	float: right;
+	cursor: pointer;
+}
+
+.samt_news_aba.active {
+	margin-top:0px;
+	background-color: #FFFFFF;
+	padding: 5px 5px;
+}
+
+.samt_news_text {
+	background-color: #FFFFFF;
+	width: 400px;
+	display: block;
+	float: right;
+}
+
+.samt_news_titulo {
+	font-weight: bold;
+	font-size: 18pt;
+	padding: 10px 15px;
+	text-align: right;
+}
+
+.samt_news_resumo {
+	padding: 0px 15px;
+	text-align: right;
+}
+
+.samt_news_leia_mais {
+	background-color: #230000;
+	position: relative;
+	left: 330px;
+	width: 70px;
+	color: #FFFFFF;
+	font-size: 11px;
+	text-decoration: underline;
+	cursor: pointer;
+	padding: 5px;
+	
 }
