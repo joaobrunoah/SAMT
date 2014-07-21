@@ -32,7 +32,16 @@
 			Leia Mais
 			</div>
 			</div>
-			<div class="samt_news_selector">
+			<div class="samt_news_seletor">
+			<div class="samt_news_flecha samt_news_flecha_esquerda"><img
+					src="img/site/seletor_esquerda.svg"></div>
+			<ul class="samt_news_seletor_bolinhas">
+			<li ng-repeat="noticia in noticias | orderBy:'_id'"
+				ng-class="getActiveClass(noticia._id)"><a href=""
+				ng-click="setActiveClass(noticia._id)">_</a></li>
+			</ul>
+			<div class="samt_news_flecha samt_news_flecha_direita"><img
+					src="img/site/seletor_direita.svg"></div>
 			</div>
 			</div>
 		</div>
