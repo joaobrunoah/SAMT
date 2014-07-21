@@ -3,8 +3,8 @@
 /* Services */
 
 var samtServices = angular.module('samtServices', ['ngResource']);
-var serverUrl = 'http://localhost/';
-//var serverUrl = 'http://54.191.191.173/';
+//var serverUrl = 'http://localhost/';
+var serverUrl = 'http://54.191.191.173/';
 
 samtServices.factory('Phone', 
 		['$resource',
