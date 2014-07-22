@@ -1,0 +1,10 @@
+@font-face {
+	font-family: AauxPro;
+	src: url("../fonts/AauxPro-Regular.ttf");
+}
+
+@font-face {
+	font-family: AauxPro;
+	src: url("../fonts/AauxPro-Bold.ttf");
+	font-weight: bold;
+}

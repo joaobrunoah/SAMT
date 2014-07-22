@@ -20,6 +20,7 @@ samtControllers.controller('TopNavCtrl',
 				    return ""
 				}
 			}
+			
 		 }]);
 
 samtControllers.controller('CubeCtrl',
@@ -45,62 +46,73 @@ samtControllers.controller('CubeCtrl',
 		 }]);
 
 samtControllers.controller('InicioCtrl', 
-		['$scope', '$http','$interval','Noticia',
-		 function($scope, $http, $interval, Noticia) {
+		['$scope', '$http','$interval','Noticia','Projeto',
+		 function($scope, $http, $interval, Noticia,Projeto) {
 			
-			$scope.projectCounter = 0;
+			$scope.newsCounter = 0;
 			
 			$http.get('texts/texts.json').success(function(data) {
 		    	$scope.texts = data;
 		    });
 			
 			$scope.noticias = Noticia.query();
+			$scope.projetos = Projeto.query();
 			$scope.ordenarPor = '-data';
 			
 			$interval(function(){
-				$scope.activeClass=$scope.noticias[0]._id;
+				$scope.activeNoticia=$scope.noticias[0]._id;
+				$scope.activeProjeto=$scope.projetos[0]._id;
 			},200,1);
 			
-			$scope.getActiveClass = function(idProjeto){
-				if (idProjeto==$scope.activeClass){
+			/* FUNCOES DE NOTICIA */
+			
+			$scope.isNoticiaActive = function(idNoticia){
+				if (idNoticia==$scope.activeNoticia){
 					return "active";
 				} else {
 					return "";
 				}
 			}
 			
-			$scope.setActiveClass = function(idProjeto){
-				$scope.activeClass=idProjeto;
-				$scope.projectCounter = idProjeto-1;
-				$interval.cancel($scope.iterateOverProjects);
-				$scope.iterateOverProjects = $interval(function(){
-					$scope.projectCounter += 1;
-					if($scope.projectCounter >= $scope.noticias.length){
-						$scope.projectCounter = 0;
+			$scope.setNoticiaActive = function(idNoticia){
+				$scope.activeNoticia=idNoticia;
+				$scope.newsCounter = idNoticia-1;
+				$interval.cancel($scope.iterateOverNews);
+				$scope.iterateOverNews = $interval(function(){
+					$scope.newsCounter += 1;
+					if($scope.newsCounter >= $scope.noticias.length){
+						$scope.newsCounter = 0;
 					}
-					$scope.activeClass=$scope.noticias[$scope.projectCounter].num_id;
+					$scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
 				},5000);
 			}
 			
-			$scope.getActiveNoticia = function(){
+			$scope.getNoticia = function(){
 				for (var i=0; i<$scope.noticias.length; i++) {
-					if($scope.noticias[i]._id==$scope.activeClass){
+					if($scope.noticias[i]._id==$scope.activeNoticia){
 						return $scope.noticias[i];
 					}
 				}
 				return null;
 			}
 			
-			$scope.getImgHeight = function(){
-				// Width of screen
-				var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-				
-				if (w>1400){
-					return 400;
+			/* FIM DE FUNCOES DE NOTICIA */
+			
+			/* FUNCOES DE PROJETO */
+			
+			$scope.isProjectActive = function(idProjeto){
+				if (idProjeto==$scope.activeProjeto){
+					return "active";
 				} else {
-					return 300;
+					return "";
 				}
 			}
+			
+			$scope.setProjectActive = function(idProjeto){
+				$scope.activeProjeto=idProjeto;
+			}
+			
+			/* FIM DE FUNCOES DE PROJETO */
 			
 			$scope.iterateOverProjects = $interval(function(){
 				$scope.projectCounter += 1;

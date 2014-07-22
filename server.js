@@ -213,7 +213,7 @@ app.post('/api/projetos', function(req, res, next) {
 		var projeto = new Projeto({
 			_id:count+1,
 			imagemUrl: req.body.imagemUrl,
-			titulo: req.body.titulo,
+			nome: req.body.nome,
 			resumo: req.body.resumo
 		});
 

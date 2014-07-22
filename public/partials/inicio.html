@@ -14,10 +14,9 @@
 	</div>  -->
 
 	<!-- NOTÍCIAS E EVENTOS -->
-	<div class="row" style="height: {{getImgHeight()+5}}px">
+	<div class="row">
 		<div class="samt_news" style="
-			background-image:url({{getActiveNoticia().imagemUrl}}); 
-			height: {{getImgHeight()}}px;">
+			background-image:url({{getNoticia().imagemUrl}});">
 			<div class="samt_news_body">
 			<div class="samt_news_abas">
 			<div class="samt_news_aba active" value="Noticias">Noticias
@@ -26,8 +25,8 @@
 			</div>
 			</div>
 			<div class="samt_news_text">
-			<p class="samt_news_titulo">{{getActiveNoticia().titulo}}</p>
-			<p class="samt_news_resumo">{{getActiveNoticia().resumo}}</p>
+			<p class="samt_news_titulo">{{getNoticia().titulo}}</p>
+			<p class="samt_news_resumo">{{getNoticia().resumo}}</p>
 			<div class="samt_news_leia_mais">
 			Leia Mais
 			</div>
@@ -37,8 +36,8 @@
 					src="img/site/seletor_esquerda.svg"></div>
 			<ul class="samt_news_seletor_bolinhas">
 			<li ng-repeat="noticia in noticias | orderBy:'_id'"
-				ng-class="getActiveClass(noticia._id)"><a href=""
-				ng-click="setActiveClass(noticia._id)">_</a></li>
+				ng-class="isNoticiaActive(noticia._id)"><a href=""
+				ng-click="setNoticiaActive(noticia._id)">_</a></li>
 			</ul>
 			<div class="samt_news_flecha samt_news_flecha_direita"><img
 					src="img/site/seletor_direita.svg"></div>
@@ -49,66 +48,18 @@
 	</div>
 	
 	<div class="row" style="padding-top: 40px">
-		<div class="samt_titulo">Conheça Nossos Projetos</div>
+		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
 		<div class="linha_amarela"></div>
-	</div>
-	
-	<div class="row projetos">
-		<section class="galeria_projetos">
-			<div class="projeto_inicio"
-				ng-repeat="noticia in noticias | orderBy:'_id'"
-				ng-class="getActiveClass(noticia._id)">
-				<img style="width: 100%; height: 100%;"
-					ng-src="{{noticia.imagemUrl}}">
+		<div class="col-lg-2 samt_projeto" ng-repeat="projeto in projetos | orderBy:'_id' | limitTo:6" 
+			ng-click="setProjectActive(projeto._id)" ng-class="isProjectActive(projeto._id)">
+			<img ng-src="{{projeto.imagemUrl}}"/>
+			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
+			<div class="samt_projeto_texto">
+				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
+				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
 			</div>
-			<div class="projeto_inicio_titulo">
-				<p>{{getActiveName()}}</p>
-			</div>
-			<div class="projeto_inicio_titulo_back"></div>
-		</section>
-		<ul class="seletor_projeto">
-			<li ng-repeat="noticia in noticias | orderBy:'_id'"
-				ng-class="getActiveClass(noticia._id)"><a href=""
-				ng-click="setActiveClass(noticia._id)">_</a></li>
-		</ul>
-	</div>
-	<div class="row">
-		<p class="titulo_subsecao">{{texts.titulo_noticia}}</p>
-	</div>
-	<div class="row">
-		<table class="procurar_noticia">
-			<tr>
-				<td>{{texts.procurar_noticias}}: <input ng-model="query"></td>
-				<td style="padding-left: 30px">{{texts.ordenar}}: <select
-					ng-model="ordenarPor">
-						<option value="-data">{{texts.novas}}</option>
-						<option value="data">{{texts.antigas}}</option>
-				</select></td>
-			</tr>
-		</table>
-	</div>
-	<div class="row">
-		<div class="col-md-6 col-lg-4 noticia_container"
-			ng-repeat="noticia in noticias | filter:query | orderBy:ordenarPor">
-
-			<table class="noticia">
-				<tr>
-					<th><a href="#/noticias/{{noticia._id}}">{{noticia.titulo}}</a></th>
-				</tr>
-				<tr>
-					<td class="data">{{texts.data_postado}} {{noticia.data |
-						date:'dd/MM/yyyy'}} {{texts.separador_dia_hora}} {{noticia.data |
-						date:'HH:mm'}}</td>
-				</tr>
-				<tr>
-					<td><a href="#/noticias/{{noticia._id}}"><img
-							ng-src="{{noticia.imagemUrl}}"></a></td>
-				</tr>
-				<tr>
-					<td>{{noticia.resumo}}</td>
-				</tr>
-			</table>
-
 		</div>
+		<div class="linha_amarela linha_fim_projetos"></div>
 	</div>
 </div>

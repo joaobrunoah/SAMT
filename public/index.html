@@ -5,6 +5,7 @@
 <title>SAMT</title>
 <link rel="stylesheet"
 	href="../bower_components/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="css/aaux_fonts.css">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/animations.css">
 <link rel="stylesheet" href="css/index.css">
@@ -44,20 +45,13 @@
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
 				<a class="navbar-brand" href="#/inicio"><img
 					src="img/site/logo.svg"></a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav font-18">
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
 					<li class="navSamt" ng-class="getClass('/quem_somos')"><a
 						href="#/quem_somos">{{texts.quem_somos}}</a></li>
 					<li class="navSamt" ng-class="getClass('/parceiros')"><a
@@ -69,8 +63,8 @@
 					<li class="navSamt" ng-class="getClass('/contato')"><a
 						href="#/contato">{{texts.contato}}</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right font-18">
-					<li class="navSamt"><a href="#/administrador">Administrador</a></li>
+				<ul class="nav navbar-nav navbar-right" style="margin-right:{{getMargin()}}px;">
+					<li class="navSamt" ng-class="getClass('/administrador')"><a href="#/administrador">Administrador</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -78,7 +72,7 @@
 		<!-- /.container-fluid -->
 	</nav>
 
-	<div style="padding-top: 50px">
+	<div style="padding-top: 32px">
 		<!-- <textarea>Write right here!</textarea>  -->
 		<div class="view-container">
 			<div ng-view class="view-frame"></div>

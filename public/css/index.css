@@ -4,10 +4,26 @@
 
 body {
 	background-color: #230000;
+	font-family: AauxPro;
+}
+
+.navbar-nav > li > a {padding: 6px 15px 5px 15px;}
+
+.navbar {min-height:32px}
+
+.navbar-fixed-top {
+    height: 25px;
+    padding: 0% 10%;
+}
+
+@media (max-width:1200px){
+	.navbar-fixed-top {
+    	padding: 0% 0%;
+	}
 }
 
 a.navbar-brand > img{
-	height:100px; 
+	height:100pt; 
 	margin-left: auto; 
 	margin-right:auto; 
 	margin-top: -15px
@@ -16,6 +32,7 @@ a.navbar-brand > img{
 .samt_titulo{
 	display: inline-block;
 	font-size: 18pt;
+	font-weight: bold;
 	background-color: #FFF100;
 	padding-top: 5px;
 	padding-left: 15px;
@@ -24,5 +41,10 @@ a.navbar-brand > img{
 
 .linha_amarela {
 	background-color: #FFF100;
-	height: 2px;
+	height: 5px;
+}
+
+li.navSamt {
+	font-size: 14pt;
+	font-weight: bold;
 }
