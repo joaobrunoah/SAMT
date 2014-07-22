@@ -42,8 +42,9 @@
 .samt_news_text {
 	background-color: #FFFFFF;
 	width: 400px;
-	display: block;
-	float: right;
+	height: 200px;
+	position: relative;
+	top:30px;
 }
 
 .samt_news_titulo {
@@ -51,18 +52,24 @@
 	font-size: 18pt;
 	padding: 10px 15px;
 	text-align: right;
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 
 .samt_news_resumo {
 	padding: 0px 15px;
 	text-align: right;
+	position: absolute;
+	top: 50px;
+	right: 0px;
 }
 
 .samt_news_leia_mais {
 	background-color: #230000;
-	position: relative;
-	left: 330px;
-	width: 70px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
 	color: #FFFFFF;
 	font-size: 11px;
 	text-decoration: underline;
@@ -76,6 +83,8 @@
 	display: block;
 	float: left;
 	vertical-align: middle;
+	position: relative;
+	top: 30px;
 }
 
 ul.samt_news_seletor_bolinhas{
