@@ -4,6 +4,7 @@
   	-ms-background-position-y: 28%;
  	background-position: 0% 28%;
  	background-size: cover;
+	border-bottom: 5px solid #FFFFFF;
 }
 
 .samt_news_body {

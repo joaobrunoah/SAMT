@@ -14,10 +14,10 @@
 	</div>  -->
 
 	<!-- NOTÍCIAS E EVENTOS -->
-	<div class="row">
+	<div class="row" style="height: {{getImgHeight()+5}}px">
 		<div class="samt_news" style="
 			background-image:url({{getActiveNoticia().imagemUrl}}); 
-			height: {{getImgHeight()}};">
+			height: {{getImgHeight()}}px;">
 			<div class="samt_news_body">
 			<div class="samt_news_abas">
 			<div class="samt_news_aba active" value="Noticias">Noticias
@@ -26,8 +26,8 @@
 			</div>
 			</div>
 			<div class="samt_news_text">
-			<p class="samt_news_titulo">Titulo da Noticia</p>
-			<p class="samt_news_resumo">Resumo não muito aprofundado da notícia. A imagem muda com o tempo. Clicando na imagem o usuário é redirecionado para a pagina da noticia.</p>
+			<p class="samt_news_titulo">{{getActiveNoticia().titulo}}</p>
+			<p class="samt_news_resumo">{{getActiveNoticia().resumo}}</p>
 			<div class="samt_news_leia_mais">
 			Leia Mais
 			</div>
@@ -46,6 +46,11 @@
 			</div>
 		</div>
 		
+	</div>
+	
+	<div class="row" style="padding-top: 40px">
+		<div class="samt_titulo">Conheça Nossos Projetos</div>
+		<div class="linha_amarela"></div>
 	</div>
 	
 	<div class="row projetos">

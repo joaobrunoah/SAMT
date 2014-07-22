@@ -3,8 +3,6 @@
 /* Services */
 
 var samtServices = angular.module('samtServices', ['ngResource']);
-//var serverUrl = 'http://localhost/';
-var serverUrl = 'http://54.191.191.173/';
 
 samtServices.factory('Phone', 
 		['$resource',
@@ -17,7 +15,7 @@ samtServices.factory('Phone',
 samtServices.factory('Noticia', 
 		['$resource',
 		 function($resource){
-			return $resource(serverUrl+'api/noticias', {}, {
+			return $resource('/api/noticias', {}, {
 				//query: {method:'GET', params:{noticiaId:'noticias'}, isArray:true}
 			});
 		}]);
@@ -25,7 +23,23 @@ samtServices.factory('Noticia',
 samtServices.factory('Parceiro', 
 		['$resource',
 		 function($resource){
-			return $resource(serverUrl+'api/parceiros', {}, {
+			return $resource('/api/parceiros', {}, {
+				//query: {method:'GET', params:{parceiroId:'parceiros'}, isArray:true}
+			});
+		}]);
+
+samtServices.factory('Evento', 
+		['$resource',
+		 function($resource){
+			return $resource('/api/eventos', {}, {
+				//query: {method:'GET', params:{noticiaId:'noticias'}, isArray:true}
+			});
+		}]);
+
+samtServices.factory('Projeto',
+		['$resource',
+		 function($resource){
+			return $resource('/api/projetos', {}, {
 				//query: {method:'GET', params:{parceiroId:'parceiros'}, isArray:true}
 			});
 		}]);

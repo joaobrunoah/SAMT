@@ -96,9 +96,9 @@ samtControllers.controller('InicioCtrl',
 				var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 				
 				if (w>1400){
-					return '400px';
+					return 400;
 				} else {
-					return '300px';
+					return 300;
 				}
 			}
 			

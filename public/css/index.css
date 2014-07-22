@@ -12,3 +12,17 @@ a.navbar-brand > img{
 	margin-right:auto; 
 	margin-top: -15px
 }
+
+.samt_titulo{
+	display: inline-block;
+	font-size: 18pt;
+	background-color: #FFF100;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 150px;
+}
+
+.linha_amarela {
+	background-color: #FFF100;
+	height: 2px;
+}
