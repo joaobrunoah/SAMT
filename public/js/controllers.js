@@ -62,7 +62,7 @@ samtControllers.controller('InicioCtrl',
 			$interval(function(){
 				$scope.activeNoticia=$scope.noticias[0]._id;
 				$scope.activeProjeto=$scope.projetos[0]._id;
-			},200,1);
+			},2000,1);
 			
 			/* FUNCOES DE NOTICIA */
 			
