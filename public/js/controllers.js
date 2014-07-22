@@ -23,7 +23,7 @@ samtControllers.controller('TopNavCtrl',
 			
 		 }]);
 
-samtControllers.controller('CubeCtrl',
+/*samtControllers.controller('CubeCtrl',
 		['$scope','$interval',
 		 function($scope,$interval){
 			var selection = ["back-selected","left-selected","front-selected","right-selected"];
@@ -43,7 +43,7 @@ samtControllers.controller('CubeCtrl',
 				}
 				$scope.faceSelected = selection[arraySelected];
 			},2000);
-		 }]);
+		 }]); */
 
 samtControllers.controller('InicioCtrl', 
 		['$scope', '$http','$interval','Noticia','Projeto',

@@ -47,10 +47,58 @@
 		
 	</div>
 	
-	<div class="row" style="padding-top: 40px">
+	<div class="row visible-lg" style="padding-top: 40px">
 		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
 		<div class="linha_amarela"></div>
 		<div class="col-lg-2 samt_projeto" ng-repeat="projeto in projetos | orderBy:'_id' | limitTo:6" 
+			ng-click="setProjectActive(projeto._id)" ng-class="isProjectActive(projeto._id)">
+			<img ng-src="{{projeto.imagemUrl}}"/>
+			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
+			<div class="samt_projeto_texto">
+				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
+				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
+			</div>
+		</div>
+		<div class="linha_amarela linha_fim_projetos"></div>
+	</div>
+	
+	<div class="row visible-md" style="padding-top: 40px">
+		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
+		<div class="linha_amarela"></div>
+		<div class="col-md-3 samt_projeto" ng-repeat="projeto in projetos | orderBy:'_id' | limitTo:4" 
+			ng-click="setProjectActive(projeto._id)" ng-class="isProjectActive(projeto._id)">
+			<img ng-src="{{projeto.imagemUrl}}"/>
+			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
+			<div class="samt_projeto_texto">
+				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
+				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
+			</div>
+		</div>
+		<div class="linha_amarela linha_fim_projetos"></div>
+	</div>
+	
+	<div class="row visible-sm" style="padding-top: 40px">
+		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
+		<div class="linha_amarela"></div>
+		<div class="col-sm-4 samt_projeto" ng-repeat="projeto in projetos | orderBy:'_id' | limitTo:3" 
+			ng-click="setProjectActive(projeto._id)" ng-class="isProjectActive(projeto._id)">
+			<img ng-src="{{projeto.imagemUrl}}"/>
+			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
+			<div class="samt_projeto_texto">
+				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
+				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
+			</div>
+		</div>
+		<div class="linha_amarela linha_fim_projetos"></div>
+	</div>
+	
+	<div class="row visible-xs" style="padding-top: 40px">
+		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
+		<div class="linha_amarela"></div>
+		<div class="col-xs-6 samt_projeto" ng-repeat="projeto in projetos | orderBy:'_id' | limitTo:2" 
 			ng-click="setProjectActive(projeto._id)" ng-class="isProjectActive(projeto._id)">
 			<img ng-src="{{projeto.imagemUrl}}"/>
 			<div class="samt_projeto_nome">{{projeto.nome}}</div>

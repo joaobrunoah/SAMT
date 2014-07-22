@@ -5,6 +5,11 @@
 body {
 	background-color: #230000;
 	font-family: AauxPro;
+	color: #000000;
+}
+
+.navbar-default .navbar-nav > li > a {
+	color: #000000;
 }
 
 .navbar-nav > li > a {padding: 6px 15px 5px 15px;}
