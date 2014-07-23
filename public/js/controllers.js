@@ -60,11 +60,17 @@ samtControllers.controller('InicioCtrl',
 			$scope.ordenarPor = '-data';
 			
 			$interval(function(){
+				var menorRand = 1;
+				var selectedProject = 0;
 				$scope.activeNoticia=$scope.noticias[0]._id;
-				$scope.activeProjeto=$scope.projetos[0]._id;
 				for (var i = 0; i<$scope.projetos.length; i++){
 					$scope.projetos[i].random = Math.random();
+					if($scope.projetos[i].random<menorRand){
+						menorRand = $scope.projetos[i].random;
+						selectedProject = i;
+					}
 				}
+				$scope.activeProjeto=$scope.projetos[selectedProject]._id;
 			},2000,1);
 			
 			/* FUNCOES DE NOTICIA */
