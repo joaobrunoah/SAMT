@@ -192,20 +192,6 @@ ul.samt_news_seletor_bolinhas{
 	top: 240px;
 }
 
-@media (max-width:1400px){
-	.samt_projeto > img{
-		height: 160px;
-	}
-	
-	.samt_projeto_nome {
-		top: 120px;
-	}
-	
-	.linha_fim_projetos {
-		top:160px;
-	}
-}
-
 .samt_projeto.active > img{
 	-webkit-filter: grayscale(0%);
 	-moz-filter: grayscale(0%);
@@ -239,6 +225,25 @@ ul.samt_news_seletor_bolinhas{
 	width: 150%;
 	transform: translate(0px,-200px);
 	transition: 0.5s ease-in-out;
+}
+
+@media (max-width:1400px){
+	.samt_projeto > img{
+		height: 160px;
+	}
+	
+	.samt_projeto_nome {
+		top: 120px;
+	}
+	
+	.linha_fim_projetos {
+		top:160px;
+	}
+	
+	.samt_projeto_texto {
+		height: 160px;
+		transform: translate(0px,-160px);
+	}
 }
 
 .samt_projeto.last > .samt_projeto_texto {
