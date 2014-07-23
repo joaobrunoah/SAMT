@@ -62,6 +62,9 @@ samtControllers.controller('InicioCtrl',
 			$interval(function(){
 				$scope.activeNoticia=$scope.noticias[0]._id;
 				$scope.activeProjeto=$scope.projetos[0]._id;
+				for (var i = 0; i<$scope.projetos.length; i++){
+					$scope.projetos[i].random = Math.random();
+				}
 			},2000,1);
 			
 			/* FUNCOES DE NOTICIA */
