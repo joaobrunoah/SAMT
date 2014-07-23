@@ -33,14 +33,14 @@
 			</div>
 			<div class="samt_news_seletor">
 			<div class="samt_news_flecha samt_news_flecha_esquerda"><img
-					src="img/site/seletor_esquerda.svg"></div>
+					src="img/site/seletor_esquerda.svg" ng-click="iterateNews(0)"></div>
 			<ul class="samt_news_seletor_bolinhas">
 			<li ng-repeat="noticia in noticias | orderBy:'_id'"
 				ng-class="isNoticiaActive(noticia._id)"><a href=""
 				ng-click="setNoticiaActive(noticia._id)">_</a></li>
 			</ul>
 			<div class="samt_news_flecha samt_news_flecha_direita"><img
-					src="img/site/seletor_direita.svg"></div>
+					src="img/site/seletor_direita.svg" ng-click="iterateNews(1)"></div>
 			</div>
 			</div>
 		</div>

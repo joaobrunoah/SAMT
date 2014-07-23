@@ -1,17 +1,12 @@
 .samt_news {
 	width: 100%;
-	height: 400px;
+	height: 340px;
 	-ms-background-position-x: 0%;
   	-ms-background-position-y: 28%;
  	background-position: 0% 28%;
  	background-size: cover;
 	border-bottom: 5px solid #FFFFFF;
-}
-
-@media (max-width:1400px) {
-	.samt_news {
-		height: 300px;
-	}
+	transition: background-image 0.8s ease-in-out;
 }
 
 .samt_news_body {
@@ -20,8 +15,10 @@
 	float: right;
 	position: relative;
 	right: 10%;
-	top: 20%;
+	top: 11%;
 }
+
+
 
 .samt_news_aba {
 	margin-top:6px;
@@ -45,6 +42,20 @@
 	height: 200px;
 	position: relative;
 	top:30px;
+}
+
+@media (max-width:1400px) {
+	.samt_news {
+		height: 260px;
+	}
+	
+	.samt_news_body {
+		top: 3%;
+	}
+	
+	.samt_news_text {
+		height: 180px;
+	}
 }
 
 .samt_news_titulo {
@@ -85,13 +96,13 @@
 	vertical-align: middle;
 	position: relative;
 	top: 30px;
+	height: 30px;
 }
 
 ul.samt_news_seletor_bolinhas{
 	list-style-type: none;
 	list-style: none;
 	margin: 0;
-	margin-top: 6px;
 	padding: 0;
 	border: none;
 	display: inline-block;
@@ -132,8 +143,8 @@ ul.samt_news_seletor_bolinhas{
 
 .samt_news_flecha > img{
 	width: 22px;
-	height: 22px;
-	margin-bottom: 12px;
+	height: 19px;
+	margin-bottom: 16px;
 	cursor: pointer;
 }
 

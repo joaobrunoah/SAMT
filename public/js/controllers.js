@@ -96,6 +96,39 @@ samtControllers.controller('InicioCtrl',
 				return null;
 			}
 			
+			$scope.iterateOverNews = $interval(function(){
+				$scope.newsCounter += 1;
+				if($scope.newsCounter >= $scope.noticias.length){
+					$scope.newsCounter = 0;
+				}
+				$scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+			},5000);
+			
+			/* toRight = 1 => right */
+			$scope.iterateNews = function(toRight){
+				$interval.cancel($scope.iterateOverNews);
+				if (toRight == 1) {
+					$scope.newsCounter += 1;
+					if($scope.newsCounter >= $scope.noticias.length){
+						$scope.newsCounter = 0;
+					}
+					$scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+				} else {
+					$scope.newsCounter -= 1;
+					if($scope.newsCounter < 0 ){
+						$scope.newsCounter = $scope.noticias.length-1;
+					}
+					$scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+				}
+				$scope.iterateOverNews = $interval(function(){
+					$scope.newsCounter += 1;
+					if($scope.newsCounter >= $scope.noticias.length){
+						$scope.newsCounter = 0;
+					}
+					$scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+				},5000);
+			}
+			
 			/* FIM DE FUNCOES DE NOTICIA */
 			
 			/* FUNCOES DE PROJETO */
@@ -113,14 +146,6 @@ samtControllers.controller('InicioCtrl',
 			}
 			
 			/* FIM DE FUNCOES DE PROJETO */
-			
-			$scope.iterateOverProjects = $interval(function(){
-				$scope.projectCounter += 1;
-				if($scope.projectCounter >= $scope.noticias.length){
-					$scope.projectCounter = 0;
-				}
-				$scope.activeClass=$scope.noticias[$scope.projectCounter]._id;
-			},5000);
 			
 		}]);
 
