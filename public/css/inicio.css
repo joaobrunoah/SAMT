@@ -230,10 +230,20 @@ ul.samt_news_seletor_bolinhas{
 	position: relative;
 	top: -43px;
 	background-color: #FFFFFF;
-	z-index: 1500;
+	z-index: -1500;
 	height: 200px;
 	border-radius: 0px 0px 30px 30px;
-	visibility: hidden;
+	width: 150%;
+	transform: translate(0px,-200px);
+	transition: 0.5s ease-in-out;
+}
+
+.samt_projeto.last > .samt_projeto_texto {
+	right: 50%;
+}
+
+.samt_projeto.middle > .samt_projeto_texto {
+	right: 25%;
 }
 
 .samt_projeto_texto > div.samt_projeto_titulo {
@@ -242,6 +252,7 @@ ul.samt_news_seletor_bolinhas{
 	font-size: 18pt;
 	padding: 0px 20px;
 	font-weight: bold;
+	text-align: center;
 }
 
 .samt_projeto_texto > div.samt_projeto_resumo {
@@ -250,6 +261,7 @@ ul.samt_news_seletor_bolinhas{
 	font-size: 11pt;
 	padding: 0px 20px;
 }
+
 .samt_projeto.active > .samt_projeto_texto {
-	visibility: visible;
+	transform: translate(0);
 }
