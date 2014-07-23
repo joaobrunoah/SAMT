@@ -21,9 +21,11 @@
 
 
 .samt_news_aba {
-	margin-top:6px;
+	font-size: 14pt;
+	font-weight: bold;
+	margin-top:9px;
 	background-color: #FFF100;
-	padding: 2px 5px;
+	padding: 2px 10px;
 	display: inline-block;
 	border: none;
 	float: right;
@@ -31,9 +33,10 @@
 }
 
 .samt_news_aba.active {
+	font-size: 16pt;
 	margin-top:0px;
 	background-color: #FFFFFF;
-	padding: 5px 5px;
+	padding: 5px 15px;
 }
 
 .samt_news_text {
@@ -41,7 +44,7 @@
 	width: 400px;
 	height: 200px;
 	position: relative;
-	top:30px;
+	top:40px;
 }
 
 @media (max-width:1400px) {
@@ -95,7 +98,7 @@
 	float: left;
 	vertical-align: middle;
 	position: relative;
-	top: 30px;
+	top: 40px;
 	height: 30px;
 }
 

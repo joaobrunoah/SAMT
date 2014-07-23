@@ -19,9 +19,9 @@
 			background-image:url({{getNoticia().imagemUrl}});">
 			<div class="samt_news_body">
 			<div class="samt_news_abas">
-			<div class="samt_news_aba active" value="Noticias">Noticias
+			<div class="samt_news_aba" ng-click="selectAba('noticia')" ng-class="{'active':abaNoticia}">Noticias
 			</div>
-			<div class="samt_news_aba" value="Eventos">Eventos
+			<div class="samt_news_aba" ng-click="selectAba('evento')" ng-class="{'active':abaEvento}">Eventos
 			</div>
 			</div>
 			<div class="samt_news_text">

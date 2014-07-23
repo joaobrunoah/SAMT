@@ -49,6 +49,9 @@ samtControllers.controller('InicioCtrl',
 		['$scope', '$http','$interval','Noticia','Projeto',
 		 function($scope, $http, $interval, Noticia,Projeto) {
 			
+			$scope.abaNoticia=true;
+			$scope.abaEvento=false;
+			
 			$scope.newsCounter = 0;
 			
 			$http.get('texts/texts.json').success(function(data) {
@@ -74,6 +77,19 @@ samtControllers.controller('InicioCtrl',
 			},2000,1);
 			
 			/* FUNCOES DE NOTICIA */
+			
+			$scope.selectAba = function(aba){
+				if(aba=='noticia'){
+					$scope.abaNoticia=true;
+					$scope.abaEvento=false;
+				} else if(aba=='evento'){
+					$scope.abaNoticia=false;
+					$scope.abaEvento=true;
+				} else {
+					$scope.abaNoticia=true;
+					$scope.abaEvento=false;
+				}
+			}
 			
 			$scope.isNoticiaActive = function(idNoticia){
 				if (idNoticia==$scope.activeNoticia){
