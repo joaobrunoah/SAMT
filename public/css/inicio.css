@@ -18,12 +18,10 @@
 	top: 11%;
 }
 
-
-
 .samt_news_aba {
-	font-size: 14pt;
+	font-size: 11pt;
 	font-weight: bold;
-	margin-top:9px;
+	margin-top:7px;
 	background-color: #FFF100;
 	padding: 2px 10px;
 	display: inline-block;
@@ -33,7 +31,7 @@
 }
 
 .samt_news_aba.active {
-	font-size: 16pt;
+	font-size: 12pt;
 	margin-top:0px;
 	background-color: #FFFFFF;
 	padding: 5px 15px;
@@ -44,7 +42,7 @@
 	width: 400px;
 	height: 200px;
 	position: relative;
-	top:40px;
+	top:32px;
 }
 
 @media (max-width:1400px) {
@@ -63,7 +61,7 @@
 
 .samt_news_titulo {
 	font-weight: bold;
-	font-size: 18pt;
+	font-size: 14pt;
 	padding: 10px 15px;
 	text-align: right;
 	position: absolute;
@@ -73,6 +71,7 @@
 
 .samt_news_resumo {
 	padding: 0px 15px;
+	font-size: 11pt;
 	text-align: right;
 	position: absolute;
 	top: 85px;
@@ -85,7 +84,7 @@
 	bottom: 0px;
 	right: 0px;
 	color: #FFFFFF;
-	font-size: 11px;
+	font-size: 11pt;
 	text-decoration: underline;
 	cursor: pointer;
 	padding: 5px;
@@ -98,7 +97,7 @@
 	float: left;
 	vertical-align: middle;
 	position: relative;
-	top: 40px;
+	top: 32px;
 	height: 30px;
 }
 
@@ -175,7 +174,7 @@ ul.samt_news_seletor_bolinhas{
 }
 
 .samt_projeto_nome {
-	font-size: 14pt;
+	font-size: 12pt;
 	background-color: #FFFFFF;
 	position: absolute;
 	width: 100%;
@@ -217,7 +216,7 @@ ul.samt_news_seletor_bolinhas{
 
 .samt_projeto_texto {
 	position: relative;
-	top: -43px;
+	top: -44px;
 	background-color: #FFFFFF;
 	z-index: -1500;
 	height: 200px;
@@ -257,7 +256,7 @@ ul.samt_news_seletor_bolinhas{
 .samt_projeto_texto > div.samt_projeto_titulo {
 	position: relative;
 	top: 10px;
-	font-size: 18pt;
+	font-size: 14pt;
 	padding: 0px 20px;
 	font-weight: bold;
 	text-align: center;

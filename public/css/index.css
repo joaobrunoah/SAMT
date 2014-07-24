@@ -37,7 +37,7 @@ a.navbar-brand > img{
 
 .samt_titulo{
 	display: inline-block;
-	font-size: 18pt;
+	font-size: 14pt;
 	font-weight: bold;
 	background-color: #FFF100;
 	padding-top: 5px;
@@ -51,6 +51,6 @@ a.navbar-brand > img{
 }
 
 li.navSamt {
-	font-size: 14pt;
+	font-size: 12pt;
 	font-weight: bold;
 }
