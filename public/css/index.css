@@ -3,7 +3,8 @@
 /* } */
 
 body {
-	background-color: #230000;
+	background-image:url('../img/site/background.svg');
+	background-color:#230000;
 	font-family: AauxPro;
 	color: #000000;
 }
