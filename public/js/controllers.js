@@ -213,8 +213,17 @@ samtControllers.controller('QuemSomosCtrl',
 		['$scope','$http',
 		 function($scope,$http) {
 			$http.get('texts/texts.json').success(function(data) {
-		    	$scope.texts = data;
+		    	$scope.titulo_secao = data.quem_somos;
+		    	$scope.texto_secao = data.quem_somos_text;
+		    	$scope.imagem_secao = data.quem_somos_imagem;
 		    });
+			
+			$scope.mustAppear = function(subsecao) {
+				if(subsecao == 'texto'){
+					return "appear";
+				} 
+				return "";
+			}
 		}]);
 
 samtControllers.controller('ParceirosCtrl', 

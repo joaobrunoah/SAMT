@@ -8,7 +8,8 @@ var samtApp = angular.module('samtApp',
 		 'samtAnimations',
 		 'samtControllers',
 		 'samtFilters',
-		 'samtServices'
+		 'samtServices',
+		 'ngSanitize'
 		 ]);
 
 samtApp.config(['$routeProvider', function($routeProvider) {
@@ -18,7 +19,7 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		controller: 'InicioCtrl'
 	}).
 	when('/quem_somos', {
-		templateUrl: 'partials/quem_somos.html',
+		templateUrl: 'partials/template_secao.html',
 		controller: 'QuemSomosCtrl'
 	}).
 	when('/parceiros', {

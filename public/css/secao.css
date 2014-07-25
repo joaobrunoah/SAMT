@@ -18,8 +18,94 @@
 	text-align: right;
 	position: relative;
 	top: -25px;
-	padding: 5px 10px 5px 10px;
+	right: 15%;
+	padding: 5px 20px 5px 10px;
 	font-size: 14pt;
 	font-weight: bold;
-	width: 52%;
+	width: 50%;
+}
+
+.conteudo_secao {
+	width: 100%;
+	background-color: #FFFFFF;
+	min-height: 270px;
+}
+
+.data_secao {
+	font-weight: bold;
+	font-size: 11pt;
+	text-align: right;
+	padding-top: 40px;
+	padding-right: 17%;
+	display: none;
+}
+
+.texto_secao {
+	font-size: 11pt;
+	position: relative;
+	padding-top: 40px;
+	padding-left: 17%;
+	padding-right: 17%;
+	display: none;
+}
+
+.informacoes_evento_secao {
+	position: relative;
+	padding: 40px 17%;
+	text-align: right;
+	display: none;
+}
+
+.informacoes_evento_secao > .informacoes {
+	font-size: 13pt;
+	font-weight: bold;
+}
+
+.informacoes_evento_secao > .local_data {
+	font-size: 11pt;
+	font-weight: bold;
+	margin: 0;
+}
+
+.informacoes_evento_secao > .conteudo {
+	font-size: 11pt;
+}
+
+.div_foto_galeria {
+	background-color: #FFFFFF;
+	text-align: center;
+	line-height: 400px;
+}
+
+.galeria_fotos_secao {
+	display: none;
+}
+
+.data_secao.appear,
+.texto_secao.appear,
+.informacoes_evento_secao.appear,
+.galeria_fotos_secao.appear {
+	display: block;
+}
+
+.foto_galeria {
+	max-width: 95%;
+	max-height: 360px;
+}
+
+.galeria_fotos_lateral{
+	background-color: #FFFFFF;
+	height: 400px;
+}
+
+.fim_conteudo_secao {
+	height: 30px;
+	border-radius: 0px 0px 30px 30px;
+	background-color: #FFFFFF;
+	margin-bottom: 100px;
+}
+
+.col-md-meio {
+	width: 4.166666666%;
+	float:left;
 }
