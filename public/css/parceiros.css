@@ -1,15 +1,34 @@
-img.parceiro_img{
-	width: 200px;
+.parceiro_espacamento {
+	background-color: #FFFFFF;
+	height: 100px;
+	width: 100%;
+}
+
+.div_parceiro_lateral {
+	background-color: #FFFFFF;
 	height: 200px;
-	margin-bottom: 20px;
+	text-align: center;
 }
 
-a.parceiro_nome{
-	color: #4d4d4d;
+.div_parceiro {
+	background-color: #FFFFFF;
+	height: 200px;
+	text-align: center;
+}
+
+.foto_parceiro {
+	width: 175px;
+	height: 175px
+}
+
+.nome_parceiro {
+	position: relative;
+	bottom: 32px;
+	font-size: 12pt;
 	font-weight: bold;
-	font-size: 20px;
-}
-
-div.parceiro_col {
-	margin-bottom: 40px;
+	background-color: #FFF100;
+	width: 175px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
 }

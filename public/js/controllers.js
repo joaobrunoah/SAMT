@@ -227,14 +227,24 @@ samtControllers.controller('QuemSomosCtrl',
 		}]);
 
 samtControllers.controller('ParceirosCtrl', 
-		['$scope','$http','Parceiro',
-		 function($scope,$http,Parceiro) {
-			$http.get('texts/texts.json').success(function(data) {
-		    	$scope.texts = data;
-		    });
+		['$scope','$interval','Parceiro',
+		 function($scope,$interval,Parceiro) {
 			
-			$scope.parceiros = Parceiro.query();
-			
+			var parceiros = Parceiro.query();
+			var parceirosTemp = [];
+			$scope.parceirosArray=[];
+			$interval(function(){
+				var iMax = parceiros.length;
+				for(var i=0;i<iMax;i++){
+					parceirosTemp.push(parceiros[i]);
+					if(i%3==2){
+						$scope.parceirosArray.push(parceirosTemp);
+						parceirosTemp = [];
+					} else if (i==iMax-1) {
+						$scope.parceirosArray.push(parceirosTemp);
+					}
+				}
+			},200,1);
 		}]);
 
 samtControllers.controller('PhoneDetailCtrl', 

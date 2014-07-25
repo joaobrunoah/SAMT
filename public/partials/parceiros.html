@@ -1,19 +1,63 @@
 <div class="container-fluid">
-
 	<div class="row">
-		<p class="titulo_subsecao">{{texts.parceiros}}</p>
-	</div>
-
-	<div class="row">
-		<div class="col-lg-2 col-md-3 col-ls-4 col-xs-6 parceiro_col"
-			ng-repeat="parceiro in parceiros">
-			<div class="row text-center">
-				<a ng-href="{{parceiro.url}}"><img class="parceiro_img"
-					ng-src="{{parceiro.imagemUrl}}" /></a>
-			</div>
-			<div class="row text-center">
-				<a class="parceiro_nome" ng-href="{{parceiro.url}}">{{parceiro.nome}}</a>
-			</div>
+		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
+			<div class="imagem_secao" style="background-image: url('img/site/parceiros.jpg')"></div>
+			<div class="titulo_secao">Parceiros</div>
+			<div class="parceiro_espacamento"></div>
 		</div>
 	</div>
+	<div ng-repeat="parceiros in parceirosArray">
+		<div class="row">
+			<div class="div_parceiro_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>
+			<div class="div_parceiro_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>
+
+			<div ng-repeat="parceiro in parceiros">
+				<a href="{{parceiro.url}}">
+					<div class="div_parceiro col-lg-2 col-md-3 col-sm-4 col-xs-4">
+						<img class="foto_parceiro" ng-src="{{parceiro.imagemUrl}}"/>
+						<div class="nome_parceiro">{{parceiro.nome}}</div>
+					</div>
+				</a>
+				<div ng-if="$index%3==2">
+				<div class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+				<div class="div_parceiro_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>
+			</div>
+			<div ng-if="$index%3==0 && $last">
+				<div class="div_parceiro_lateral col-md-4 hidden-lg hidden-sm hidden-xs"></div>
+				<div class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+				<div class="div_parceiro_lateral col-lg-5 hidden-md hidden-sm hidden-xs"></div>
+			</div>
+			<div ng-if="$index%3==1 && $last">
+				<div class="div_parceiro_lateral col-md-2 hidden-lg hidden-sm hidden-xs"></div>
+				<div class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+				<div class="div_parceiro_lateral col-lg-3 hidden-md hidden-sm hidden-xs"></div>
+			</div>
+			</div>
+<!-- 			<div class="div_parceiro col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_parceiro" src="img/projetos/projeto_2.jpg"/></div> -->
+<!-- 			<div class="div_parceiro col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_parceiro" src="img/projetos/projeto_13.jpg"/></div> -->
+			
+		</div>
+	</div>
+	<div class="row">
+		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
+			<div class="fim_conteudo_secao"></div>
+		</div>
+	</div>
+	
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-lg-2 col-md-3 col-ls-4 col-xs-6 parceiro_col" -->
+<!-- 			ng-repeat="parceiro in parceiros"> -->
+<!-- 			<div class="row text-center"> -->
+<!-- 				<a ng-href="{{parceiro.url}}"><img class="parceiro_img" -->
+<!-- 					ng-src="{{parceiro.imagemUrl}}" /></a> -->
+<!-- 			</div> -->
+<!-- 			<div class="row text-center"> -->
+<!-- 				<a class="parceiro_nome" ng-href="{{parceiro.url}}">{{parceiro.nome}}</a> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+	
 </div>
+
+	
+
