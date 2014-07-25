@@ -249,6 +249,31 @@ samtControllers.controller('ParceirosCtrl',
 			},100,10);
 		}]);
 
+samtControllers.controller('ProjetosCtrl', 
+		['$scope','$http','Projeto',
+		 function($scope,$http,Projeto) {
+			
+			var idElementSelected = null;
+			
+			$http.get('texts/texts.json').success(function(data) {
+		    	$scope.titulo_secao = data.projetos;
+		    });
+			
+			$scope.projetos = Projeto.query();
+			
+			$scope.isElementSelected = function(id) {
+				if(id == idElementSelected){
+					return "selected";
+				}
+				return "";
+			}
+			
+			$scope.selectElement = function(id) {
+				idElementSelected = id;
+			}
+			
+		}]);
+
 samtControllers.controller('PhoneDetailCtrl', 
 		['$scope', '$routeParams', 'Phone',
 		 function($scope, $routeParams, Phone) {
