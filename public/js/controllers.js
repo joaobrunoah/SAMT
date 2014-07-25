@@ -244,7 +244,7 @@ samtControllers.controller('ParceirosCtrl',
 						$scope.parceirosArray.push(parceirosTemp);
 					}
 				}
-			},200,1);
+			},1000,1);
 		}]);
 
 samtControllers.controller('PhoneDetailCtrl', 
