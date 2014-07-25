@@ -1,18 +1,5 @@
 /* app css stylesheet */
 
-.font-18 {
-	font-size: 18px;
-}
-
-p.titulo_subsecao{
-	font-size: 36px;
-	color: #AA2d2d;
-	padding-left: 15px;
-	font-weight: bold;
-	background-color: #eeeeee;
-	
-}
-
 .phone-images {
   background-color: white;
   width: 450px;

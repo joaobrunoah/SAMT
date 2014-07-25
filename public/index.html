@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>SAMT</title>
-<link rel="stylesheet"
-	href="../bower_components/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/aaux_fonts.css">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/animations.css">
@@ -14,8 +13,10 @@
 <link rel="stylesheet" href="css/seletor_projetos.css">
 <link rel="stylesheet" href="css/cube.css">
 <link rel="stylesheet" href="css/parceiros.css">
+<link rel="stylesheet" href="css/secao.css">
 
 <script src="../bower_components/jquery/jquery.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../bower_components/angular/angular.js"></script>
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/angular-route/angular-route.js"></script>
@@ -45,12 +46,16 @@
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        			<span class="sr-only">Toggle navigation</span>
+        			Menu
+      			</button>
 				<a class="navbar-brand" href="#/inicio"><img
 					src="img/site/logo.svg"></a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="navSamt" ng-class="getClass('/quem_somos')"><a
 						href="#/quem_somos">{{texts.quem_somos}}</a></li>
@@ -75,13 +80,11 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
+	
 
-	<div style="padding-top: 32px">
-		<!-- <textarea>Write right here!</textarea>  -->
 		<div class="view-container">
 			<div ng-view class="view-frame"></div>
 		</div>
-	</div>
 
 </body>
 </html>
