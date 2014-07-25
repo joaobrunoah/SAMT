@@ -29,6 +29,14 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/projetos.html',
 		controller: 'PhoneListCtrl'
 	}).
+	when('/noticias', {
+		templateUrl: 'partials/noticias.html',
+		controller: 'PhoneListCtrl'
+	}).
+	when('/eventos', {
+		templateUrl: 'partials/eventos.html',
+		controller: 'PhoneListCtrl'
+	}).
 	when('/trabalhe_conosco', {
 		templateUrl: 'partials/trabalhe_conosco.html',
 		controller: 'PhoneListCtrl'

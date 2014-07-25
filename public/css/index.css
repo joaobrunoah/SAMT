@@ -1,7 +1,3 @@
-/* .nav > li.navSamt > a { */
-/* 	padding: 20px 20px; */
-/* } */
-
 body {
 	background-image:url('../img/site/background.svg');
 	background-color:#230000;
@@ -9,8 +5,22 @@ body {
 	color: #000000;
 }
 
+.not-select-text {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .navbar-default .navbar-nav > li > a {
 	color: #000000;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #000000;
+	background-color: #FFF100;
 }
 
 .navbar-nav > li > a {padding: 6px 15px 5px 15px;}
@@ -43,6 +53,12 @@ a.navbar-brand > img{
 	padding-top: 5px;
 	padding-left: 15px;
 	padding-right: 150px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .linha_amarela {

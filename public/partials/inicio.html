@@ -19,19 +19,19 @@
 			background-image:url({{getNoticia().imagemUrl}});">
 			<div class="samt_news_body">
 			<div class="samt_news_abas">
-			<div class="samt_news_aba" ng-click="selectAba('noticia')" ng-class="{'active':abaNoticia}">Noticias
+			<div class="samt_news_aba not-select-text" ng-click="selectAba('noticia')" ng-class="{'active':abaNoticia}">{{texts.noticias}}
 			</div>
-			<div class="samt_news_aba" ng-click="selectAba('evento')" ng-class="{'active':abaEvento}">Eventos
+			<div class="samt_news_aba not-select-text" ng-click="selectAba('evento')" ng-class="{'active':abaEvento}">{{texts.eventos}}
 			</div>
 			</div>
 			<div class="samt_news_text">
 			<p class="samt_news_titulo">{{getNoticia().titulo}}</p>
 			<p class="samt_news_resumo">{{getNoticia().resumo}}</p>
-			<div class="samt_news_leia_mais">
-			Leia Mais
+			<div class="samt_news_leia_mais not-select-text">
+			Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-branca.svg"/>
 			</div>
 			</div>
-			<div class="samt_news_seletor">
+			<div class="samt_news_seletor not-select-text">
 			<div class="samt_news_flecha samt_news_flecha_esquerda"><img
 					src="img/site/seletor_esquerda.svg" ng-click="iterateNews(0)"></div>
 			<ul class="samt_news_seletor_bolinhas">
@@ -48,47 +48,55 @@
 	</div>
 	
 	<div class="row visible-lg" style="padding-top: 40px">
-		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
+		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}
+			<img class="flecha-dupla-titulo" src="img/site/flecha-dupla-preta.svg"/>
+		</div>
 		<div class="linha_amarela"></div>
 		<div class="col-lg-2 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:6" 
 			ng-click="setProjectActive(projeto._id)" 
 			ng-class="[isProjectActive(projeto._id), isLast($last), isMiddle($middle)]">
 			<img ng-src="{{projeto.imagemUrl}}"/>
-			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_nome not-select-text">{{projeto.nome}}</div>
 			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
 				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
+				<div class="samt_projeto_leia_mais not-select-text" >
+					Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/>
+				</div>
 			</div>
 		</div>
 		<div class="linha_amarela linha_fim_projetos"></div>
 	</div>
 	
 	<div class="row visible-md" style="padding-top: 40px">
-		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
+		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}</div>
 		<div class="linha_amarela"></div>
 		<div class="col-md-3 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:4" 
 			ng-click="setProjectActive(projeto._id)" 
 			ng-class="[isProjectActive(projeto._id), isLast($last), isMiddle($middle)]">
 			<img ng-src="{{projeto.imagemUrl}}"/>
-			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_nome not-select-text">{{projeto.nome}}</div>
 			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
 				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
+				<div class="samt_news_leia_mais not-select-text">
+					Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-branca.svg"/>
+				</div>
 			</div>
 		</div>
 		<div class="linha_amarela linha_fim_projetos"></div>
 	</div>
 	
 	<div class="row visible-sm" style="padding-top: 40px">
-		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
+		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}</div>
 		<div class="linha_amarela"></div>
 		<div class="col-sm-4 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:3" 
 			ng-click="setProjectActive(projeto._id)" 
 			ng-class="[isProjectActive(projeto._id), isLast($last), isMiddle($middle)]">
 			<img ng-src="{{projeto.imagemUrl}}"/>
-			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_nome not-select-text">{{projeto.nome}}</div>
 			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
@@ -99,13 +107,13 @@
 	</div>
 	
 	<div class="row visible-xs" style="padding-top: 40px">
-		<div class="samt_titulo">{{texts.conheca_projetos}}</div>
+		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}</div>
 		<div class="linha_amarela"></div>
 		<div class="col-xs-6 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:2" 
 			ng-click="setProjectActive(projeto._id)" 
 			ng-class="[isProjectActive(projeto._id), isLast($last), isMiddle($middle)]">
 			<img ng-src="{{projeto.imagemUrl}}"/>
-			<div class="samt_projeto_nome">{{projeto.nome}}</div>
+			<div class="samt_projeto_nome not-select-text">{{projeto.nome}}</div>
 			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
