@@ -210,11 +210,11 @@ samtControllers.controller('InicioCtrl',
 		}]);
 
 samtControllers.controller('QuemSomosCtrl', 
-		['$scope','$http',
-		 function($scope,$http) {
+		['$scope','$http','$sce',
+		 function($scope,$http,$sce) {
 			$http.get('texts/texts.json').success(function(data) {
 		    	$scope.titulo_secao = data.quem_somos;
-		    	$scope.texto_secao = data.quem_somos_text;
+		    	$scope.texto_secao = $sce.trustAsHtml(data.quem_somos_text);
 		    	$scope.imagem_secao = data.quem_somos_imagem;
 		    });
 			
@@ -231,20 +231,22 @@ samtControllers.controller('ParceirosCtrl',
 		 function($scope,$interval,Parceiro) {
 			
 			var parceiros = Parceiro.query();
-			var parceirosTemp = [];
 			$scope.parceirosArray=[];
 			$interval(function(){
+				var parceirosTemp = [];
+				var parceirosArrayTemp = [];
 				var iMax = parceiros.length;
 				for(var i=0;i<iMax;i++){
 					parceirosTemp.push(parceiros[i]);
 					if(i%3==2){
-						$scope.parceirosArray.push(parceirosTemp);
+						parceirosArrayTemp.push(parceirosTemp);
 						parceirosTemp = [];
 					} else if (i==iMax-1) {
-						$scope.parceirosArray.push(parceirosTemp);
+						parceirosArrayTemp.push(parceirosTemp);
 					}
 				}
-			},1000,1);
+				$scope.parceirosArray=parceirosArrayTemp;
+			},100,10);
 		}]);
 
 samtControllers.controller('PhoneDetailCtrl', 
