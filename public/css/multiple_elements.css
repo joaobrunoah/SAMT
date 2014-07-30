@@ -35,33 +35,35 @@ ul.lista_elementos > li {
 	border-bottom: 3px solid #FFF100;
 	height: 100px;
 	position: absolute;
-	top: 222px;
+	top: 320px;
 	width: 100%;
 	padding: 10px 40px;
 	font-size: 11pt;
-	display:none;
+	transition: 0.3s ease-in-out;
 }
 
 .titulo_elemento {
 	position: absolute;
-	top: 283px;
+	top: 285px;
 	background-color: #FFF100;
 	padding: 5px 30px;
 	font-size: 14pt;
 	font-weight: bold;
 	width: 50%;
+	transition: 0.3s ease-in-out;
 }
 
 .elemento {
 	cursor: pointer;
+	overflow: hidden;
 }
 
 .elemento.selected > .titulo_elemento {
-	top: 185px;
+	transform: translate(0px,-99px);
 }
 
 .elemento.selected > .resumo_elemento {
-	display:block;
+	transform: translate(0px,-99px);
 }
 
 li.elemento.selected > div > a > img.imagem_elemento {
@@ -78,7 +80,13 @@ li.elemento.selected > div > a > img.imagem_elemento {
 		height: 250px;
 	}
 	.titulo_elemento {
-		top: 213px;
+		top: 214px;
+	}
+	.resumo_elemento {
+		top: 152px;
+	}
+	.elemento.selected > .titulo_elemento {
+		top: 117px;
 	}
 }
 
@@ -97,4 +105,17 @@ li.elemento.selected > div > a > img.imagem_elemento {
 
 .sem_padding {
 	padding: 0px;
+}
+
+.leia_mais_elemento {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	padding: 5px;
+	padding-right: 15px;
+	background-color: #FFF100;
+}
+
+.leia_mais_elemento > a{
+	color: #000000;
 }

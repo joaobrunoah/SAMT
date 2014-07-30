@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="sem_padding col-md-10 col-lg-8 col-xs-12 col-sm-12 col-lg-offset-2 col-md-offset-1">
+      <!--Body content-->
+
+      <ul class="lista_elementos">
+        <li style="position:relative;" ng-repeat="elemento in elementos" class="elemento" ng-click="selectElement(elemento._id)" ng-class="isElementSelected(elemento._id)">
+          	<div><a><img class="imagem_elemento" ng-src="{{elemento.imagemUrl}}"></a></div>
+        	<div class="titulo_elemento" ng-class="{true:'titulo_elemento_direita',false:''}[$index%2==1]"><a>{{elemento.titulo}}</a></div>
+        	<div class="resumo_elemento">
+        		{{elemento.resumo}}
+        		<div class="leia_mais_elemento">
+        			<a href="#/{{tipo_elemento}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
+        		</div>	
+        	</div>
+        	<div class="linha_amarela"></div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

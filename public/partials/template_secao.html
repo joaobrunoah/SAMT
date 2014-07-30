@@ -4,11 +4,11 @@
 			<div class="imagem_secao" style="background-image: url({{imagem_secao}})"></div>
 			<div class="titulo_secao">{{titulo_secao}}</div>
 			<div class="conteudo_secao">
-				<div class="data_secao" ng-class="mustAppear('data')">{{data_secao}}</div>
+				<div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{data_secao | date: 'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}</div>
 				<div contenteditable="true" class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
 				<div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
 				<div class="informacoes_evento_secao" ng-class="mustAppear('info')">
-				<p class="informacoes">Informações:</p>
+				<p class="informacoes">{{texts.informacoes}}:</p>
 				<p class="local_data">Local:</p>
 				<p class="conteudo">{{local_secao}}</p>
 				<p class="local_data">Data:</p>

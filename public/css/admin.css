@@ -1,0 +1,23 @@
+.loginForm {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border: 1px solid #FFFFFF;
+	width: 150px;
+	text-align: center;
+	margin-left: -75px;
+	margin-top: -89px;
+}
+
+.loginForm > label {
+	margin: 10px;
+	margin-bottom: 5px;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+.loginForm > button {
+	padding: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

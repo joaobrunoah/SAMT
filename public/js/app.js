@@ -27,16 +27,16 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		controller: 'ParceirosCtrl'
 	}).
 	when('/projetos', {
-		templateUrl: 'partials/projetos.html',
+		templateUrl: 'partials/multiple_elements.html',
 		controller: 'ProjetosCtrl'
 	}).
 	when('/noticias', {
-		templateUrl: 'partials/noticias.html',
-		controller: 'PhoneListCtrl'
+		templateUrl: 'partials/multiple_elements.html',
+		controller: 'NoticiasCtrl'
 	}).
 	when('/eventos', {
-		templateUrl: 'partials/eventos.html',
-		controller: 'PhoneListCtrl'
+		templateUrl: 'partials/multiple_elements.html',
+		controller: 'EventosCtrl'
 	}).
 	when('/trabalhe_conosco', {
 		templateUrl: 'partials/trabalhe_conosco.html',
@@ -50,9 +50,17 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/administrador.html',
 		controller: 'AdminCtrl'
 	}).
+	when('/projetos/:projetoId', {
+		templateUrl: 'partials/template_secao.html',
+		controller: 'SecaoProjetoCtrl'
+	}).
 	when('/noticias/:noticiaId', {
-		templateUrl: 'partials/noticia-detail.html',
-		controller: 'NoticiaDetailCtrl'
+		templateUrl: 'partials/template_secao.html',
+		controller: 'SecaoNoticiaCtrl'
+	}).
+	when('/eventos/:eventoId', {
+		templateUrl: 'partials/template_secao.html',
+		controller: 'SecaoEventoCtrl'
 	}).
 	when('/phones/:phoneId', {
 		templateUrl: 'partials/phone-detail.html',

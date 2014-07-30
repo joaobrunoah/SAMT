@@ -61,8 +61,8 @@
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
 				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
-				<div class="samt_projeto_leia_mais not-select-text" >
-					Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/>
+				<div class="samt_projeto_leia_mais not-select-text">
+					<a href="#/projetos/{{projeto._id}}">Leia Mais<img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
 				</div>
 			</div>
 		</div>
@@ -70,7 +70,9 @@
 	</div>
 	
 	<div class="row visible-md" style="padding-top: 40px">
-		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}</div>
+		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}
+			<img class="flecha-dupla-titulo" src="img/site/flecha-dupla-preta.svg"/>
+		</div>
 		<div class="linha_amarela"></div>
 		<div class="col-md-3 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:4" 
 			ng-click="setProjectActive(projeto._id)" 
@@ -81,8 +83,8 @@
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
 				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
-				<div class="samt_news_leia_mais not-select-text">
-					Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-branca.svg"/>
+				<div class="samt_projeto_leia_mais not-select-text">
+					<a href="#/projetos/{{projeto._id}}">Leia Mais<img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
 				</div>
 			</div>
 		</div>
@@ -90,7 +92,9 @@
 	</div>
 	
 	<div class="row visible-sm" style="padding-top: 40px">
-		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}</div>
+		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}
+			<img class="flecha-dupla-titulo" src="img/site/flecha-dupla-preta.svg"/>
+		</div>
 		<div class="linha_amarela"></div>
 		<div class="col-sm-4 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:3" 
 			ng-click="setProjectActive(projeto._id)" 
@@ -101,13 +105,18 @@
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
 				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
+				<div class="samt_projeto_leia_mais not-select-text">
+					<a href="#/projetos/{{projeto._id}}">Leia Mais<img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
+				</div>
 			</div>
 		</div>
 		<div class="linha_amarela linha_fim_projetos"></div>
 	</div>
 	
 	<div class="row visible-xs" style="padding-top: 40px">
-		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}</div>
+		<div class="samt_titulo not-select-text">{{texts.conheca_projetos}}
+			<img class="flecha-dupla-titulo" src="img/site/flecha-dupla-preta.svg"/>
+		</div>
 		<div class="linha_amarela"></div>
 		<div class="col-xs-6 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:2" 
 			ng-click="setProjectActive(projeto._id)" 
@@ -118,6 +127,9 @@
 			<div class="samt_projeto_texto">
 				<div class="samt_projeto_titulo">{{projeto.nome}}</div>
 				<div class="samt_projeto_resumo">{{projeto.resumo}}</div>
+				<div class="samt_projeto_leia_mais not-select-text">
+					<a href="#/projetos/{{projeto._id}}">Leia Mais<img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
+				</div>
 			</div>
 		</div>
 		<div class="linha_amarela linha_fim_projetos"></div>

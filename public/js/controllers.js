@@ -250,8 +250,10 @@ samtControllers.controller('ParceirosCtrl',
 		}]);
 
 samtControllers.controller('ProjetosCtrl', 
-		['$scope','$http','Projeto',
-		 function($scope,$http,Projeto) {
+		['$scope','$http','$interval','$location','Projeto',
+		 function($scope,$http,$interval,$location,Projeto) {
+			
+			$scope.tipo_elemento = 'projetos';
 			
 			var idElementSelected = null;
 			
@@ -259,7 +261,45 @@ samtControllers.controller('ProjetosCtrl',
 		    	$scope.titulo_secao = data.projetos;
 		    });
 			
-			$scope.projetos = Projeto.query();
+			$scope.elementos = Projeto.query();
+			
+			var mudarNomeParaTitulo = $interval(function(){
+				var i = 0;
+				for(i = 0; i<$scope.elementos.length; i++) {
+					$scope.elementos[i].titulo = $scope.elementos[i].nome;
+				}
+				if (i!= 0){
+					$interval.cancel(mudarNomeParaTitulo);
+				}
+			},200,20)
+			
+			$scope.isElementSelected = function(id) {
+				
+				if(id == idElementSelected){
+					return "selected";
+				}
+				return "";
+			}
+			
+			$scope.selectElement = function(id) {
+				idElementSelected = id;
+			}
+			
+		}]);
+
+samtControllers.controller('NoticiasCtrl', 
+		['$scope','$http','$location','Noticia',
+		 function($scope,$http,$location,Noticia) {
+			
+			$scope.tipo_elemento = 'noticias';
+			
+			var idElementSelected = null;
+			
+			$http.get('texts/texts.json').success(function(data) {
+		    	$scope.titulo_secao = data.noticias;
+		    });
+			
+			$scope.elementos = Noticia.query();
 			
 			$scope.isElementSelected = function(id) {
 				if(id == idElementSelected){
@@ -274,26 +314,119 @@ samtControllers.controller('ProjetosCtrl',
 			
 		}]);
 
-samtControllers.controller('PhoneDetailCtrl', 
-		['$scope', '$routeParams', 'Phone',
-		 function($scope, $routeParams, Phone) {
-			$scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
-				$scope.mainImageUrl = phone.images[0];
-			});
+samtControllers.controller('EventosCtrl', 
+		['$scope','$http','$location','Evento',
+		 function($scope,$http,$location,Evento) {
+			
+			$scope.tipo_elemento = 'eventos';
+			
+			var idElementSelected = null;
+			
+			$http.get('texts/texts.json').success(function(data) {
+		    	$scope.titulo_secao = data.eventos;
+		    });
+			
+			$scope.elementos = Evento.query();
+			
+			$scope.isElementSelected = function(id) {
+				if(id == idElementSelected){
+					return "selected";
+				}
+				return "";
+			}
+			
+			$scope.selectElement = function(id) {
+				idElementSelected = id;
+			}
+			
+		}]);
 
-			$scope.setImage = function(imageUrl) {
-				$scope.mainImageUrl = imageUrl;
+samtControllers.controller('SecaoProjetoCtrl', 
+		['$scope', '$http','$routeParams', 'Projeto',
+		 function($scope,$http, $routeParams, Projeto) {
+			$http.get('texts/texts.json').success(function(data) {
+		    	$scope.texts = data;
+		    });
+			
+			$scope.projeto = Projeto.get({projetoId: $routeParams.projetoId}, function(projeto) {
+				$scope.imagem_secao = projeto.imagemUrl;
+				$scope.titulo_secao = projeto.nome;
+				$scope.texto_secao = projeto.resumo;
+			});
+			
+			$scope.mustAppear = function(item){
+				if(item == 'texto'|| item == 'fotos'){
+					return 'appear';
+				}
+				return "";
+			}
+			
+		}]);
+
+samtControllers.controller('SecaoNoticiaCtrl', 
+		['$scope', '$http', '$routeParams', 'Noticia',
+		 function($scope, $http, $routeParams, Noticia) {
+			
+			$http.get('texts/texts.json').success(function(data) {
+		    	$scope.texts = data;
+		    });
+			
+			$scope.noticia = Noticia.get({noticiaId: $routeParams.noticiaId}, function(noticia) {
+				$scope.imagem_secao = noticia.imagemUrl;
+				$scope.titulo_secao = noticia.titulo;
+				$scope.texto_secao = noticia.texto;
+				$scope.data_secao = noticia.data;
+			});
+			
+			$scope.mustAppear = function(item){
+				if(item == 'texto'|| item == 'fotos' || item == 'data'){
+					return 'appear';
+				}
+				return "";
 			}
 		}]);
-		
-samtControllers.controller('NoticiaDetailCtrl', 
-		['$scope', '$routeParams', 'Noticia',
-		 function($scope, $routeParams, Noticia) {
-			$scope.noticia = Noticia.get({noticiaId: $routeParams.noticiaId}, function(noticia) {
-				$scope.mainImageUrl = noticia.images[0];
-			});
 
-			$scope.setImage = function(imageUrl) {
-				$scope.mainImageUrl = imageUrl;
+samtControllers.controller('SecaoEventoCtrl', 
+		['$scope', '$http', '$routeParams', 'Evento',
+		 function($scope, $http, $routeParams, Evento) {
+			
+			$http.get('texts/texts.json').success(function(data) {
+		    	$scope.texts = data;
+		    });
+			
+			$scope.evento = Evento.get({eventoId: $routeParams.eventoId}, function(evento) {
+				$scope.imagem_secao = evento.imagemUrl;
+				$scope.titulo_secao = evento.titulo;
+			});
+		}]);
+
+samtControllers.controller('AdminCtrl', 
+		['$scope', '$http', '$window', '$location', 'AuthenticationService', 'Login',
+		 function($scope, $http, $window, $location, AuthenticationService, Login) {
+			
+			$http.get('texts/texts.json').success(function(data) {
+		    	$scope.texts = data;
+		    });
+			
+			//Admin User Controller (login, logout)
+			$scope.Login = function(username, password) {
+				if (username !== undefined && password !== undefined) {
+					UserService.Login(username, password).success(function(data) {
+						AuthenticationService.isLogged = true;
+						$window.sessionStorage.token = data.token;
+						$location.path("/inicio");
+					}).error(function(status, data) {
+						console.log(status);
+						console.log(data);
+					});
+				}
 			}
+			
+			$scope.Logout = function() {
+				if (AuthenticationService.isLogged) {
+					AuthenticationService.isLogged = false;
+					delete $window.sessionStorage.token;
+					$location.path("/");
+				}
+			}	
 		}]);
