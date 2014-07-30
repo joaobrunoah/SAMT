@@ -122,3 +122,11 @@ li.navSamt {
 		
 	}
 }
+
+li.logout {
+	display:none;
+}
+
+li.logout.appear {
+	display:block;
+}

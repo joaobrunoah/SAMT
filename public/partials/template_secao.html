@@ -5,8 +5,7 @@
 			<div class="titulo_secao">{{titulo_secao}}</div>
 			<div class="conteudo_secao">
 				<div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{data_secao | date: 'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}</div>
-				<div contenteditable="true" class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
-				<div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
+				<div ng-attr-contenteditable="{{isLoggedIn()}}" class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
 				<div class="informacoes_evento_secao" ng-class="mustAppear('info')">
 				<p class="informacoes">{{texts.informacoes}}:</p>
 				<p class="local_data">Local:</p>

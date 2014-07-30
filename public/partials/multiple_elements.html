@@ -4,6 +4,11 @@
       <!--Body content-->
 
       <ul class="lista_elementos">
+      	<li style="position:relative;" class="elemento adicionarElemento" ng-class="{appear:isLoggedIn()}">
+      		<div><a><img class="imagem_elemento" src="img/site/adicionar.jpg"></a></div>
+        	<div class="titulo_elemento"><a>Adicionar {{tipo_elemento}}</a></div>
+        	<div class="linha_amarela"></div>
+      	</li>
         <li style="position:relative;" ng-repeat="elemento in elementos" class="elemento" ng-click="selectElement(elemento._id)" ng-class="isElementSelected(elemento._id)">
           	<div><a><img class="imagem_elemento" ng-src="{{elemento.imagemUrl}}"></a></div>
         	<div class="titulo_elemento" ng-class="{true:'titulo_elemento_direita',false:''}[$index%2==1]"><a>{{elemento.titulo}}</a></div>
@@ -13,6 +18,8 @@
         			<a href="#/{{tipo_elemento}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
         		</div>	
         	</div>
+        	<div class="excluirElemento" ng-class="{appear:isLoggedIn()}">Excluir</div>
+        	<div class="editarElemento" ng-class="{appear:isLoggedIn()}">Editar</div>
         	<div class="linha_amarela"></div>
         </li>
       </ul>

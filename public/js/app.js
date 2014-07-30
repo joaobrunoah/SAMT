@@ -50,6 +50,9 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/administrador.html',
 		controller: 'AdminCtrl'
 	}).
+	when('/admin', {
+		redirectTo: '/administrador'
+	}).
 	when('/projetos/:projetoId', {
 		templateUrl: 'partials/template_secao.html',
 		controller: 'SecaoProjetoCtrl'
@@ -61,10 +64,6 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 	when('/eventos/:eventoId', {
 		templateUrl: 'partials/template_secao.html',
 		controller: 'SecaoEventoCtrl'
-	}).
-	when('/phones/:phoneId', {
-		templateUrl: 'partials/phone-detail.html',
-		controller: 'PhoneDetailCtrl'
 	}).
 	otherwise({
 		redirectTo: '/inicio'

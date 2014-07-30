@@ -32,3 +32,32 @@
 	margin-right: auto;
 	padding: 5px;
 }
+
+.botaoExcluir {
+	background-color: #FFF100;
+	color: #000000;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	text-align: center;
+	display:none;
+}
+
+.botaoEditar {
+	background-color: #FFF100;
+	color: #000000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+	display:none;
+}
+
+.botaoExcluir.appear,
+.botaoEditar.appear {
+	display:block;
+}
+
+.includeBorder {
+	border: 1px solid #000000;
+}

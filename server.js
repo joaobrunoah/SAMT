@@ -1,6 +1,5 @@
-var TOKEN_MINUTES_TO_EXPIRE = 60;
-
 var express = require('express');
+var app = express();
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -10,7 +9,7 @@ var User = require('./models/user_model');
 var jwt = require('jwt-simple');
 var jwtauth = require('./lib/jwtauth');
 var url = require('url');
-var app = express();
+var variables = require('./lib/samt_variables');
 
 //SCHEMES DO MONGODB
 var parceiroSchema = new mongoose.Schema({
@@ -52,38 +51,22 @@ var Projeto = mongoose.model('Projeto',projetoSchema);
 mongoose.connect('localhost');
 
 app.set('port', process.env.PORT || 80);
-app.set('jwtTokenSecret','Eu_Tenho_Um_Segredo');
+app.set('jwtTokenSecret',variables.tokenSecret);
 app.use(logger('dev'));
+app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//var adminUser = new User({
-//	username: 'admin',
-//	password: 'alomamae12'
-//})
+var adminUser = new User({
+	username: 'admin',
+	password: 'alomamae12'
+})
 
-//adminUser.save(function(err){
-//	if (err) throw err;
-//});
-
-//fetch user and test password verification
-//User.findOne({ username: 'admin' }, function(err, user) {
-//    if (err) throw err;
-//
-//    // test a matching password
-//    user.comparePassword('alomamae12', function(err, isMatch) {
-//        if (err) throw err;
-//        console.log('alomamae12:', isMatch); // -&gt; Password123: true
-//    });
-//
-//    // test a failing password
-//    user.comparePassword('123Password', function(err, isMatch) {
-//        if (err) throw err;
-//        console.log('123Password:', isMatch); // -&gt; 123Password: false
-//    });
-//});
+adminUser.save(function(err){
+	if (err) throw err;
+});
 
 app.listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + app.get('port'));
@@ -91,8 +74,7 @@ app.listen(app.get('port'), function() {
 
 var requireAuth = function(req,res,next) {
 	if(!req.user) {
-		console.log("Empty User!");
-		res.end('Not authorized',401);
+		res.send(401,'Not authorized');
 	} else {
 		next();
 	}
@@ -100,14 +82,8 @@ var requireAuth = function(req,res,next) {
 
 app.get('/api/parceiros', function(req, res, next) {
 	var query = Parceiro.find();
-	query.limit(12);
-	/*if (req.query.genre) {
-	    query.where({ genre: req.query.genre });
-	  } else if (req.query.alphabet) {
-	    query.where({ name: new RegExp('^' + '[' + req.query.alphabet + ']', 'i') });
-	  } else {
-	    query.limit(12);
-	  }*/
+	query.limit(100);
+
 	query.exec(function(err, parceiros) {
 		if (err) return next(err);
 		res.send(parceiros);
@@ -141,14 +117,7 @@ app.post('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res
 
 app.get('/api/noticias', function(req, res, next) {
 	var query = Noticia.find();
-	query.limit(12);
-	/*if (req.query.genre) {
-	    query.where({ genre: req.query.genre });
-	  } else if (req.query.alphabet) {
-	    query.where({ name: new RegExp('^' + '[' + req.query.alphabet + ']', 'i') });
-	  } else {
-	    query.limit(12);
-	  }*/
+	query.limit(10);
 	query.exec(function(err, noticias) {
 		if (err) return next(err);
 		res.send(noticias);
@@ -162,7 +131,7 @@ app.get('/api/noticias/:id', function(req, res, next) {
 	  });
 });
 
-app.post('/api/noticias', [bodyParser(), jwtauth], function(req, res, next) {
+app.post('/api/noticias', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
 
 	Noticia.count({}, function( err, count){
 		
@@ -192,14 +161,7 @@ app.post('/api/noticias', [bodyParser(), jwtauth], function(req, res, next) {
 
 app.get('/api/eventos', function(req, res, next) {
 	var query = Evento.find();
-	query.limit(12);
-	/*if (req.query.genre) {
-	    query.where({ genre: req.query.genre });
-	  } else if (req.query.alphabet) {
-	    query.where({ name: new RegExp('^' + '[' + req.query.alphabet + ']', 'i') });
-	  } else {
-	    query.limit(12);
-	  }*/
+	query.limit(10);
 	query.exec(function(err, eventos) {
 		if (err) return next(err);
 		res.send(eventos);
@@ -213,7 +175,7 @@ app.get('/api/eventos/:id', function(req, res, next) {
 	  });
 	});
 
-app.post('/api/eventos', [bodyParser(), jwtauth], function(req, res, next) {
+app.post('/api/eventos', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
 
 	Evento.count({}, function( err, count){
 		
@@ -242,14 +204,7 @@ app.post('/api/eventos', [bodyParser(), jwtauth], function(req, res, next) {
 
 app.get('/api/projetos', function(req, res, next) {
 	var query = Projeto.find();
-	query.limit(12);
-	/*if (req.query.genre) {
-	    query.where({ genre: req.query.genre });
-	  } else if (req.query.alphabet) {
-	    query.where({ name: new RegExp('^' + '[' + req.query.alphabet + ']', 'i') });
-	  } else {
-	    query.limit(12);
-	  }*/
+	query.limit(100);
 	query.exec(function(err, projetos) {
 		if (err) return next(err);
 		res.send(projetos);
@@ -263,7 +218,7 @@ app.get('/api/projetos/:id', function(req, res, next) {
 	  });
 	});
 
-app.post('/api/projetos', [bodyParser(), jwtauth],function(req, res, next) {
+app.post('/api/projetos', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
 
 	Projeto.count({}, function( err, count){
 		
@@ -300,15 +255,14 @@ app.post('/api/login', function(req, res, next) {
 	        if (err) return res.send(401);
 	        if(!isMatch) return res.send(401);
 	        
-	        var expires = Date.now() + 1000*60*TOKEN_MINUTES_TO_EXPIRE;
+	        var expires = Date.now() + 1000*60*variables.minutos_para_expirar;
 	        var token = jwt.encode({
 	        	iss: user._id,
 	        	exp: expires
 	        }, app.get('jwtTokenSecret'));
 	        res.json({
-	        	'token':token,
-	        	'expires':expires,
-	        	user:user.toJSON()
+	        	'samtToken':token,
+	        	'expires':expires
 	        });
 	    });
 	});

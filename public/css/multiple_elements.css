@@ -116,3 +116,36 @@ li.elemento.selected > div > a > img.imagem_elemento {
 .leia_mais_elemento > a{
 	color: #000000;
 }
+
+li.adicionarElemento{
+	display:none;
+}
+
+li.adicionarElemento.appear {
+	display:block;
+}
+
+.excluirElemento {
+	background-color: #FFF100;
+	color: #000000;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	text-align: center;
+	display:none;
+}
+
+.editarElemento {
+	background-color: #FFF100;
+	color: #000000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+	display:none;
+}
+
+.excluirElemento.appear,
+.editarElemento.appear {
+	display:block;
+}

@@ -5,8 +5,8 @@
 var samtControllers = angular.module('samtControllers', []);
 
 samtControllers.controller('TopNavCtrl',
-		['$scope','$location','$http',
-		 function($scope,$location,$http){
+		['$scope','$location','AuthenticationService','$window','$http',
+		 function($scope,$location,AuthenticationService,$window,$http){
 			
 			$http.get('texts/texts.json').success(function(data) {
 		        // you can do some processing here
@@ -18,6 +18,26 @@ samtControllers.controller('TopNavCtrl',
 					return "active"
 				} else {
 				    return ""
+				}
+			}
+			
+			$scope.logoutAppear = function(){
+				if(!AuthenticationService.isLogged && $window.localStorage.samtToken
+						&& $window.localStorage.expirationDate >= Date.now()){
+					AuthenticationService.isLogged = true;
+					return "appear";
+				}
+				if(AuthenticationService.isLogged){
+					return "appear";
+				}
+				return "";
+			}
+			
+			$scope.userLogout = function() {
+				if (AuthenticationService.isLogged) {
+					AuthenticationService.isLogged = false;
+					delete $window.localStorage.samtToken;
+					delete $window.localStorage.expirationDate;
 				}
 			}
 			
@@ -210,8 +230,9 @@ samtControllers.controller('InicioCtrl',
 		}]);
 
 samtControllers.controller('QuemSomosCtrl', 
-		['$scope','$http','$sce',
-		 function($scope,$http,$sce) {
+		['$scope','$http','$sce','AuthenticationService',
+		 function($scope,$http,$sce,AuthenticationService) {
+			
 			$http.get('texts/texts.json').success(function(data) {
 		    	$scope.titulo_secao = data.quem_somos;
 		    	$scope.texto_secao = $sce.trustAsHtml(data.quem_somos_text);
@@ -224,34 +245,60 @@ samtControllers.controller('QuemSomosCtrl',
 				} 
 				return "";
 			}
+			
+			$scope.isLoggedIn = function() {
+				return AuthenticationService.isLogged;
+			}
 		}]);
 
 samtControllers.controller('ParceirosCtrl', 
-		['$scope','$interval','Parceiro',
-		 function($scope,$interval,Parceiro) {
+		['$scope','$interval','Parceiro','AuthenticationService',
+		 function($scope,$interval,Parceiro,AuthenticationService) {
 			
 			var parceiros = Parceiro.query();
 			$scope.parceirosArray=[];
 			$interval(function(){
+				var adicionarParceiro = {
+						imagemUrl: "img/site/adicionar.jpg",
+						nome: "Adicionar Parceiro",
+						url: "/#/adicionar_parceiro"
+				}
 				var parceirosTemp = [];
 				var parceirosArrayTemp = [];
 				var iMax = parceiros.length;
 				for(var i=0;i<iMax;i++){
 					parceirosTemp.push(parceiros[i]);
-					if(i%3==2){
+					if (i>=iMax-1) {
+						if($scope.isLoggedIn()){
+							if(i%3==2){
+								parceirosArrayTemp.push(parceirosTemp);
+								parceirosTemp = [];
+								parceirosTemp.push(adicionarParceiro);
+								parceirosArrayTemp.push(parceirosTemp);
+							} else {
+								parceirosTemp.push(adicionarParceiro);
+								parceirosArrayTemp.push(parceirosTemp);
+								
+							}
+						} else {
+							parceirosArrayTemp.push(parceirosTemp);
+						}
+					} else if(i%3==2){
 						parceirosArrayTemp.push(parceirosTemp);
 						parceirosTemp = [];
-					} else if (i==iMax-1) {
-						parceirosArrayTemp.push(parceirosTemp);
-					}
+					} 
 				}
 				$scope.parceirosArray=parceirosArrayTemp;
 			},100,10);
+			
+			$scope.isLoggedIn = function() {
+				return AuthenticationService.isLogged;
+			}
 		}]);
 
 samtControllers.controller('ProjetosCtrl', 
-		['$scope','$http','$interval','$location','Projeto',
-		 function($scope,$http,$interval,$location,Projeto) {
+		['$scope','$http','$interval','$location','Projeto','AuthenticationService',
+		 function($scope,$http,$interval,$location,Projeto,AuthenticationService) {
 			
 			$scope.tipo_elemento = 'projetos';
 			
@@ -282,14 +329,20 @@ samtControllers.controller('ProjetosCtrl',
 			}
 			
 			$scope.selectElement = function(id) {
-				idElementSelected = id;
+				if(!$scope.isLoggedIn()){
+					idElementSelected = id;
+				}
+			}
+			
+			$scope.isLoggedIn = function() {
+				return AuthenticationService.isLogged;
 			}
 			
 		}]);
 
 samtControllers.controller('NoticiasCtrl', 
-		['$scope','$http','$location','Noticia',
-		 function($scope,$http,$location,Noticia) {
+		['$scope','$http','$location','Noticia','AuthenticationService',
+		 function($scope,$http,$location,Noticia,AuthenticationService) {
 			
 			$scope.tipo_elemento = 'noticias';
 			
@@ -312,11 +365,15 @@ samtControllers.controller('NoticiasCtrl',
 				idElementSelected = id;
 			}
 			
+			$scope.isLoggedIn = function() {
+				return AuthenticationService.isLogged;
+			}
+			
 		}]);
 
 samtControllers.controller('EventosCtrl', 
-		['$scope','$http','$location','Evento',
-		 function($scope,$http,$location,Evento) {
+		['$scope','$http','$location','Evento','AuthenticationService',
+		 function($scope,$http,$location,Evento,AuthenticationService) {
 			
 			$scope.tipo_elemento = 'eventos';
 			
@@ -337,6 +394,10 @@ samtControllers.controller('EventosCtrl',
 			
 			$scope.selectElement = function(id) {
 				idElementSelected = id;
+			}
+			
+			$scope.isLoggedIn = function() {
+				return AuthenticationService.isLogged;
 			}
 			
 		}]);
@@ -401,32 +462,27 @@ samtControllers.controller('SecaoEventoCtrl',
 		}]);
 
 samtControllers.controller('AdminCtrl', 
-		['$scope', '$http', '$window', '$location', 'AuthenticationService', 'Login',
-		 function($scope, $http, $window, $location, AuthenticationService, Login) {
+		['$scope', '$http', '$window', '$location', 'AuthenticationService', 'UserService',
+		 function($scope, $http, $window, $location, AuthenticationService, UserService) {
 			
 			$http.get('texts/texts.json').success(function(data) {
 		    	$scope.texts = data;
 		    });
 			
 			//Admin User Controller (login, logout)
-			$scope.Login = function(username, password) {
+			$scope.Login = function(credentials) {
+				var username = credentials.username;
+				var password = credentials.password;
 				if (username !== undefined && password !== undefined) {
 					UserService.Login(username, password).success(function(data) {
 						AuthenticationService.isLogged = true;
-						$window.sessionStorage.token = data.token;
-						$location.path("/inicio");
+						$window.localStorage.samtToken = data.samtToken;
+						$window.localStorage.expirationDate = data.expires;
+						$location.path("/");
 					}).error(function(status, data) {
-						console.log(status);
-						console.log(data);
+						alert(status);
+						//console.log(data);
 					});
-				}
-			}
-			
-			$scope.Logout = function() {
-				if (AuthenticationService.isLogged) {
-					AuthenticationService.isLogged = false;
-					delete $window.sessionStorage.token;
-					$location.path("/");
 				}
 			}	
 		}]);

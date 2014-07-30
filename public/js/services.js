@@ -46,7 +46,7 @@ samtServices.factory('AuthenticationService', function() {
 samtServices.factory('UserService', function($http) {
     return {
         Login: function(username, password) {
-            return $http.post('/api/login', {username: username, password: password});
+            return $http.post('/api/login', {'username': username, 'password': password});
         },
  
         Logout: function() {
