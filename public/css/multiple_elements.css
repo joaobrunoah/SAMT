@@ -83,10 +83,7 @@ li.elemento.selected > div > a > img.imagem_elemento {
 		top: 214px;
 	}
 	.resumo_elemento {
-		top: 152px;
-	}
-	.elemento.selected > .titulo_elemento {
-		top: 117px;
+		top: 251px;
 	}
 }
 
