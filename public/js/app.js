@@ -26,6 +26,14 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/parceiros.html',
 		controller: 'ParceirosCtrl'
 	}).
+	when('/parceiros/adicionar_parceiro', {
+		templateUrl: 'partials/adicionar_elemento.html',
+		controller: 'ElementoParceiroCtrl'
+	}).
+	when('/parceiros/editar_parceiro/:parceiroId', {
+		templateUrl: 'partials/adicionar_elemento.html',
+		controller: 'ElementoParceiroCtrl'
+	}).
 	when('/projetos', {
 		templateUrl: 'partials/multiple_elements.html',
 		controller: 'ProjetosCtrl'

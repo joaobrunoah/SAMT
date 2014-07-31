@@ -252,8 +252,15 @@ samtControllers.controller('QuemSomosCtrl',
 		}]);
 
 samtControllers.controller('ParceirosCtrl', 
-		['$scope','$interval','Parceiro','AuthenticationService','$window',
-		 function($scope,$interval,Parceiro,AuthenticationService,$window) {
+		['$scope','$interval','Parceiro','AuthenticationService','$route',
+		 function($scope,$interval,Parceiro,AuthenticationService,$route) {
+			
+			$scope.scrollPos = 0; // scroll position of each view
+
+			$(window).on('scroll', function() {
+				$scope.scrollPos = $(window).scrollTop();
+				$scope.$apply();
+			});
 			
 			var parceiros = Parceiro.query();
 			$scope.parceirosArray=[];
@@ -261,7 +268,7 @@ samtControllers.controller('ParceirosCtrl',
 				var adicionarParceiro = {
 						imagemUrl: "img/site/adicionar.jpg",
 						nome: "Adicionar Parceiro",
-						url: "/#/adicionar_parceiro"
+						url: "/#/parceiros/adicionar_parceiro"
 				}
 				var parceirosTemp = [];
 				var parceirosArrayTemp = [];
@@ -297,8 +304,13 @@ samtControllers.controller('ParceirosCtrl',
 			
 			$scope.excluirParceiro = function(id) {
 				var objToRemove = {};
-				objToRemove.id = id;
-				Parceiro.remove(objToRemove);
+				objToRemove.parceiroId = id;
+				Parceiro.delete(objToRemove,function(){
+					parceiros = Parceiro.query();
+					$scope.$apply();
+					$route.reload();
+					$(window).scrollTop($scope.scrollPos);
+				});
 			}
 		}]);
 

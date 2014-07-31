@@ -1,5 +1,11 @@
 var express = require('express');
 var app = express();
+
+var formidable = require('formidable');
+var util = require('util');
+var fs = require('fs-extra');
+var qt = require('quickthumb');
+
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -10,6 +16,40 @@ var jwt = require('jwt-simple');
 var jwtauth = require('./lib/jwtauth');
 var url = require('url');
 var variables = require('./lib/samt_variables');
+
+// UPLOAD IMAGE
+
+app.use(qt.static(__dirname + '/'));
+
+
+
+// END UPLOAD IMAGE
+
+app.post('/upload', function (req, res){
+	  var form = new formidable.IncomingForm();
+	  form.parse(req, function(err, fields, files) {
+	    res.writeHead(200, {'content-type': 'text/plain'});
+	    res.write('received upload:\n\n');
+	    res.end(util.inspect({fields: fields, files: files}));
+	  });
+
+	  form.on('end', function(fields, files) {
+	    /* Temporary location of our uploaded file */
+	    var temp_path = this.openedFiles[0].path;
+	    /* The file name of the uploaded file */
+	    var file_name = this.openedFiles[0].name;
+	    /* Location where we want to copy the uploaded file */
+	    var new_location = 'img/uploads/';
+
+	    fs.copy(temp_path, new_location + file_name, function(err) {  
+	      if (err) {
+	        console.error(err);
+	      } else {
+	        console.log("success!")
+	      }
+	    });
+	  });
+	});
 
 //SCHEMES DO MONGODB
 var parceiroSchema = new mongoose.Schema({
@@ -81,36 +121,49 @@ app.get('/api/parceiros', function(req, res, next) {
 	});
 });
 
+//app.post('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+//	
+//	Parceiro.count({}, function( err, count){
+//				
+//		if(err){
+//			return next(err);
+//		}
+//				
+//		var parceiro = new Parceiro({
+//			_id:count+1,
+//			nome:req.body.nome,
+//			imagemUrl:req.body.imagemUrl,
+//			url:req.body.url
+//		});
+//	
+//		parceiro.save(function(err) {
+//			if(err) {
+//				return next(err);
+//			}
+//			res.send(200);
+//		});
+//	});
+//	
+//});
+
 app.post('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
 	
-	Parceiro.count({}, function( err, count){
-				
-		if(err){
-			return next(err);
-		}
-				
-		var parceiro = new Parceiro({
-			_id:count+1,
-			nome:req.body.nome,
-			imagemUrl:req.body.imagemUrl,
-			url:req.body.url
-		});
-	
-		parceiro.save(function(err) {
-			if(err) {
-				return next(err);
-			}
-			res.send(200);
-		});
-	});
+	console.log(req.files.displayImage.size);
+	res.send(200);
 	
 });
 
-app.delete('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
-	
+app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+	console.log(req.params.id);
 	Parceiro.findById(req.params.id,function(err,parceiro){
 		if(err) console.log(err);
-		parceiro.remove();
+		try{
+			parceiro.remove();
+			res.send(200);
+		} catch (err) {
+			res.send(500,err.message);
+		}
+		
 	})
 	
 });

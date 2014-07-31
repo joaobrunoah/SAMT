@@ -16,6 +16,7 @@ samtServices.factory('Parceiro',
 		 function($resource){
 			return $resource('/api/parceiros/:parceiroId', {}, {
 				//query: {method:'GET', params:{parceiroId:'parceiros'}, isArray:true}
+				delete: {method:'DELETE',params:{parceiroId:'parceiroId'}}
 			});
 		}]);
 
