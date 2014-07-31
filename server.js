@@ -59,15 +59,6 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var adminUser = new User({
-	username: 'admin',
-	password: 'alomamae12'
-})
-
-adminUser.save(function(err){
-	if (err) throw err;
-});
-
 app.listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + app.get('port'));
 });
@@ -112,6 +103,15 @@ app.post('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res
 			res.send(200);
 		});
 	});
+	
+});
+
+app.delete('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+	
+	Parceiro.findById(req.params.id,function(err,parceiro){
+		if(err) console.log(err);
+		parceiro.remove();
+	})
 	
 });
 

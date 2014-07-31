@@ -19,7 +19,7 @@
 						<div class="nome_parceiro">{{parceiro.nome}}</div>
 					</a>
 					<div ng-if="parceiro.nome != 'Adicionar Parceiro'" class="botaoExcluir"
-						ng-class="{appear:isLoggedIn()}">Excluir</div>
+						ng-class="{appear:isLoggedIn()}" ng-click="excluirParceiro(parceiro._id)">Excluir</div>
 					<div ng-if="parceiro.nome != 'Adicionar Parceiro'" class="botaoEditar"
 						ng-class="{appear:isLoggedIn()}">Editar</div>
 				</div>

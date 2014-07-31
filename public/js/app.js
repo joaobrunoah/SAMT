@@ -69,3 +69,7 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		redirectTo: '/inicio'
 	});
 }]);
+
+samtApp.run(function($http,$window){
+	$http.defaults.headers.common['x-access-token'] = $window.localStorage.samtToken;
+})

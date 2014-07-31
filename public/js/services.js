@@ -4,10 +4,17 @@
 
 var samtServices = angular.module('samtServices', ['ngResource']);
 
+samtServices.factory('AuthenticationService', function() {
+	var auth = {
+		isLogged: false
+	}
+	return auth;
+});
+
 samtServices.factory('Parceiro', 
 		['$resource',
 		 function($resource){
-			return $resource('/api/parceiros', {}, {
+			return $resource('/api/parceiros/:parceiroId', {}, {
 				//query: {method:'GET', params:{parceiroId:'parceiros'}, isArray:true}
 			});
 		}]);
@@ -35,13 +42,6 @@ samtServices.factory('Evento',
 				get: {method:'GET', params:{eventoId:'eventoId'}, isArray:false}
 			});
 		}]);
-
-samtServices.factory('AuthenticationService', function() {
-	var auth = {
-		isLogged: false
-	}
-	return auth;
-});
 
 samtServices.factory('UserService', function($http) {
     return {

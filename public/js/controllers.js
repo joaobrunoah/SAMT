@@ -252,8 +252,8 @@ samtControllers.controller('QuemSomosCtrl',
 		}]);
 
 samtControllers.controller('ParceirosCtrl', 
-		['$scope','$interval','Parceiro','AuthenticationService',
-		 function($scope,$interval,Parceiro,AuthenticationService) {
+		['$scope','$interval','Parceiro','AuthenticationService','$window',
+		 function($scope,$interval,Parceiro,AuthenticationService,$window) {
 			
 			var parceiros = Parceiro.query();
 			$scope.parceirosArray=[];
@@ -293,6 +293,12 @@ samtControllers.controller('ParceirosCtrl',
 			
 			$scope.isLoggedIn = function() {
 				return AuthenticationService.isLogged;
+			}
+			
+			$scope.excluirParceiro = function(id) {
+				var objToRemove = {};
+				objToRemove.id = id;
+				Parceiro.remove(objToRemove);
 			}
 		}]);
 
