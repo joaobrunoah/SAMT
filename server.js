@@ -8,7 +8,7 @@ var qt = require('quickthumb');
 
 var path = require('path');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+var cookieParser aaa= require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var User = require('./models/user_model');
