@@ -9,7 +9,7 @@
         	<div class="titulo_elemento"><a>Adicionar {{tipo_elemento}}</a></div>
         	<div class="linha_amarela"></div>
       	</li>
-        <li style="position:relative;" ng-repeat="elemento in elementos" class="elemento" ng-click="selectElement(elemento._id)" ng-class="isElementSelected(elemento._id)">
+        <li style="position:relative;" ng-repeat="elemento in elementos | orderBy:order_by" class="elemento" ng-click="selectElement(elemento._id)" ng-class="isElementSelected(elemento._id)">
           	<div><a><img class="imagem_elemento" ng-src="{{elemento.imagemUrl}}"></a></div>
         	<div class="titulo_elemento" ng-class="{true:'titulo_elemento_direita',false:''}[$index%2==1]"><a>{{elemento.titulo}}</a></div>
         	<div class="resumo_elemento">

@@ -51,6 +51,10 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/multiple_elements.html',
 		controller: 'NoticiasCtrl'
 	}).
+    when('/noticias/adicionar', {
+        templateUrl: 'partials/adicionar_elemento.html',
+        controller: 'AdicionarNoticiaCtrl'
+    }).
     when('/noticias/:noticiaId', {
         templateUrl: 'partials/template_secao.html',
         controller: 'SecaoNoticiaCtrl'
@@ -59,17 +63,21 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/multiple_elements.html',
 		controller: 'EventosCtrl'
 	}).
+    when('/eventos/adicionar', {
+        templateUrl: 'partials/adicionar_elemento.html',
+        controller: 'AdicionarEventoCtrl'
+    }).
     when('/eventos/:eventoId', {
         templateUrl: 'partials/template_secao.html',
         controller: 'SecaoEventoCtrl'
     }).
 	when('/trabalhe_conosco', {
-		templateUrl: 'partials/trabalhe_conosco.html',
-		controller: 'PhoneListCtrl'
+		templateUrl: 'partials/template_secao.html',
+		controller: 'TrabalheCtrl'
 	}).
 	when('/contato', {
-		templateUrl: 'partials/contato.html',
-		controller: 'PhoneListCtrl'
+		templateUrl: 'partials/template_secao.html',
+		controller: 'ContatoCtrl'
 	}).
 	when('/administrador', {
 		templateUrl: 'partials/administrador.html',

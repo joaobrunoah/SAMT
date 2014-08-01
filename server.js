@@ -44,12 +44,27 @@ app.listen(app.get('port'), function() {
 	console.log('Express server listening on port ' + app.get('port'));
 });
 
+// Middleware to check authentication
 var requireAuth = function(req,res,next) {
 	if(!req.user) {
 		res.send(401,'Not authorized');
 	} else {
 		next();
 	}
+};
+
+// Insert first user
+var adminUser = new User({
+	username: 'admin',
+	password: 'alomamae12'
+});
+
+try {
+    adminUser.save(function (err) {
+        if (err) throw err;
+    });
+} catch (err) {
+    // DO NOTHING. USER ALREADY EXISTS
 }
 
 // REQUESTS
@@ -150,31 +165,80 @@ app.get('/api/noticias/:id', function(req, res, next) {
 	  });
 });
 
-app.post('/api/noticias', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+app.post('/api/noticias', jwtauth, requireAuth, function (req, res){
 
-	Noticia.count({}, function( err, count){
-		
-		if(err){
-			return next(err);
-		}
-		
-		var noticia = new Noticia({
-			_id:count+1,
-			imagemUrl: req.body.imagemUrl,
-			titulo: req.body.titulo,
-			resumo: req.body.resumo,
-			texto: req.body.texto,
-			data:new Date()
-		});
+    var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var titulo = "";
+    var resumo = "";
+    var texto = "";
+    var data = Date.now();
+    var distanceTop = 0;
+    var imgDir2web = "";
+    var saveTo = "";
 
-		noticia.save(function(err) {
-			if(err) {
-				return next(err);
-			}
-			res.send(200);
-		});
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "noticias" + path.sep + filename;
+        imgDir2web = "img/noticias/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'titulo'){
+            titulo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'resumo') {
+            resumo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'texto') {
+            texto = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'distanceTop') {
+            distanceTop = inspect(val).replace(/'/g,"");
+            if(distanceTop=='undefined'){
+                distanceTop = 0;
+            }
+        }
+    });
+    busboy.on('finish', function() {
+        console.log('Saving object in noticias!');
+        var noticia = new Noticia({
+            titulo:titulo,
+            resumo:resumo,
+            texto:texto,
+            data:data,
+            imagemUrl:imgDir2web,
+            directory:saveTo,
+            distanceTop:distanceTop
+        });
 
-	});
+        noticia.save();
+        res.writeHead(200, { Connection: 'close' });
+        res.end();
+    });
+
+    req.pipe(busboy);
+});
+
+app.delete('/api/noticias/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+    console.log(req.params.id);
+    Evento.findById(req.params.id,function(err,evento){
+        if(err) console.log(err);
+        try{
+            try {
+                fs.remove(evento.directory, function (err) {
+                    console.log("Could not remove image from " + evento.titulo);
+                });
+            } catch (err2) {
+                console.log(err2.message);
+            }
+            evento.remove();
+            res.send(200);
+        } catch (err) {
+            res.send(500,err.message);
+        }
+    })
 
 });
 
@@ -197,30 +261,86 @@ app.get('/api/eventos/:id', function(req, res, next) {
 	  });
 	});
 
-app.post('/api/eventos', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+app.post('/api/eventos', jwtauth, requireAuth, function (req, res){
 
-	Evento.count({}, function( err, count){
-		
-		if(err){
-			return next(err);
-		}
-		
-		var evento = new Evento({
-			_id:count+1,
-			imagemUrl: req.body.imagemUrl,
-			titulo: req.body.titulo,
-			resumo: req.body.resumo,
-			data:new Date()
-		});
+    var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var titulo = "";
+    var resumo = "";
+    var texto = "";
+    var local = "";
+    var data = "";
+    var distanceTop = 0;
+    var imgDir2web = "";
+    var saveTo = "";
 
-		evento.save(function(err) {
-			if(err) {
-				return next(err);
-			}
-			res.send(200);
-		});
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "eventos" + path.sep + filename;
+        imgDir2web = "img/eventos/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'titulo'){
+            titulo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'resumo') {
+            resumo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'texto') {
+            texto = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'local') {
+            local = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'data') {
+            data = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'distanceTop') {
+            distanceTop = inspect(val).replace(/'/g,"");
+            if(distanceTop=='undefined'){
+                distanceTop = 0;
+            }
+        }
+    });
+    busboy.on('finish', function() {
+        console.log('Saving object in eventos!');
+        var evento = new Evento({
+            titulo:titulo,
+            resumo:resumo,
+            texto:texto,
+            local:local,
+            data:data,
+            imagemUrl:imgDir2web,
+            directory:saveTo,
+            distanceTop:distanceTop
+        });
 
-	});
+        evento.save();
+        res.writeHead(200, { Connection: 'close' });
+        res.end();
+    });
+
+    req.pipe(busboy);
+});
+
+app.delete('/api/eventos/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+    console.log(req.params.id);
+    Evento.findById(req.params.id,function(err,evento){
+        if(err) console.log(err);
+        try{
+            try {
+                fs.remove(evento.directory, function (err) {
+                    console.log("Could not remove image from " + evento.titulo);
+                });
+            } catch (err2) {
+                console.log(err2.message);
+            }
+            evento.remove();
+            res.send(200);
+        } catch (err) {
+            res.send(500,err.message);
+        }
+    })
 
 });
 

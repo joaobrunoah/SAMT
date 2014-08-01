@@ -37,27 +37,45 @@
 	background-color: #FFF100;
 	color: #000000;
 	position: absolute;
-	top: 0px;
-	right: 0px;
+	top: 50%;
+	right: 50%;
 	text-align: center;
 	display:none;
+    padding:5px;
+    margin-right: -90px;
+    margin-top: -110px;
+}
+
+.botaoExcluir > img {
+    width:17px;
+    height:17px;
+    position:relative;
+    bottom:1px;
+    padding-left: 3px;
 }
 
 .botaoEditar {
 	background-color: #FFF100;
 	color: #000000;
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 50%;
+	left: 50%;
 	text-align: center;
 	display:none;
+    padding:5px;
+    margin-left: -90px;
+    margin-top: -110px;
+}
+
+.botaoEditar > img {
+    width:17px;
+    height:17px;
+    position:relative;
+    bottom:1px;
+    padding-left: 3px;
 }
 
 .botaoExcluir.appear,
 .botaoEditar.appear {
 	display:block;
-}
-
-.includeBorder {
-	border: 1px solid #000000;
 }

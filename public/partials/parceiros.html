@@ -12,16 +12,19 @@
 			<div class="div_parceiro_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>
 			
 			<div ng-repeat="parceiro in parceiros">
-				<div class="div_parceiro col-lg-2 col-md-3 col-sm-4 col-xs-4" 
-					ng-class="{includeBorder:isLoggedIn()}">
+				<div class="div_parceiro col-lg-2 col-md-3 col-sm-4 col-xs-4">
 					<a href="{{parceiro.url}}"> <img class="foto_parceiro"
 						ng-src="{{parceiro.imagemUrl}}" />
 						<div class="nome_parceiro">{{parceiro.nome}}</div>
 					</a>
 					<div ng-if="parceiro.nome != 'Adicionar Parceiro'" class="botaoExcluir"
-						ng-class="{appear:isLoggedIn()}" ng-click="excluirParceiro(parceiro._id)">Excluir</div>
+						ng-class="{appear:isLoggedIn()}" ng-click="excluirParceiro(parceiro._id)">
+                        Excluir<img src="img/site/excluir.svg"/>
+                    </div>
 					<div ng-if="parceiro.nome != 'Adicionar Parceiro'" class="botaoEditar"
-						ng-class="{appear:isLoggedIn()}">Editar</div>
+						ng-class="{appear:isLoggedIn()}">
+                        Editar<img src="img/site/editar.svg"/>
+                    </div>
 				</div>
 
 				<div ng-if="$index%3==2">

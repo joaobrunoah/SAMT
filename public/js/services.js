@@ -11,7 +11,7 @@ samtServices.factory('AuthenticationService', function() {
 	return auth;
 });
 
-samtServices.factory('Parceiro', 
+samtServices.factory('Parceiro',
 		['$resource',
 		 function($resource){
 			return $resource('/api/parceiros/:parceiroId', {}, {
@@ -36,7 +36,7 @@ samtServices.factory('Noticia',
 			});
 		}]);
 
-samtServices.factory('Evento', 
+samtServices.factory('Evento',
 		['$resource',
 		 function($resource){
 			return $resource('/api/eventos/:eventoId', {}, {

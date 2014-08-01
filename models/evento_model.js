@@ -3,8 +3,11 @@ Schema = mongoose.Schema;
 
 var EventoSchema = new mongoose.Schema({
     imagemUrl: { type: String, required: true},
+    directory: { type: String, required: true},
     titulo: { type: String, required: true, index: { unique: true } },
     resumo: { type: String, required: true},
+    texto: { type: String, required: true},
+    local: { type: String, required: true},
     data: { type: Date, required: true},
     distanceTop: {type:Number, required: false}
 });

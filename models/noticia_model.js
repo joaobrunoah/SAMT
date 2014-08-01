@@ -2,7 +2,8 @@ var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
 var NoticiaSchema = new mongoose.Schema({
-	imagemUrl: { type: String, required: true},
+    imagemUrl: { type: String, required: true},
+    directory: { type: String, required: true},
 	titulo: { type: String, required: true, index: { unique: true } },
 	resumo: { type: String, required: true},
 	texto: { type: String, required: true},
