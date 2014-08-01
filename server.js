@@ -54,18 +54,18 @@ var requireAuth = function(req,res,next) {
 };
 
 // Insert first user
-var adminUser = new User({
-	username: 'admin',
-	password: 'alomamae12'
-});
-
-try {
-    adminUser.save(function (err) {
-        if (err) throw err;
-    });
-} catch (err) {
-    // DO NOTHING. USER ALREADY EXISTS
-}
+//var adminUser = new User({
+//	username: 'admin',
+//	password: 'alomamae12'
+//});
+//
+//try {
+//    adminUser.save(function (err) {
+//        if (err) throw err;
+//    });
+//} catch (err) {
+//    // DO NOTHING. USER ALREADY EXISTS
+//}
 
 // REQUESTS
 
