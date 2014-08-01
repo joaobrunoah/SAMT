@@ -1,0 +1,47 @@
+/* Há elementos em secao.css */
+
+.preview_secao {
+    display:none;
+}
+
+.preview_secao.appear {
+    display:block;
+}
+
+.form_parceiro {
+    display:none;
+}
+
+.form_parceiro.appear {
+    display:block;
+}
+
+.form_projeto {
+    display:none;
+}
+
+.form_projeto.appear {
+    display:block;
+}
+
+.form_evento {
+    display:none;
+}
+
+.form_evento.appear {
+    display:block;
+}
+
+.form_noticia {
+    display:none;
+}
+
+.form_noticia.appear {
+    display:block;
+}
+
+.form_adicionar {
+    background-color: #FFFFFF;
+    padding-top:130px;
+    padding-left: 10%;
+}

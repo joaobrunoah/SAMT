@@ -5,7 +5,7 @@
 
       <ul class="lista_elementos">
       	<li style="position:relative;" class="elemento adicionarElemento" ng-class="{appear:isLoggedIn()}">
-      		<div><a><img class="imagem_elemento" src="img/site/adicionar_elemento.jpg"></a></div>
+      		<div><a href="/#/{{tipo_elemento}}/adicionar"><img class="imagem_elemento" src="img/site/adicionar_elemento.jpg"></a></div>
         	<div class="titulo_elemento"><a>Adicionar {{tipo_elemento}}</a></div>
         	<div class="linha_amarela"></div>
       	</li>
@@ -18,7 +18,7 @@
         			<a href="#/{{tipo_elemento}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
         		</div>	
         	</div>
-        	<div class="excluirElemento" ng-class="{appear:isLoggedIn()}">Excluir</div>
+        	<div class="excluirElemento" ng-class="{appear:isLoggedIn()}" ng-click="excluirElemento(elemento._id)">Excluir</div>
         	<div class="editarElemento" ng-class="{appear:isLoggedIn()}">Editar</div>
         	<div class="linha_amarela"></div>
         </li>

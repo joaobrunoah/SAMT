@@ -56,3 +56,26 @@ samtServices.factory('UserService', function($http) {
     }
 });
 
+samtServices.service('elementUpload',['$http',function($http){
+	this.uploadElementToUrl = function(info,uploadUrl){
+		var formData = new FormData();
+		formData.append('image',info.image);
+		formData.append('nome',info.nome);
+        formData.append('url',info.url);
+        formData.append('titulo',info.titulo);
+        formData.append('resumo',info.resumo);
+        formData.append('texto',info.texto);
+        formData.append('local',info.local);
+        formData.append('data',info.data);
+        formData.append('distanceTop',info.distanceTop);
+
+        $http.post(uploadUrl,formData,{
+			transformRequest:angular.identity,
+			headers:{'Content-Type': undefined}
+		}).success(function(){
+			alert('Enviado!');
+		}).error(function(){
+			alert('Error!');
+		});
+	}
+}]); 

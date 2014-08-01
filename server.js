@@ -3,100 +3,41 @@ var app = express();
 
 var formidable = require('formidable');
 var util = require('util');
+var inspect = util.inspect;
 var fs = require('fs-extra');
 var qt = require('quickthumb');
 
 var path = require('path');
 var logger = require('morgan');
-var cookieParser aaa= require('cookie-parser');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var User = require('./models/user_model');
 var jwt = require('jwt-simple');
 var jwtauth = require('./lib/jwtauth');
 var url = require('url');
 var variables = require('./lib/samt_variables');
 
-// UPLOAD IMAGE
+// To handle Multipart requests
+var Busboy = require('busboy');
 
-app.use(qt.static(__dirname + '/'));
-
-
-
-// END UPLOAD IMAGE
-
-app.post('/upload', function (req, res){
-	  var form = new formidable.IncomingForm();
-	  form.parse(req, function(err, fields, files) {
-	    res.writeHead(200, {'content-type': 'text/plain'});
-	    res.write('received upload:\n\n');
-	    res.end(util.inspect({fields: fields, files: files}));
-	  });
-
-	  form.on('end', function(fields, files) {
-	    /* Temporary location of our uploaded file */
-	    var temp_path = this.openedFiles[0].path;
-	    /* The file name of the uploaded file */
-	    var file_name = this.openedFiles[0].name;
-	    /* Location where we want to copy the uploaded file */
-	    var new_location = 'img/uploads/';
-
-	    fs.copy(temp_path, new_location + file_name, function(err) {  
-	      if (err) {
-	        console.error(err);
-	      } else {
-	        console.log("success!")
-	      }
-	    });
-	  });
-	});
-
-//SCHEMES DO MONGODB
-var parceiroSchema = new mongoose.Schema({
-	_id: Number,
-	imagemUrl: String,
-	nome: String,
-	url: String
-});
-
-var noticiaSchema = new mongoose.Schema({
-	_id: Number,
-	imagemUrl: String,
-	titulo: String,
-	resumo: String,
-	texto: String,
-	data: Date
-});
-
-var eventoSchema = new mongoose.Schema({
-	_id: Number,
-	imagemUrl: String,
-	titulo: String,
-	resumo: String,
-	data: Date
-});
-
-var projetoSchema = new mongoose.Schema({
-	_id: Number,
-	imagemUrl: String,
-	nome: String,
-	resumo: String
-});
-
-var Parceiro = mongoose.model('Parceiro',parceiroSchema);
-var Noticia = mongoose.model('Noticia',noticiaSchema);
-var Evento = mongoose.model('Evento',eventoSchema);
-var Projeto = mongoose.model('Projeto',projetoSchema);
+// MongoDB Models
+var User = require('./models/user_model');
+var Parceiro = require('./models/parceiro_model');
+var Noticia = require('./models/noticia_model');
+var Evento = require('./models/evento_model');
+var Projeto = require('./models/projeto_model');
 
 mongoose.connect('localhost');
 
 app.set('port', process.env.PORT || 80);
 app.set('jwtTokenSecret',variables.tokenSecret);
 app.use(logger('dev'));
-app.use(bodyParser());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+
 app.use(cookieParser());
+app.use(qt.static(__dirname + '/public/img/'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(app.get('port'), function() {
@@ -111,6 +52,9 @@ var requireAuth = function(req,res,next) {
 	}
 }
 
+// REQUESTS
+
+// REQUESTS FROM PARCEIROS
 app.get('/api/parceiros', function(req, res, next) {
 	var query = Parceiro.find();
 	query.limit(100);
@@ -121,36 +65,47 @@ app.get('/api/parceiros', function(req, res, next) {
 	});
 });
 
-//app.post('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
-//	
-//	Parceiro.count({}, function( err, count){
-//				
-//		if(err){
-//			return next(err);
-//		}
-//				
-//		var parceiro = new Parceiro({
-//			_id:count+1,
-//			nome:req.body.nome,
-//			imagemUrl:req.body.imagemUrl,
-//			url:req.body.url
-//		});
-//	
-//		parceiro.save(function(err) {
-//			if(err) {
-//				return next(err);
-//			}
-//			res.send(200);
-//		});
-//	});
-//	
-//});
+app.post('/api/parceiros', jwtauth, requireAuth, function (req, res){
 
-app.post('/api/parceiros', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
-	
-	console.log(req.files.displayImage.size);
-	res.send(200);
-	
+	var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var nome = "";
+    var url = "";
+    var imgDir2web = "";
+    var saveTo = "";
+
+	busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+		console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "parceiros" + path.sep + filename;
+        imgDir2web = "img/parceiros/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+	});
+	busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+		console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'nome'){
+            nome = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'url') {
+            url = inspect(val).replace(/'/g,"");
+        }
+	});
+	busboy.on('finish', function() {
+		console.log('Saving object in parceiros!');
+        var parceiro = new Parceiro({
+            nome:nome,
+            url:url,
+            imagemUrl:imgDir2web,
+            directory:saveTo
+        });
+
+        parceiro.save();
+		res.writeHead(200, { Connection: 'close' });
+		res.end();
+	});
+
+	req.pipe(busboy);
 });
 
 app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
@@ -158,6 +113,13 @@ app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function(re
 	Parceiro.findById(req.params.id,function(err,parceiro){
 		if(err) console.log(err);
 		try{
+            try {
+                fs.remove(parceiro.directory, function (err) {
+                    console.log("Could not remove image from " + parceiro.nome);
+                });
+            } catch (err2) {
+                console.log(err2.message);
+            }
 			parceiro.remove();
 			res.send(200);
 		} catch (err) {
@@ -167,6 +129,10 @@ app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function(re
 	})
 	
 });
+
+// END OF REQUESTS FROM PARCEIROS
+
+// REQUESTS FROM NOTICIAS
 
 app.get('/api/noticias', function(req, res, next) {
 	var query = Noticia.find();
@@ -212,6 +178,9 @@ app.post('/api/noticias', bodyParser(), jwtauth, requireAuth, function(req, res,
 
 });
 
+// END OF REQUESTS FROM NOTICIAS
+
+// REQUESTS FROM EVENTOS
 app.get('/api/eventos', function(req, res, next) {
 	var query = Evento.find();
 	query.limit(10);
@@ -255,6 +224,10 @@ app.post('/api/eventos', bodyParser(), jwtauth, requireAuth, function(req, res, 
 
 });
 
+//END OF REQUESTS FROM EVENTOS
+
+// REQUESTS FROM PROJETOS
+
 app.get('/api/projetos', function(req, res, next) {
 	var query = Projeto.find();
 	query.limit(100);
@@ -271,31 +244,82 @@ app.get('/api/projetos/:id', function(req, res, next) {
 	  });
 	});
 
-app.post('/api/projetos', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+app.post('/api/projetos', jwtauth, requireAuth, function (req, res){
 
-	Projeto.count({}, function( err, count){
-		
-		if(err){
-			return next(err);
-		}
-		
-		var projeto = new Projeto({
-			_id:count+1,
-			imagemUrl: req.body.imagemUrl,
-			nome: req.body.nome,
-			resumo: req.body.resumo
-		});
+    var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var nome = "";
+    var resumo = "";
+    var texto = "";
+    var distanceTop = 0;
+    var imgDir2web = "";
+    var saveTo = "";
 
-		projeto.save(function(err) {
-			if(err) {
-				return next(err);
-			}
-			res.send(200);
-		});
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "projetos" + path.sep + filename;
+        imgDir2web = "img/projetos/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'nome'){
+            nome = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'resumo') {
+            resumo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'texto') {
+            texto = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'distanceTop') {
+            distanceTop = inspect(val).replace(/'/g,"");
+            if(distanceTop=='undefined'){
+                distanceTop = 0;
+            }
+        }
+    });
+    busboy.on('finish', function() {
+        console.log('Saving object in projetos!');
+        var projeto = new Projeto({
+            nome:nome,
+            resumo:resumo,
+            texto:texto,
+            imagemUrl:imgDir2web,
+            directory:saveTo,
+            distanceTop:distanceTop
+        });
 
-	});
+        projeto.save();
+        res.writeHead(200, { Connection: 'close' });
+        res.end();
+    });
+
+    req.pipe(busboy);
+});
+
+app.delete('/api/projetos/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
+    console.log(req.params.id);
+    Projeto.findById(req.params.id,function(err,projeto){
+        if(err) console.log(err);
+        try{
+            try {
+                fs.remove(projeto.directory, function (err) {
+                    console.log("Could not remove image from " + projeto.nome);
+                });
+            } catch (err2) {
+                console.log(err2.message);
+            }
+            projeto.remove();
+            res.send(200);
+        } catch (err) {
+            res.send(500,err.message);
+        }
+    })
 
 });
+
+// END OF REQUESTS FROM PROJETOS
 
 app.post('/api/login', function(req, res, next) {
 	User.findOne({username: req.body.username }, function(err, user) {

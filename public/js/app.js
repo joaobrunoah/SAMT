@@ -9,6 +9,7 @@ var samtApp = angular.module('samtApp',
 		 'samtControllers',
 		 'samtFilters',
 		 'samtServices',
+		 'samtDirectives',
 		 'ngSanitize'
 		 ]);
 
@@ -26,26 +27,42 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/parceiros.html',
 		controller: 'ParceirosCtrl'
 	}).
-	when('/parceiros/adicionar_parceiro', {
+	when('/parceiros/adicionar', {
 		templateUrl: 'partials/adicionar_elemento.html',
-		controller: 'ElementoParceiroCtrl'
+		controller: 'AdicionarParceiroCtrl'
 	}).
 	when('/parceiros/editar_parceiro/:parceiroId', {
 		templateUrl: 'partials/adicionar_elemento.html',
-		controller: 'ElementoParceiroCtrl'
+		controller: 'EditarParceiroCtrl'
 	}).
 	when('/projetos', {
 		templateUrl: 'partials/multiple_elements.html',
 		controller: 'ProjetosCtrl'
 	}).
+    when('/projetos/adicionar', {
+        templateUrl: 'partials/adicionar_elemento.html',
+        controller: 'AdicionarProjetoCtrl'
+    }).
+    when('/projetos/:projetoId', {
+        templateUrl: 'partials/template_secao.html',
+        controller: 'SecaoProjetoCtrl'
+    }).
 	when('/noticias', {
 		templateUrl: 'partials/multiple_elements.html',
 		controller: 'NoticiasCtrl'
 	}).
+    when('/noticias/:noticiaId', {
+        templateUrl: 'partials/template_secao.html',
+        controller: 'SecaoNoticiaCtrl'
+    }).
 	when('/eventos', {
 		templateUrl: 'partials/multiple_elements.html',
 		controller: 'EventosCtrl'
 	}).
+    when('/eventos/:eventoId', {
+        templateUrl: 'partials/template_secao.html',
+        controller: 'SecaoEventoCtrl'
+    }).
 	when('/trabalhe_conosco', {
 		templateUrl: 'partials/trabalhe_conosco.html',
 		controller: 'PhoneListCtrl'
@@ -60,18 +77,6 @@ samtApp.config(['$routeProvider', function($routeProvider) {
 	}).
 	when('/admin', {
 		redirectTo: '/administrador'
-	}).
-	when('/projetos/:projetoId', {
-		templateUrl: 'partials/template_secao.html',
-		controller: 'SecaoProjetoCtrl'
-	}).
-	when('/noticias/:noticiaId', {
-		templateUrl: 'partials/template_secao.html',
-		controller: 'SecaoNoticiaCtrl'
-	}).
-	when('/eventos/:eventoId', {
-		templateUrl: 'partials/template_secao.html',
-		controller: 'SecaoEventoCtrl'
 	}).
 	otherwise({
 		redirectTo: '/inicio'

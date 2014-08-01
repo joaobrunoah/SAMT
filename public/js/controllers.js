@@ -268,7 +268,7 @@ samtControllers.controller('ParceirosCtrl',
 				var adicionarParceiro = {
 						imagemUrl: "img/site/adicionar.jpg",
 						nome: "Adicionar Parceiro",
-						url: "/#/parceiros/adicionar_parceiro"
+						url: "/#/parceiros/adicionar"
 				}
 				var parceirosTemp = [];
 				var parceirosArrayTemp = [];
@@ -304,14 +304,40 @@ samtControllers.controller('ParceirosCtrl',
 			
 			$scope.excluirParceiro = function(id) {
 				var objToRemove = {};
+                alert(id);
 				objToRemove.parceiroId = id;
 				Parceiro.delete(objToRemove,function(){
-					parceiros = Parceiro.query();
+					$scope.parceiros = Parceiro.query();
 					$scope.$apply();
-					$route.reload();
-					$(window).scrollTop($scope.scrollPos);
+                    $route.reload();
+                    $(window).scrollTop($scope.scrollPos);
 				});
 			}
+		}]);
+
+samtControllers.controller('AdicionarParceiroCtrl', 
+		['$scope','$http','$window','elementUpload',
+		 function($scope,$http,$window,elementUpload) {
+
+             $scope.mustAppear = function(subsecao){
+                 if(subsecao=='form_parceiro'){
+                    return "appear";
+                 }
+                 return "";
+             };
+
+             $http.get('texts/texts.json').success(function(data) {
+                 $scope.texts = data;
+             });
+
+			$scope.token = $window.localStorage.samtToken;
+			
+			$scope.info = {};
+
+			$scope.sendInfo = function() {
+				elementUpload.uploadElementToUrl($scope.info,'/api/parceiros');
+			}
+			
 		}]);
 
 samtControllers.controller('ProjetosCtrl', 
@@ -336,7 +362,7 @@ samtControllers.controller('ProjetosCtrl',
 				if (i!= 0){
 					$interval.cancel(mudarNomeParaTitulo);
 				}
-			},200,20)
+			},200,20);
 			
 			$scope.isElementSelected = function(id) {
 				
@@ -344,19 +370,78 @@ samtControllers.controller('ProjetosCtrl',
 					return "selected";
 				}
 				return "";
-			}
+			};
 			
 			$scope.selectElement = function(id) {
 				if(!$scope.isLoggedIn()){
 					idElementSelected = id;
 				}
-			}
+			};
 			
 			$scope.isLoggedIn = function() {
 				return AuthenticationService.isLogged;
 			}
+
+            $scope.excluirElemento = function(id){
+                 var objToRemove = {};
+                 alert(id);
+                 objToRemove.projetoId = id;
+                 Projeto.delete(objToRemove,function(){
+                     $scope.elementos = Projeto.query();
+                     $scope.$apply();
+                     $route.reload();
+                 });
+             }
 			
 		}]);
+
+samtControllers.controller('SecaoProjetoCtrl',
+    ['$scope', '$http','$routeParams', 'Projeto',
+        function($scope,$http, $routeParams, Projeto) {
+            $http.get('texts/texts.json').success(function(data) {
+                $scope.texts = data;
+            });
+
+            $scope.projeto = Projeto.get({projetoId: $routeParams.projetoId}, function(projeto) {
+                $scope.imagem_secao = projeto.imagemUrl;
+                $scope.titulo_secao = projeto.nome;
+                $scope.texto_secao = projeto.resumo;
+            });
+
+            $scope.mustAppear = function(item){
+                if(item == 'texto'|| item == 'fotos'){
+                    return 'appear';
+                }
+                return "";
+            }
+
+        }]);
+
+samtControllers.controller('AdicionarProjetoCtrl',
+    ['$scope','$http','$window','elementUpload',
+        function($scope,$http,$window,elementUpload) {
+
+            $scope.mustAppear = function(item){
+                if(item == 'texto'|| item == 'fotos'||item=='preview'||item=='form_projeto'){
+                    return 'appear';
+                }
+                return "";
+            };
+
+            $http.get('texts/texts.json').success(function(data) {
+                $scope.texts = data;
+            });
+
+            $scope.token = $window.localStorage.samtToken;
+
+            $scope.info = {};
+
+            $scope.sendInfo = function() {
+                $scope.info.image = $scope.info.image_elemento;
+                elementUpload.uploadElementToUrl($scope.info,'/api/projetos');
+            }
+
+        }]);
 
 samtControllers.controller('NoticiasCtrl', 
 		['$scope','$http','$location','Noticia','AuthenticationService',
@@ -420,28 +505,6 @@ samtControllers.controller('EventosCtrl',
 			
 		}]);
 
-samtControllers.controller('SecaoProjetoCtrl', 
-		['$scope', '$http','$routeParams', 'Projeto',
-		 function($scope,$http, $routeParams, Projeto) {
-			$http.get('texts/texts.json').success(function(data) {
-		    	$scope.texts = data;
-		    });
-			
-			$scope.projeto = Projeto.get({projetoId: $routeParams.projetoId}, function(projeto) {
-				$scope.imagem_secao = projeto.imagemUrl;
-				$scope.titulo_secao = projeto.nome;
-				$scope.texto_secao = projeto.resumo;
-			});
-			
-			$scope.mustAppear = function(item){
-				if(item == 'texto'|| item == 'fotos'){
-					return 'appear';
-				}
-				return "";
-			}
-			
-		}]);
-
 samtControllers.controller('SecaoNoticiaCtrl', 
 		['$scope', '$http', '$routeParams', 'Noticia',
 		 function($scope, $http, $routeParams, Noticia) {
@@ -465,6 +528,31 @@ samtControllers.controller('SecaoNoticiaCtrl',
 			}
 		}]);
 
+samtControllers.controller('AdicionarNoticiaCtrl',
+    ['$scope','$http','$window','elementUpload',
+        function($scope,$http,$window,elementUpload) {
+
+            $scope.mustAppear = function(item){
+                if(item == 'texto'|| item == 'fotos'|| item == 'data' || item=='preview'||item=='form_noticia'){
+                    return 'appear';
+                }
+                return "";
+            };
+
+            $http.get('texts/texts.json').success(function(data) {
+                $scope.texts = data;
+            });
+
+            $scope.token = $window.localStorage.samtToken;
+
+            $scope.info = {};
+
+            $scope.sendInfo = function() {
+                elementUpload.uploadElementToUrl($scope.info,'/api/noticias');
+            }
+
+        }]);
+
 samtControllers.controller('SecaoEventoCtrl', 
 		['$scope', '$http', '$routeParams', 'Evento',
 		 function($scope, $http, $routeParams, Evento) {
@@ -478,6 +566,31 @@ samtControllers.controller('SecaoEventoCtrl',
 				$scope.titulo_secao = evento.titulo;
 			});
 		}]);
+
+samtControllers.controller('AdicionarEventoCtrl',
+    ['$scope','$http','$window','elementUpload',
+        function($scope,$http,$window,elementUpload) {
+
+            $scope.mustAppear = function(item){
+                if(item == 'texto'|| item == 'fotos'|| item == 'data' || item=='preview'||item=='form_noticia'){
+                    return 'appear';
+                }
+                return "";
+            };
+
+            $http.get('texts/texts.json').success(function(data) {
+                $scope.texts = data;
+            });
+
+            $scope.token = $window.localStorage.samtToken;
+
+            $scope.info = {};
+
+            $scope.sendInfo = function() {
+                elementUpload.uploadElementToUrl($scope.info,'/api/noticias');
+            }
+
+        }]);
 
 samtControllers.controller('AdminCtrl', 
 		['$scope', '$http', '$window', '$location', 'AuthenticationService', 'UserService',
