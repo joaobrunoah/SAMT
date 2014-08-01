@@ -96,7 +96,7 @@ noticiaControllers.controller('AdicionarNoticiaCtrl',
 
             $scope.token = $window.localStorage.samtToken;
 
-            scope.dataAtual = Date.now();
+            $scope.dataAtual = Date.now();
 
             $scope.info = {};
 
