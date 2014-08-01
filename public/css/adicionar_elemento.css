@@ -45,3 +45,15 @@
     padding-top:130px;
     padding-left: 10%;
 }
+
+.image_selector {
+    position: absolute;
+    bottom: 0px;
+    background-color: #FFF100;
+}
+
+.input_secao {
+    position: relative;
+    padding-left: 17%;
+    padding-right: 17%;
+}

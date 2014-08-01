@@ -57,10 +57,10 @@ samtServices.factory('UserService', function($http) {
 });
 
 samtServices.service('elementUpload',['$http',function($http){
-	this.uploadElementToUrl = function(info,uploadUrl){
-		var formData = new FormData();
-		formData.append('image',info.image);
-		formData.append('nome',info.nome);
+    this.postElement = function(info,uploadUrl){
+        var formData = new FormData();
+        formData.append('image',info.image);
+        formData.append('nome',info.nome);
         formData.append('url',info.url);
         formData.append('titulo',info.titulo);
         formData.append('resumo',info.resumo);
@@ -69,13 +69,30 @@ samtServices.service('elementUpload',['$http',function($http){
         formData.append('data',info.data);
         formData.append('distanceTop',info.distanceTop);
 
-        $http.post(uploadUrl,formData,{
-			transformRequest:angular.identity,
-			headers:{'Content-Type': undefined}
-		}).success(function(){
-			alert('Enviado!');
-		}).error(function(){
-			alert('Error!');
-		});
-	}
+        return $http.post(uploadUrl,formData,{
+            transformRequest:angular.identity,
+            headers:{'Content-Type': undefined}
+        });
+    }
+
+    this.updateElement = function(info,uploadUrl){
+        alert(uploadUrl);
+        var formData = new FormData();
+        if(info.image != undefined) {
+            formData.append('image', info.image);
+        }
+        formData.append('nome',info.nome);
+        formData.append('url',info.url);
+        formData.append('titulo',info.titulo);
+        formData.append('resumo',info.resumo);
+        formData.append('texto',info.texto);
+        formData.append('local',info.local);
+        formData.append('data',info.data);
+        formData.append('distanceTop',info.distanceTop);
+
+        return $http.put(uploadUrl,formData,{
+            transformRequest:angular.identity,
+            headers:{'Content-Type': undefined}
+        });
+    }
 }]); 

@@ -22,7 +22,7 @@
                         Excluir<img src="img/site/excluir.svg"/>
                     </div>
 					<div ng-if="parceiro.nome != 'Adicionar Parceiro'" class="botaoEditar"
-						ng-class="{appear:isLoggedIn()}">
+						ng-class="{appear:isLoggedIn()}" ng-click="editarParceiro(parceiro._id)">
                         Editar<img src="img/site/editar.svg"/>
                     </div>
 				</div>
@@ -54,8 +54,6 @@
 						class="div_parceiro_lateral col-sm-4 col-xs-4 hidden-lg hidden-md"></div>
 				</div>
 			</div>
-			<!-- 			<div class="div_parceiro col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_parceiro" src="img/projetos/projeto_2.jpg"/></div> -->
-<!-- 			<div class="div_parceiro col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_parceiro" src="img/projetos/projeto_13.jpg"/></div> -->
 			
 		</div>
 	</div>
@@ -64,19 +62,6 @@
 			<div class="fim_conteudo_secao"></div>
 		</div>
 	</div>
-	
-<!-- 	<div class="row"> -->
-<!-- 		<div class="col-lg-2 col-md-3 col-ls-4 col-xs-6 parceiro_col" -->
-<!-- 			ng-repeat="parceiro in parceiros"> -->
-<!-- 			<div class="row text-center"> -->
-<!-- 				<a ng-href="{{parceiro.url}}"><img class="parceiro_img" -->
-<!-- 					ng-src="{{parceiro.imagemUrl}}" /></a> -->
-<!-- 			</div> -->
-<!-- 			<div class="row text-center"> -->
-<!-- 				<a class="parceiro_nome" ng-href="{{parceiro.url}}">{{parceiro.nome}}</a> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
 	
 </div>
 

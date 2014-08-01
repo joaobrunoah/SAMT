@@ -3,24 +3,33 @@
         <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
             <div class="imagem_secao" style="background-color: #FFFFFF">
                 <img ng-src="{{srcimagem_elemento}}" class="imagem_secao_escolhida"/>
+                <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento" fileread="srcimagem_elemento" class="image_selector"/>
             </div>
-            <div class="titulo_secao">{{info.titulo}}{{info.nome}}</div>
+            <div class="titulo_secao">{{info.titulo}}<input name="titulo" type="text" ng-model="info.titulo"/></div>
             <div class="conteudo_secao">
-                <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{Date.now() | date: 'HH:mm'}} de {{Date.now() | date : 'dd/MM/yyyy'}}</div>
+                <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{dataAtual | date: 'HH:mm'}} de {{dataAtual | date : 'dd/MM/yyyy'}}</div>
                 <div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="info.texto"></div>
+                <div class="input_secao">
+                    <label for="texto">Texto:</label><br/>
+                    <textarea id="texto" name="texto" type="text" rows="10" cols="100" ng-model="info.texto"></textarea>
+                </div>
                 <div class="informacoes_evento_secao" ng-class="mustAppear('info')">
                     <p class="informacoes">{{texts.informacoes}}:</p>
                     <p class="local_data">Local:</p>
-                    <p class="conteudo">{{info.local}}</p>
+                    <p class="conteudo"><input id="local" name="local" type="text" ng-model="info.local"/></p>
                     <p class="local_data">Data:</p>
-                    <p class="conteudo">{{info.data | date: 'HH:mm'}} de {{info.data | date : 'dd/MM/yyyy'}}</p>
+                    <p class="conteudo"><input id="data" name="data" type="text" ng-model="info.data"/><!--TODO DATE PICKER!--></p>
+                </div>
+                <div class="input_secao">
+                    <label for="resumo">Resumo:</label><br/>
+                    <textarea id="resumo" name="resumo" type="text" rows="4" cols="60" ng-model="info.resumo"></textarea>
                 </div>
             </div>
         </div>
     </div>
 
 	<div class="row">
-		<div class="corpo_secao form_adicionar col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
+		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%;">
 			<form ng-submit="sendInfo()">
                 <div class="form_parceiro" ng-class="mustAppear('form_parceiro')">
                     <label for="nome">Nome:</label>
@@ -34,58 +43,6 @@
 
                     <label for="imagemParceiroEscolhida">Imagem escolhida:</label>
                     <img id="imagemParceiroEscolhida" style="width:175px; height:175px" ng-src="{{srcimagem}}"/><br/>
-                </div>
-
-                <div class="form_projeto" ng-class="mustAppear('form_projeto')">
-                    <label for="nome">Nome:</label>
-                    <input id="nome" name="nome" type="text" ng-model="info.nome"/><br/>
-
-                    <label for="resumo">Resumo:</label>
-                    <textarea id="resumo" name="resumo" type="text" rows="4" cols="60" ng-model="info.resumo"></textarea><br/>
-
-                    <label for="texto">Texto:</label>
-                    <textarea id="texto" name="texto" type="text" rows="10" cols="100" ng-model="info.texto"></textarea><br/>
-
-                    <label for="imagemElemento">Imagem de Capa:</label>
-                    <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento" fileread="srcimagem_elemento"/><br/>
-                </div>
-
-                <div class="form_noticia" ng-class="mustAppear('form_noticia')">
-
-                    <label for="titulo">Titulo:</label>
-                    <input id="titulo" name="titulo" type="text" ng-model="info.titulo"/><br/>
-
-                    <label for="resumo">Resumo:</label>
-                    <textarea id="resumo" name="resumo" type="text" rows="4" cols="60" ng-model="info.resumo"></textarea><br/>
-
-                    <label for="texto">Texto:</label>
-                    <textarea id="texto" name="texto" type="text" rows="10" cols="100" ng-model="info.texto"></textarea><br/>
-
-                    <label for="imagemElemento">Imagem de Capa:</label>
-                    <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento" fileread="srcimagem_elemento"/><br/>
-
-                </div>
-
-                <div class="form_evento" ng-class="mustAppear('form_evento')">
-
-                    <label for="titulo">Titulo:</label>
-                    <input id="titulo" name="titulo" type="text" ng-model="info.titulo"/><br/>
-
-                    <label for="resumo">Resumo:</label>
-                    <textarea id="resumo" name="resumo" type="text" rows="4" cols="60" ng-model="info.resumo"></textarea><br/>
-
-                    <label for="texto">Texto:</label>
-                    <textarea id="texto" name="texto" type="text" rows="10" cols="100" ng-model="info.texto"></textarea><br/>
-
-                    <label for="local">Local:</label>
-                    <input id="local" name="local" type="text" ng-model="info.local"/><br/>
-
-                    <label for="data">Data:</label>
-                    <input id="data" name="data" type="text" ng-model="info.data"/><br/> //TODO DATE PICKER!
-
-                    <label for="imagemElemento">Imagem de Capa:</label>
-                    <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento" fileread="srcimagem_elemento"/><br/>
-
                 </div>
 
 				<input type="submit" value="Upload" />

@@ -53,6 +53,11 @@ ul.lista_elementos > li {
 	transition: 0.3s ease-in-out;
 }
 
+.titulo_elemento > a {
+    color: #000000;
+    float: left;
+}
+
 .elemento {
 	cursor: pointer;
 	overflow: hidden;
@@ -96,10 +101,6 @@ li.elemento.selected > div > a > img.imagem_elemento {
 	text-align: right;
 }
 
-.titulo_elemento > a {
-	color: #000000;
-}
-
 .sem_padding {
 	padding: 0px;
 }
@@ -128,21 +129,47 @@ li.adicionarElemento.appear {
 .excluirElemento {
 	background-color: #FFF100;
 	color: #000000;
-	position: absolute;
-	top: 0px;
-	right: 0px;
+	float:left;
 	text-align: center;
 	display:none;
+    font-size: 11pt;
+    padding-left: 10px;
+    margin-top:2px;
+}
+
+.excluirElemento > a {
+
+}
+
+.excluirElemento > a > img{
+    width:25px;
+    height:25px;
+    position:relative;
+    bottom:1px;
+    padding-left: 3px;
 }
 
 .editarElemento {
 	background-color: #FFF100;
 	color: #000000;
-	position: absolute;
-	top: 0px;
-	left: 0px;
+	float:left;
 	text-align: center;
 	display:none;
+    font-size: 11pt;
+    padding-left: 15px;
+    margin-top:2px;
+}
+
+.editarElemento > a {
+
+}
+
+.editarElemento > a > img{
+    width:25px;
+    height:25px;
+    position:relative;
+    bottom:1px;
+    padding-left: 3px;
 }
 
 .excluirElemento.appear,

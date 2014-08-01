@@ -53,61 +53,70 @@ var requireAuth = function(req,res,next) {
 	}
 };
 
-// Insert first user
-//var adminUser = new User({
-//	username: 'admin',
-//	password: 'alomamae12'
-//});
-//
-//try {
-//    adminUser.save(function (err) {
-//        if (err) throw err;
-//    });
-//} catch (err) {
-//    // DO NOTHING. USER ALREADY EXISTS
-//}
+//Insert first user
+var adminUser = new User({
+	username: 'admin',
+	password: 'alomamae12'
+});
+
+User.findOne({username:adminUser.username},function(err,user){
+    if(user){
+
+    } else {
+        adminUser.save(function (err) {
+            if (err) throw err;
+        });
+    }
+});
 
 // REQUESTS
 
 // REQUESTS FROM PARCEIROS
 app.get('/api/parceiros', function(req, res, next) {
-	var query = Parceiro.find();
-	query.limit(100);
+    var query = Parceiro.find();
+    query.limit(100);
 
-	query.exec(function(err, parceiros) {
-		if (err) return next(err);
-		res.send(parceiros);
-	});
+    query.exec(function(err, parceiros) {
+        if (err) return next(err);
+        res.send(parceiros);
+    });
+});
+
+app.get('/api/parceiros/:id', function(req, res, next) {
+    Parceiro.findById(req.params.id, function(err, parceiros) {
+        if (err) return next(err);
+        res.send(parceiros);
+    });
 });
 
 app.post('/api/parceiros', jwtauth, requireAuth, function (req, res){
 
-	var busboy = new Busboy({headers:req.headers});
+    var busboy = new Busboy({headers:req.headers});
     var imgDir = "";
     var nome = "";
     var url = "";
     var imgDir2web = "";
     var saveTo = "";
 
-	busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-		console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         var appDir = path.dirname(require.main.filename);
         imgDir = "public" + path.sep + "img" + path.sep + "parceiros" + path.sep + filename;
         imgDir2web = "img/parceiros/" + filename;
         saveTo = appDir + path.sep + imgDir;
         console.log("Saving file in: " + saveTo);
         file.pipe(fs.createWriteStream(saveTo));
-	});
-	busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-		console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
         if(fieldname == 'nome'){
             nome = inspect(val).replace(/'/g,"");
         } else if (fieldname == 'url') {
             url = inspect(val).replace(/'/g,"");
         }
-	});
-	busboy.on('finish', function() {
-		console.log('Saving object in parceiros!');
+    });
+    busboy.on('finish', function() {
+        console.log('Saving object in parceiros!');
         var parceiro = new Parceiro({
             nome:nome,
             url:url,
@@ -116,11 +125,58 @@ app.post('/api/parceiros', jwtauth, requireAuth, function (req, res){
         });
 
         parceiro.save();
-		res.writeHead(200, { Connection: 'close' });
-		res.end();
-	});
+        res.writeHead(200, { Connection: 'close' });
+        res.end();
+    });
 
-	req.pipe(busboy);
+    req.pipe(busboy);
+});
+
+app.put('/api/parceiros/:id', jwtauth, requireAuth, function (req, res){
+
+    var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var nome = "";
+    var url = "";
+    var imgDir2web = "";
+    var saveTo = "";
+
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "parceiros" + path.sep + filename;
+        imgDir2web = "img/parceiros/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'nome'){
+            nome = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'url') {
+            url = inspect(val).replace(/'/g,"");
+        }
+    });
+    busboy.on('finish', function() {
+        console.log('Updating object in parceiros!');
+        Parceiro.findById(req.params.id,function(err,parceiro){
+                if(!err){
+                    parceiro.nome = nome;
+                    parceiro.url = url;
+                    if(imgDir2web!=""){
+                        parceiro.directory=saveTo;
+                        parceiro.imagemUrl=imgDir2web;
+                    }
+                    parceiro.save();
+                    res.writeHead(200, { Connection: 'close' });
+                    res.end();
+                }
+            });
+
+    });
+
+    req.pipe(busboy);
 });
 
 app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
@@ -216,6 +272,64 @@ app.post('/api/noticias', jwtauth, requireAuth, function (req, res){
         noticia.save();
         res.writeHead(200, { Connection: 'close' });
         res.end();
+    });
+
+    req.pipe(busboy);
+});
+
+app.put('/api/noticias/:id', jwtauth, requireAuth, function (req, res){
+
+    var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var titulo = "";
+    var resumo = "";
+    var texto = "";
+    var distanceTop = 0;
+    var imgDir2web = "";
+    var saveTo = "";
+
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "noticias" + path.sep + filename;
+        imgDir2web = "img/noticias/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'titulo'){
+            titulo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'resumo') {
+            resumo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'texto') {
+            texto = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'distanceTop') {
+            distanceTop = inspect(val).replace(/'/g,"");
+            if(distanceTop=='undefined'){
+                distanceTop = 0;
+            }
+        }
+    });
+    busboy.on('finish', function() {
+        console.log('Updating object in noticias!');
+        Noticia.findById(req.params.id,function(err,noticia){
+            if(!err){
+                noticia.titulo=titulo;
+                noticia.resumo=resumo;
+                noticia.texto=texto;
+                noticia.distanceTop=distanceTop;
+                if(imgDir2web!=""){
+                    noticia.directory=saveTo;
+                    noticia.imagemUrl=imgDir2web;
+                }
+                noticia.save();
+                res.writeHead(200, { Connection: 'close' });
+                res.end();
+            }
+        });
+
     });
 
     req.pipe(busboy);
@@ -323,6 +437,72 @@ app.post('/api/eventos', jwtauth, requireAuth, function (req, res){
     req.pipe(busboy);
 });
 
+app.put('/api/eventos/:id', jwtauth, requireAuth, function (req, res){
+
+    var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var titulo = "";
+    var resumo = "";
+    var texto = "";
+    var local = "";
+    var data = "";
+    var distanceTop = 0;
+    var imgDir2web = "";
+    var saveTo = "";
+
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "eventos" + path.sep + filename;
+        imgDir2web = "img/eventos/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'titulo'){
+            titulo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'resumo') {
+            resumo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'texto') {
+            texto = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'local') {
+            local = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'data') {
+            data = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'distanceTop') {
+            distanceTop = inspect(val).replace(/'/g,"");
+            if(distanceTop=='undefined'){
+                distanceTop = 0;
+            }
+        }
+    });
+    busboy.on('finish', function() {
+        console.log('Updating object in eventos!');
+        Evento.findById(req.params.id,function(err,evento){
+            if(!err){
+                evento.local=local;
+                evento.data=data;
+                evento.titulo=titulo;
+                evento.resumo=resumo;
+                evento.texto=texto;
+                evento.distanceTop=distanceTop;
+                if(imgDir2web!=""){
+                    evento.directory=saveTo;
+                    evento.imagemUrl=imgDir2web;
+                }
+                evento.save();
+                res.writeHead(200, { Connection: 'close' });
+                res.end();
+            }
+        });
+
+    });
+
+    req.pipe(busboy);
+});
+
 app.delete('/api/eventos/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
     console.log(req.params.id);
     Evento.findById(req.params.id,function(err,evento){
@@ -413,6 +593,64 @@ app.post('/api/projetos', jwtauth, requireAuth, function (req, res){
         projeto.save();
         res.writeHead(200, { Connection: 'close' });
         res.end();
+    });
+
+    req.pipe(busboy);
+});
+
+app.put('/api/projetos/:id', jwtauth, requireAuth, function (req, res){
+
+    var busboy = new Busboy({headers:req.headers});
+    var imgDir = "";
+    var nome = "";
+    var resumo = "";
+    var texto = "";
+    var distanceTop = 0;
+    var imgDir2web = "";
+    var saveTo = "";
+
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        var appDir = path.dirname(require.main.filename);
+        imgDir = "public" + path.sep + "img" + path.sep + "projetos" + path.sep + filename;
+        imgDir2web = "img/projetos/" + filename;
+        saveTo = appDir + path.sep + imgDir;
+        console.log("Saving file in: " + saveTo);
+        file.pipe(fs.createWriteStream(saveTo));
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        if(fieldname == 'nome'){
+            nome = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'resumo') {
+            resumo = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'texto') {
+            texto = inspect(val).replace(/'/g,"");
+        } else if (fieldname == 'distanceTop') {
+            distanceTop = inspect(val).replace(/'/g,"");
+            if(distanceTop=='undefined'){
+                distanceTop = 0;
+            }
+        }
+    });
+    busboy.on('finish', function() {
+        console.log('Updating object in projetos!');
+        Projeto.findById(req.params.id,function(err,projeto){
+            if(!err){
+                projeto.nome=nome;
+                projeto.resumo=resumo;
+                projeto.texto=texto;
+                projeto.distanceTop=distanceTop;
+                if(imgDir2web!=""){
+                    projeto.directory=saveTo;
+                    projeto.imagemUrl=imgDir2web;
+                }
+                projeto.save();
+                res.writeHead(200, { Connection: 'close' });
+                res.end();
+            }
+        });
+
     });
 
     req.pipe(busboy);
