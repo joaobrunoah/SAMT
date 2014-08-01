@@ -245,6 +245,7 @@ samtControllers.controller('AdminCtrl',
                     UserService.Login(username, password).success(function(data) {
                         AuthenticationService.isLogged = true;
                         $window.localStorage.samtToken = data.samtToken;
+                        $http.defaults.headers.common['x-access-token'] = $window.localStorage.samtToken;
                         $window.localStorage.expirationDate = data.expires;
                         $location.path("/");
                         $route.reload();

@@ -12,6 +12,8 @@ eventoControllers.controller('EventosCtrl',
     ['$scope','$http','$location','Evento','AuthenticationService','$route',
         function($scope,$http,$location,Evento,AuthenticationService,$route) {
 
+            $scope.order_by = "data";
+
             $scope.tipo_elemento = 'eventos';
 
             var idElementSelected = null;
@@ -65,7 +67,7 @@ eventoControllers.controller('SecaoEventoCtrl',
             $scope.evento = Evento.get({eventoId: $routeParams.eventoId}, function(evento) {
                 $scope.imagem_secao = evento.imagemUrl;
                 $scope.titulo_secao = evento.titulo;
-                $scope.texto_secao = htmlCompiler.compile(projeto.texto);
+                $scope.texto_secao = htmlCompiler.compile(evento.texto);
                 $scope.local_secao = evento.local;
                 $scope.data_secao = evento.data;
             });

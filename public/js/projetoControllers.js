@@ -12,6 +12,8 @@ projetoControllers.controller('ProjetosCtrl',
     ['$scope','$http','$interval','$location','Projeto','AuthenticationService','$route',
         function($scope,$http,$interval,$location,Projeto,AuthenticationService,$route) {
 
+            $scope.order_by="nome";
+
             $scope.tipo_elemento = 'projetos';
 
             var idElementSelected = null;

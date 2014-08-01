@@ -5,7 +5,7 @@
 			<div class="titulo_secao">{{titulo_secao}}</div>
 			<div class="conteudo_secao">
 				<div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{data_secao | date: 'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}</div>
-				<div ng-attr-contenteditable="{{isLoggedIn()}}" class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
+				<div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
 				<div class="informacoes_evento_secao" ng-class="mustAppear('info')">
 				<p class="informacoes">{{texts.informacoes}}:</p>
 				<p class="local_data">Local:</p>
@@ -16,15 +16,15 @@
 			</div>
 		</div>
 	</div>
-	<div class="galeria_fotos_secao row" ng-class="mustAppear('fotos')">
-		<div class="galeria_fotos_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>
-		<div class="galeria_fotos_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>
-		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_1.jpg"/></div>
-		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_2.jpg"/></div>
-		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_13.jpg"/></div>
-		<div class="galeria_fotos_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
-		<div class="galeria_fotos_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>
-	</div>
+	<!--<div class="galeria_fotos_secao row" ng-class="mustAppear('fotos')">-->
+		<!--<div class="galeria_fotos_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>-->
+		<!--<div class="galeria_fotos_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>-->
+		<!--<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_1.jpg"/></div>-->
+		<!--<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_2.jpg"/></div>-->
+		<!--<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_13.jpg"/></div>-->
+		<!--<div class="galeria_fotos_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>-->
+		<!--<div class="galeria_fotos_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>-->
+	<!--</div>-->
 	<div class="row">
 		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
 			<div class="fim_conteudo_secao"></div>

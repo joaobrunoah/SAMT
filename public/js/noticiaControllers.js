@@ -67,8 +67,8 @@ noticiaControllers.controller('SecaoNoticiaCtrl',
             $scope.noticia = Noticia.get({noticiaId: $routeParams.noticiaId}, function(noticia) {
                 $scope.imagem_secao = noticia.imagemUrl;
                 $scope.titulo_secao = noticia.titulo;
-                $scope.texto_secao = htmlCompiler.compile(projeto.texto);
                 $scope.data_secao = noticia.data;
+                $scope.texto_secao = htmlCompiler.compile(noticia.texto);
             });
 
             $scope.mustAppear = function(item){
