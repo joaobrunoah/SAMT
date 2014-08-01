@@ -95,4 +95,12 @@ samtServices.service('elementUpload',['$http',function($http){
             headers:{'Content-Type': undefined}
         });
     }
-}]); 
+}]);
+
+samtServices.service('htmlCompiler',['$sce',function($sce){
+    this.compile = function(text){
+        text = text.replace(/\n/g,"<br/>");
+        var html = $sce.trustAsHtml(text);
+        return html;
+    };
+}]);

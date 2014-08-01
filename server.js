@@ -53,6 +53,12 @@ var requireAuth = function(req,res,next) {
 	}
 };
 
+var clearText = function(text){
+    var clean = text.replace(/'/g,"");
+    clean = clean.replace(/\\(.)\\(.)/g,'\n');
+    return clean;
+};
+
 //Insert first user
 var adminUser = new User({
 	username: 'admin',
@@ -569,9 +575,9 @@ app.post('/api/projetos', jwtauth, requireAuth, function (req, res){
         if(fieldname == 'nome'){
             nome = inspect(val).replace(/'/g,"");
         } else if (fieldname == 'resumo') {
-            resumo = inspect(val).replace(/'/g,"");
+            resumo = clearText(inspect(val));
         } else if (fieldname == 'texto') {
-            texto = inspect(val).replace(/'/g,"");
+            texto = clearText(inspect(val));
         } else if (fieldname == 'distanceTop') {
             distanceTop = inspect(val).replace(/'/g,"");
             if(distanceTop=='undefined'){
@@ -623,9 +629,9 @@ app.put('/api/projetos/:id', jwtauth, requireAuth, function (req, res){
         if(fieldname == 'nome'){
             nome = inspect(val).replace(/'/g,"");
         } else if (fieldname == 'resumo') {
-            resumo = inspect(val).replace(/'/g,"");
+            resumo = clearText(inspect(val));
         } else if (fieldname == 'texto') {
-            texto = inspect(val).replace(/'/g,"");
+            texto = clearText(inspect(val));
         } else if (fieldname == 'distanceTop') {
             distanceTop = inspect(val).replace(/'/g,"");
             if(distanceTop=='undefined'){

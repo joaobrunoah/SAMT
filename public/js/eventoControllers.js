@@ -55,8 +55,8 @@ eventoControllers.controller('EventosCtrl',
         }]);
 
 eventoControllers.controller('SecaoEventoCtrl',
-    ['$scope', '$http', '$routeParams', 'Evento','$sce',
-        function($scope, $http, $routeParams, Evento,$sce) {
+    ['$scope', '$http', '$routeParams', 'Evento','htmlCompiler',
+        function($scope, $http, $routeParams, Evento,htmlCompiler) {
 
             $http.get('texts/texts.json').success(function(data) {
                 $scope.texts = data;
@@ -65,7 +65,7 @@ eventoControllers.controller('SecaoEventoCtrl',
             $scope.evento = Evento.get({eventoId: $routeParams.eventoId}, function(evento) {
                 $scope.imagem_secao = evento.imagemUrl;
                 $scope.titulo_secao = evento.titulo;
-                $scope.texto_secao = $sce.trustAsHtml(evento.texto);
+                $scope.texto_secao = htmlCompiler.compile(projeto.texto);
                 $scope.local_secao = evento.local;
                 $scope.data_secao = evento.data;
             });
@@ -79,8 +79,8 @@ eventoControllers.controller('SecaoEventoCtrl',
         }]);
 
 eventoControllers.controller('AdicionarEventoCtrl',
-    ['$scope','$http','$window','elementUpload',
-        function($scope,$http,$window,elementUpload) {
+    ['$scope','$http','$window','elementUpload','htmlCompiler',
+        function($scope,$http,$window,elementUpload,htmlCompiler) {
 
             $scope.mustAppear = function(item){
                 if(item == 'texto'|| item == 'fotos'|| item == 'info' || item=='preview'||item=='form_evento'){
@@ -102,6 +102,11 @@ eventoControllers.controller('AdicionarEventoCtrl',
                 local:"Escreva o local do Evento aqui"
             };
 
+            $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+            $scope.$watch('info.texto',function(newValue,oldValue) {
+                $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+            });
+
             $scope.sendInfo = function() {
                 $scope.info.image = $scope.info.image_elemento;
                 elementUpload.postElement($scope.info,'/api/eventos').success(
@@ -116,8 +121,8 @@ eventoControllers.controller('AdicionarEventoCtrl',
         }]);
 
 projetoControllers.controller('EditarEventoCtrl',
-    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Evento',
-        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Evento) {
+    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Evento','htmlCompiler',
+        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Evento,htmlCompiler) {
 
             var eventoId = $routeParams.eventoId;
 
@@ -135,6 +140,10 @@ projetoControllers.controller('EditarEventoCtrl',
             Evento.get({eventoId: eventoId}, function(evento) {
                 $scope.info = evento;
                 $scope.srcimagem_elemento = evento.imagemUrl;
+                $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                $scope.$watch('info.texto',function(newValue,oldValue) {
+                    $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                });
             });
 
             $scope.token = $window.localStorage.samtToken;

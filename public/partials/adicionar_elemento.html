@@ -8,11 +8,11 @@
             <div class="titulo_secao">{{info.titulo}}<input name="titulo" type="text" ng-model="info.titulo"/></div>
             <div class="conteudo_secao">
                 <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{dataAtual | date: 'HH:mm'}} de {{dataAtual | date : 'dd/MM/yyyy'}}</div>
-                <div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="info.texto"></div>
                 <div class="input_secao">
                     <label for="texto">Texto:</label><br/>
                     <textarea id="texto" name="texto" type="text" rows="10" cols="100" ng-model="info.texto"></textarea>
                 </div>
+                <div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="info.texto_html"></div>
                 <div class="informacoes_evento_secao" ng-class="mustAppear('info')">
                     <p class="informacoes">{{texts.informacoes}}:</p>
                     <p class="local_data">Local:</p>

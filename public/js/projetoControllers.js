@@ -68,8 +68,8 @@ projetoControllers.controller('ProjetosCtrl',
         }]);
 
 projetoControllers.controller('SecaoProjetoCtrl',
-    ['$scope', '$http','$routeParams', 'Projeto','$sce',
-        function($scope,$http, $routeParams, Projeto,$sce) {
+    ['$scope', '$http','$routeParams', 'Projeto','htmlCompiler',
+        function($scope,$http, $routeParams, Projeto,htmlCompiler) {
             $http.get('texts/texts.json').success(function(data) {
                 $scope.texts = data;
             });
@@ -77,7 +77,7 @@ projetoControllers.controller('SecaoProjetoCtrl',
             $scope.projeto = Projeto.get({projetoId: $routeParams.projetoId}, function(projeto) {
                 $scope.imagem_secao = projeto.imagemUrl;
                 $scope.titulo_secao = projeto.nome;
-                $scope.texto_secao = $sce.trustAsHtml(projeto.texto);
+                $scope.texto_secao = htmlCompiler.compile(projeto.texto);
             });
 
             $scope.mustAppear = function(item){
@@ -90,8 +90,8 @@ projetoControllers.controller('SecaoProjetoCtrl',
         }]);
 
 projetoControllers.controller('AdicionarProjetoCtrl',
-    ['$scope','$http','$window','elementUpload',
-        function($scope,$http,$window,elementUpload) {
+    ['$scope','$http','$window','elementUpload','htmlCompiler',
+        function($scope,$http,$window,elementUpload,htmlCompiler) {
 
             $scope.mustAppear = function(item){
                 if(item == 'texto'|| item == 'fotos'||item=='preview'||item=='form_projeto'){
@@ -112,6 +112,11 @@ projetoControllers.controller('AdicionarProjetoCtrl',
                 resumo:"Escreva o resumo do Projeto Aqui"
             };
 
+            $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+            $scope.$watch('info.texto',function(newValue,oldValue) {
+                $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+            });
+
             $scope.sendInfo = function() {
                 $scope.info.image = $scope.info.image_elemento;
                 $scope.info.nome = $scope.info.titulo;
@@ -127,8 +132,8 @@ projetoControllers.controller('AdicionarProjetoCtrl',
         }]);
 
 projetoControllers.controller('EditarProjetoCtrl',
-    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Projeto',
-        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Projeto) {
+    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Projeto','htmlCompiler',
+        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Projeto,htmlCompiler) {
 
             var projetoId = $routeParams.projetoId;
 
@@ -147,6 +152,10 @@ projetoControllers.controller('EditarProjetoCtrl',
                 $scope.info = projeto;
                 $scope.info.titulo = projeto.nome;
                 $scope.srcimagem_elemento = projeto.imagemUrl;
+                $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                $scope.$watch('info.texto',function(newValue,oldValue) {
+                    $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                });
             });
 
             $scope.token = $window.localStorage.samtToken;
