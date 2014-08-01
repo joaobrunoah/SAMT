@@ -95,7 +95,12 @@ eventoControllers.controller('AdicionarEventoCtrl',
 
             $scope.token = $window.localStorage.samtToken;
 
-            $scope.info = {};
+            $scope.info = {
+                titulo:"Escreva o Nome do Evento Aqui",
+                texto:"Escreva o texto do Evento Aqui",
+                resumo:"Escreva o resumo do Evento Aqui",
+                local:"Escreva o local do Evento aqui"
+            };
 
             $scope.sendInfo = function() {
                 $scope.info.image = $scope.info.image_elemento;

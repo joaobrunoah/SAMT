@@ -98,7 +98,11 @@ noticiaControllers.controller('AdicionarNoticiaCtrl',
 
             $scope.dataAtual = Date.now();
 
-            $scope.info = {};
+            $scope.info = {
+                titulo:"Escreva o Nome da Notícia Aqui",
+                texto:"Escreva o texto da Notícia Aqui",
+                resumo:"Escreva o resumo da Notícia Aqui"
+            };
 
             $scope.sendInfo = function() {
                 $scope.info.image = $scope.info.image_elemento;
