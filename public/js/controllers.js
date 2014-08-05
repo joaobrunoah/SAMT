@@ -191,15 +191,15 @@ samtControllers.controller('InicioCtrl',
                 $scope.activeProjeto=idProjeto;
             }
 
-            $scope.isLast = function($last){
-                if($last){
+            $scope.isLast = function($last,$first){
+                if($last && !$first){
                     return 'last';
                 }
                 return '';
             }
 
-            $scope.isMiddle = function($middle){
-                if($middle){
+            $scope.isMiddle = function($middle,$first){
+                if($middle && !$first){
                     return 'middle';
                 }
                 return '';

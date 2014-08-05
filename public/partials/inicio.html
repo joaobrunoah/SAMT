@@ -120,7 +120,7 @@
 		<div class="linha_amarela"></div>
 		<div class="col-xs-6 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:2" 
 			ng-click="setProjectActive(projeto._id)" 
-			ng-class="[isProjectActive(projeto._id), isLast($last), isMiddle($middle)]">
+			ng-class="[isProjectActive(projeto._id), isLast($last,$first), isMiddle($middle,$first)]">
 			<img ng-src="{{projeto.imagemUrl}}"/>
 			<div class="samt_projeto_nome not-select-text">{{projeto.nome}}</div>
 			<div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
