@@ -112,3 +112,11 @@
 	width: 4.166666666%;
 	float:left;
 }
+
+.agenda_secao {
+    display: none;
+}
+
+.agenda_secao.appear {
+    display:block;
+}

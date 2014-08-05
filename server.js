@@ -599,7 +599,7 @@ app.post('/api/projetos', jwtauth, requireAuth, function (req, res){
         file.pipe(fs.createWriteStream(saveTo));
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        console.log('Field [' + fieldname + ']: value: ' + val);
         if(fieldname == 'nome'){
             nome = inspect(val).replace(/'/g,"");
         } else if (fieldname == 'resumo') {
@@ -634,6 +634,23 @@ app.post('/api/projetos', jwtauth, requireAuth, function (req, res){
     req.pipe(busboy);
 });
 
+app.put('/api/projetos/inserircursos/:id', jwtauth, requireAuth, function (req, res){
+
+    Projeto.findById(req.params.id,function(err,projeto){
+        if(err) return res.send(500,"Projeto Não Encontrado");
+        projeto.cursos = req.body.cursos;
+
+        projeto.save(function (err, product, numberAffected) {
+            if (err) {
+                console.log(err.message);
+                return res.send(500,err.message);
+            }
+            res.writeHead(200, { Connection: 'close' });
+            res.end();
+        })
+    })
+});
+
 app.put('/api/projetos/:id', jwtauth, requireAuth, function (req, res){
 
     var busboy = new Busboy({headers:req.headers});
@@ -655,7 +672,7 @@ app.put('/api/projetos/:id', jwtauth, requireAuth, function (req, res){
         file.pipe(fs.createWriteStream(saveTo));
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        console.log('Field [' + fieldname + ']: value: ' + val);
         if(fieldname == 'nome'){
             nome = inspect(val).replace(/'/g,"");
         } else if (fieldname == 'resumo') {
@@ -683,7 +700,10 @@ app.put('/api/projetos/:id', jwtauth, requireAuth, function (req, res){
                 }
 
                 projeto.save(function (err, product, numberAffected) {
-                    if (err) return res.send(500,err.message);
+                    if (err) {
+                        console.log(err.message);
+                        return res.send(500,err.message);
+                    }
                     res.writeHead(200, { Connection: 'close' });
                     res.end();
                 });

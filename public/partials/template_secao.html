@@ -18,15 +18,43 @@
 			</div>
 		</div>
 	</div>
-	<!--<div class="galeria_fotos_secao row" ng-class="mustAppear('fotos')">-->
-		<!--<div class="galeria_fotos_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>-->
-		<!--<div class="galeria_fotos_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>-->
-		<!--<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_1.jpg"/></div>-->
-		<!--<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_2.jpg"/></div>-->
-		<!--<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_13.jpg"/></div>-->
-		<!--<div class="galeria_fotos_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>-->
-		<!--<div class="galeria_fotos_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>-->
-	<!--</div>-->
+
+    <div class="row agenda_secao" ng-class="mustAppear('agenda')">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%; padding-right: 10%">
+            <div class="subtitulo_site">
+                Agenda
+            </div>
+            <div class="linha_amarela_subtitulo"></div>
+            <label for="bairro">Escreva seu bairro aqui: </label>
+            <input id="bairro" type="text" style="width:150px;" ng-model="filtroAgenda"/>
+            <table>
+                <tr>
+                    <th>Data</th>
+                    <th>Bairro</th>
+                </tr>
+                <tr ng-repeat="curso in cursos_secao | filter:{bairro:filtroAgenda} | filter:passouData | orderBy:'data'">
+                    <td>{{curso.data | date: 'HH:mm'}} de {{curso.data | date : 'dd/MM/yyyy'}}</td>
+                    <td>{{curso.bairro}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+	<div class="galeria_fotos_secao row" ng-class="mustAppear('fotos')">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%; padding-right: 10%">
+            <div class="subtitulo_site">
+                Galeria de Fotos
+            </div>
+            <div class="linha_amarela_subtitulo"></div>
+        </div>
+		<div class="galeria_fotos_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>
+		<div class="galeria_fotos_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>
+		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_1.jpg"/></div>
+		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_2.jpg"/></div>
+		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_3.jpg"/></div>
+		<div class="galeria_fotos_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+		<div class="galeria_fotos_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>
+	</div>
 	<div class="row">
 		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
 			<div class="fim_conteudo_secao"></div>

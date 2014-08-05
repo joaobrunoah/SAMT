@@ -7,7 +7,11 @@ var ProjetoSchema = new mongoose.Schema({
     nome: { type: String, required: true, index: { unique: true } },
     resumo: { type: String, required: true},
     texto: { type: String, required: true},
-    distanceTop: {type:Number, required: false}
+    distanceTop: {type:Number, required: false},
+    cursos: [{
+        data: {type:Date, required: false},
+        bairro: {type:String, required: false}
+    }]
 });
 
 module.exports = mongoose.model('Projeto', ProjetoSchema);

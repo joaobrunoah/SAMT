@@ -32,21 +32,23 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row agenda_secao" ng-class="mustAppear('agenda')">
         <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%; padding-right: 10%">
             <div class="subtitulo_site">
                 Agenda
             </div>
             <div class="linha_amarela_subtitulo"></div>
             <label for="bairro">Escreva seu bairro aqui: </label>
-            <input id="bairro" type="text" style="width:50px;" ng-model="filtroAgenda"/>
+            <input id="bairro" type="text" style="width:150px;" ng-model="filtroAgenda"/>
+            <button ng-click="inserirCurso()">Inserir Novo Curso</button>
             <table>
                 <tr>
                     <th>Data</th>
                     <th>Bairro</th>
                 </tr>
                 <tr ng-repeat="curso in info.cursos">
-                    
+                    <td><input type="text" class="curso_data" ng-model="curso.data"></td>
+                    <td><input type="text" ng-model="curso.bairro"></td>
                 </tr>
             </table>
         </div>

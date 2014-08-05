@@ -110,20 +110,29 @@ projetoControllers.controller('SecaoProjetoCtrl',
                 $scope.titulo_secao = projeto.nome;
                 $scope.texto_secao = htmlCompiler.compile(projeto.texto);
                 $scope.distance_top = projeto.distanceTop;
+                $scope.cursos_secao = projeto.cursos;
             });
 
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos'){
+                if(item == 'texto'|| item == 'fotos' || item == 'agenda'){
                     return 'appear';
                 }
                 return "";
             }
 
+            $scope.passouData = function(elemento) {
+                var dataElemento = new Date(elemento.data);
+                if(dataElemento <= Date.now()){
+                    return false;
+                }
+                return true;
+            }
+
         }]);
 
 projetoControllers.controller('AdicionarProjetoCtrl',
-    ['$scope','$http','$window','elementUpload','htmlCompiler',
-        function($scope,$http,$window,elementUpload,htmlCompiler) {
+    ['$scope','$http','$window','elementUpload','htmlCompiler','$location',
+        function($scope,$http,$window,elementUpload,htmlCompiler,$location) {
 
             $scope.mustAppear = function(item){
                 if(item == 'texto'|| item == 'fotos'||item=='preview'||item=='form_projeto'){
@@ -159,18 +168,22 @@ projetoControllers.controller('AdicionarProjetoCtrl',
                         $route.reload();
                     }
                 );
-            }
+            };
 
         }]);
 
 projetoControllers.controller('EditarProjetoCtrl',
-    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Projeto','htmlCompiler',
-        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Projeto,htmlCompiler) {
+    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Projeto','htmlCompiler','$interval',
+        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Projeto,htmlCompiler,$interval) {
 
             var projetoId = $routeParams.projetoId;
 
+            $interval(function(){
+                $('.curso_data').datetimepicker();
+            },100,5);
+
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos'||item=='preview'||item=='form_projeto'){
+                if(item == 'texto'|| item == 'fotos'||item=='preview'||item=='form_projeto'  || item == 'agenda'){
                     return 'appear';
                 }
                 return "";
@@ -188,6 +201,10 @@ projetoControllers.controller('EditarProjetoCtrl',
                 $scope.$watch('info.texto',function(newValue,oldValue) {
                     $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
                 });
+                $scope.info.cursos = projeto.cursos;
+                if($scope.info.cursos == undefined){
+                    $scope.info.cursos = [];
+                }
             });
 
             $scope.token = $window.localStorage.samtToken;
@@ -197,12 +214,21 @@ projetoControllers.controller('EditarProjetoCtrl',
                 $scope.info.nome = $scope.info.titulo;
                 elementUpload.updateElement($scope.info,'/api/projetos/'+projetoId).success(
                     function() {
-                        alert("Conteúdo Enviado com Sucesso");
-                        $location.path("/projetos");
-                        $route.reload();
-                    }
-                );
+                        $http.put('/api/projetos/inserircursos/'+projetoId,{cursos:$scope.info.cursos}).success(
+                            function(){
+                                alert("Conteúdo Enviado com Sucesso");
+                                $location.path("/projetos");
+                                $route.reload();
+                        });
+                });
+            };
 
-            }
+            $scope.inserirCurso = function(){
+                $scope.info.cursos.push({data:'',bairro:''});
+                $interval(function(){
+                    $('.curso_data').datetimepicker();
+                },100,5);
+
+            };
 
         }]);

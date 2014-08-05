@@ -83,10 +83,9 @@ samtServices.service('elementUpload',['$http',function($http){
             transformRequest:angular.identity,
             headers:{'Content-Type': undefined}
         });
-    }
+    };
 
     this.updateElement = function(info,uploadUrl){
-        alert(uploadUrl);
         var formData = new FormData();
         if(info.image != undefined) {
             formData.append('image', info.image);
