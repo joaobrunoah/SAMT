@@ -32,6 +32,7 @@ samtServices.factory('Noticia',
 		['$resource',
 		 function($resource){
 			return $resource('/api/noticias/:noticiaId', {}, {
+                query: {method:'GET',isArray:false},
 				get: {method:'GET', params:{noticiaId:'noticiaId'}, isArray:false}
 			});
 		}]);
@@ -52,6 +53,14 @@ samtServices.factory('UserService', function($http) {
  
         Logout: function() {
  
+        },
+
+        MudarSenha: function(senhaAntiga,senhaNova,usuario) {
+            return $http.put('api/user/mudar_senha',{'senha_nova': senhaNova, 'senha_antiga': senhaAntiga, 'usuario':usuario});
+        },
+
+        AdicionarUsuario: function(usuario,senha) {
+            return $http.post('api/user/add',{'usuario': usuario, 'senha': senha});
         }
     }
 });

@@ -174,5 +174,18 @@ li.adicionarElemento.appear {
 
 .excluirElemento.appear,
 .editarElemento.appear {
-	display:block;
+    display: block;
+}
+
+.search_elements {
+    background-color: #FFFFFF;
+    padding: 40px 17%;
+}
+
+.page_selector{
+    background-color: #FFFFFF;
+    margin-top: -10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
 }

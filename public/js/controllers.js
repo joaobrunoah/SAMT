@@ -247,6 +247,7 @@ samtControllers.controller('AdminCtrl',
                         $window.localStorage.samtToken = data.samtToken;
                         $http.defaults.headers.common['x-access-token'] = $window.localStorage.samtToken;
                         $window.localStorage.expirationDate = data.expires;
+                        $window.localStorage.usuario = username;
                         $location.path("/");
                         $route.reload();
                     }).error(function(status, data) {
@@ -254,7 +255,39 @@ samtControllers.controller('AdminCtrl',
                         //console.log(data);
                     });
                 }
-            }
+            };
+
+            $scope.isLoggedIn = function(){
+                return AuthenticationService.isLogged;
+            };
+
+            $scope.passInfo = {};
+            $scope.passInfo.confirmacao = '';
+
+            $scope.userInfo = {};
+            $scope.userInfo.confirmacao = '';
+
+            $scope.mudarSenha = function(passInfo){
+                if(passInfo.senhaNova != passInfo.confirmacao){
+                    return;
+                }
+                UserService.MudarSenha(passInfo.senhaAntiga,passInfo.senhaNova,$window.localStorage.usuario).success(function(data,status){
+                    alert(data);
+                }).error(function(data,status){
+                    alert(data);
+                });
+            };
+
+            $scope.adicionarUsuario = function(userInfo){
+                if(userInfo.senha != userInfo.confirmacao){
+                    return;
+                }
+                UserService.AdicionarUsuario(userInfo.usuario,userInfo.senha).success(function(data,status){
+                    alert(data);
+                }).error(function(data,status){
+                    alert(data);
+                });
+            };
         }]);
 
 samtControllers.controller('TrabalheCtrl',

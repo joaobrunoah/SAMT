@@ -12,9 +12,38 @@ noticiaControllers.controller('NoticiasCtrl',
     ['$scope','$http','$location','Noticia','AuthenticationService','$route',
         function($scope,$http,$location,Noticia,AuthenticationService,$route) {
 
-            $scope.order_by="-data";
+            $('#query_from').datetimepicker();
+            $('#query_to').datetimepicker();
 
-            $scope.tipo_elemento = 'noticias';
+            $scope.orderby = {};
+            $scope.orderby.options = [{name:'Mais Novas',value:'-data'},
+                {name:'Mais Antigas',value:'data'}];
+
+            $scope.query = {};
+            $scope.query.orderby = $scope.orderby.options[0];
+
+            $scope.query.limitTo = 1;
+
+            $scope.entreDatas = function(elemento){
+                var dataElemento = new Date(elemento.data);
+
+                if ($scope.query.dataAntes != undefined && $scope.query.dataAntes != ''){
+                    var dataAntes = new Date($scope.query.dataAntes);
+                    if(dataAntes > dataElemento){
+                        return false;
+                    }
+                }
+                if ($scope.query.dataDepois != undefined && $scope.query.dataDepois != ''){
+                    var dataDepois = new Date($scope.query.dataDepois);
+
+                    if(dataDepois < dataElemento){
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            $scope.tipo_elemento = 'Notícias';
 
             var idElementSelected = null;
 
@@ -22,7 +51,16 @@ noticiaControllers.controller('NoticiasCtrl',
                 $scope.titulo_secao = data.noticias;
             });
 
-            $scope.elementos = Noticia.query();
+            $scope.results = Noticia.query(function(){
+                var count = $scope.results.count;
+                var limit = $scope.query.limitTo;
+                var numPages = count/limit;
+                $scope.offset = {};
+                $scope.offset.options = [];
+                for(var i = 0; i<numPages; i++){
+                    $scope.offset.options.push({number:i+1});
+                }
+            });
 
             $scope.isElementSelected = function(id) {
                 if(id == idElementSelected){
@@ -53,6 +91,8 @@ noticiaControllers.controller('NoticiasCtrl',
                 $location.path("/noticias/editar/" + id);
                 $route.reload();
             }
+
+
 
         }]);
 

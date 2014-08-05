@@ -7,6 +7,11 @@
 	text-align: center;
 	margin-left: -75px;
 	margin-top: -89px;
+    display: none;
+}
+
+.loginForm.appear {
+    display:block;
 }
 
 .loginForm > label {
@@ -20,4 +25,26 @@
 	padding: 5px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.adminOpts {
+    display:none;
+}
+
+.adminOpts.appear {
+    display:block;
+}
+
+.caixaVermelha {
+    border: 3px solid #FF0000;
+}
+
+.wrongPassword {
+    color: #FF0000;
+    font-weight: bold;
+    display: none;
+}
+
+.wrongPassword.appear {
+    display:block;
 }

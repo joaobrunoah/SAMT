@@ -12,7 +12,14 @@ projetoControllers.controller('ProjetosCtrl',
     ['$scope','$http','$interval','$location','Projeto','AuthenticationService','$route',
         function($scope,$http,$interval,$location,Projeto,AuthenticationService,$route) {
 
-            $scope.order_by="nome";
+            $scope.orderby = {};
+            $scope.orderby.options = [{name:'A -> Z',value:'nome'},
+                {name:'Z -> A',value:'-nome'}];
+
+            $scope.query = {};
+            $scope.query.orderby = $scope.orderby.options[0];
+
+            $scope.query.limitTo = 1000;
 
             $scope.tipo_elemento = 'projetos';
 

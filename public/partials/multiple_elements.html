@@ -1,31 +1,59 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="sem_padding col-md-10 col-lg-8 col-xs-12 col-sm-12 col-lg-offset-2 col-md-offset-1">
-      <!--Body content-->
+    <div class="row">
+        <div class="sem_padding col-md-10 col-lg-8 col-xs-12 col-sm-12 col-lg-offset-2 col-md-offset-1">
 
-      <ul class="lista_elementos">
-      	<li style="position:relative;" class="elemento adicionarElemento" ng-class="{appear:isLoggedIn()}">
-      		<div><a href="/#/{{tipo_elemento}}/adicionar"><img class="imagem_elemento" src="img/site/adicionar_elemento.jpg"></a></div>
-        	<div class="titulo_elemento"><a>Adicionar {{tipo_elemento}}</a></div>
-        	<div class="linha_amarela"></div>
-      	</li>
-        <li style="position:relative;" ng-repeat="elemento in elementos | orderBy:order_by" class="elemento" ng-click="selectElement(elemento._id)" ng-class="isElementSelected(elemento._id)">
-          	<div><a><img class="imagem_elemento" ng-src="{{elemento.imagemUrl}}"></a></div>
-        	<div class="titulo_elemento" ng-class="{true:'titulo_elemento_direita',false:''}[$index%2==1]">
-                <a>{{elemento.titulo}}</a>
-                <div class="editarElemento" ng-class="{appear:isLoggedIn()}" ng-click="editarElemento(elemento._id)"><a>Editar<img src="img/site/editar.svg"/></a></div>
-                <div class="excluirElemento" ng-class="{appear:isLoggedIn()}" ng-click="excluirElemento(elemento._id)"><a>Excluir<img src="img/site/excluir.svg"/></a></div>
+            <div class="search_elements">
+                <!-- TEXT DATE ORDERBY SOMENTEEVENTOS(INCLUIR PASSADOS) -->
+                <label for="query_texto">Texto:</label>
+                <input type="text" id="query_texto" ng-model="query.texto"/><br/>
+
+                <label for="query_from">De:</label>
+                <input id="query_from" type="text" ng-model="query.dataAntes"/>
+                <label for="query_to" style="padding-left: 20px">Até:</label>
+                <input id="query_to" type="text" ng-model="query.dataDepois"/><br/>
+
+                <label for="query_orderby">Ordenar Por:</label>
+                <select id="query_orderby" ng-model="query.orderby" ng-options="option.name for option in orderby.options"></select>
             </div>
-        	<div class="resumo_elemento">
-        		{{elemento.resumo}}
-        		<div class="leia_mais_elemento">
-        			<a href="#/{{tipo_elemento}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-preta.svg"/></a>
-        		</div>	
-        	</div>
-        	<div class="linha_amarela"></div>
-        </li>
-      </ul>
 
+            <ul class="lista_elementos">
+                <li style="position:relative;" class="elemento adicionarElemento" ng-class="{appear:isLoggedIn()}">
+                    <div><a href="/#/{{tipo_elemento}}/adicionar"><img class="imagem_elemento"
+                                                                       src="img/site/adicionar_elemento.jpg"></a></div>
+                    <div class="titulo_elemento"><a>Adicionar {{tipo_elemento}}</a></div>
+                    <div class="linha_amarela"></div>
+                </li>
+                <li style="position:relative;"
+                    ng-repeat="elemento in results.elementos | orderBy:query.orderby.value |
+                        filter:entreDatas | filter:{$:query.texto} |
+                        limitTo:query.limitTo"
+                    class="elemento" ng-click="selectElement(elemento._id)" ng-class="isElementSelected(elemento._id)">
+                    <div><a><img class="imagem_elemento" ng-src="{{elemento.imagemUrl}}"></a></div>
+                    <div class="titulo_elemento" ng-class="{true:'titulo_elemento_direita',false:''}[$index%2==1]">
+                        <a>{{elemento.titulo}}</a>
+
+                        <div class="editarElemento" ng-class="{appear:isLoggedIn()}"
+                             ng-click="editarElemento(elemento._id)"><a>Editar<img src="img/site/editar.svg"/></a></div>
+                        <div class="excluirElemento" ng-class="{appear:isLoggedIn()}"
+                             ng-click="excluirElemento(elemento._id)"><a>Excluir<img src="img/site/excluir.svg"/></a>
+                        </div>
+                    </div>
+                    <div class="resumo_elemento">
+                        {{elemento.resumo}}
+                        <div class="leia_mais_elemento">
+                            <a href="#/{{tipo_elemento}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla"
+                                                                                          src="img/site/flecha-dupla-preta.svg"/></a>
+                        </div>
+                    </div>
+                    <div class="linha_amarela"></div>
+                </li>
+            </ul>
+
+            <div class="page_selector">
+                <label for="query_offset">Escolha a página de {{tipo_elemento}}:</label>
+                <select id="query_offset" ng-model="query.offset" ng-options="option.number for option in offset.options"></select>
+            </div>
+
+        </div>
     </div>
-  </div>
 </div>

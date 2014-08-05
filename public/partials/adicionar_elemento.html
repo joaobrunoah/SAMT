@@ -5,7 +5,7 @@
                 <img ng-src="{{srcimagem_elemento}}" class="imagem_secao_escolhida"/>
                 <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento" fileread="srcimagem_elemento" class="image_selector"/>
             </div>
-            <div class="titulo_secao">{{info.titulo}}<input name="titulo" type="text" ng-model="info.titulo"/></div>
+            <div class="titulo_secao"><input name="titulo" type="text" cols="100" ng-model="info.titulo"/></div>
             <div class="conteudo_secao">
                 <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{dataAtual | date: 'HH:mm'}} de {{dataAtual | date : 'dd/MM/yyyy'}}</div>
                 <div class="input_secao">

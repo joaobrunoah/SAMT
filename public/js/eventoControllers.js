@@ -12,7 +12,36 @@ eventoControllers.controller('EventosCtrl',
     ['$scope','$http','$location','Evento','AuthenticationService','$route',
         function($scope,$http,$location,Evento,AuthenticationService,$route) {
 
-            $scope.order_by = "data";
+            $('#query_from').datetimepicker();
+            $('#query_to').datetimepicker();
+
+            $scope.orderby = {};
+            $scope.orderby.options = [{name:'Mais Novas',value:'-data'},
+                {name:'Mais Antigas',value:'data'}];
+
+            $scope.query = {};
+            $scope.query.orderby = $scope.orderby.options[0];
+
+            $scope.query.limitTo = 10;
+
+            $scope.entreDatas = function(elemento){
+                var dataElemento = new Date(elemento.data);
+
+                if ($scope.query.dataAntes != undefined && $scope.query.dataAntes != ''){
+                    var dataAntes = new Date($scope.query.dataAntes);
+                    if(dataAntes > dataElemento){
+                        return false;
+                    }
+                }
+                if ($scope.query.dataDepois != undefined && $scope.query.dataDepois != ''){
+                    var dataDepois = new Date($scope.query.dataDepois);
+
+                    if(dataDepois < dataElemento){
+                        return false;
+                    }
+                }
+                return true;
+            };
 
             $scope.tipo_elemento = 'eventos';
 
@@ -84,6 +113,8 @@ eventoControllers.controller('AdicionarEventoCtrl',
     ['$scope','$http','$window','elementUpload','htmlCompiler',
         function($scope,$http,$window,elementUpload,htmlCompiler) {
 
+            $('#data').datetimepicker();
+
             $scope.mustAppear = function(item){
                 if(item == 'texto'|| item == 'fotos'|| item == 'info' || item=='preview'||item=='form_evento'){
                     return 'appear';
@@ -125,6 +156,8 @@ eventoControllers.controller('AdicionarEventoCtrl',
 projetoControllers.controller('EditarEventoCtrl',
     ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Evento','htmlCompiler',
         function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Evento,htmlCompiler) {
+
+            $('#data').datetimepicker();
 
             var eventoId = $routeParams.eventoId;
 

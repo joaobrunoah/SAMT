@@ -212,12 +212,22 @@ app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function(re
 // REQUESTS FROM NOTICIAS
 
 app.get('/api/noticias', function(req, res, next) {
-	var query = Noticia.find();
-	query.limit(10);
-	query.exec(function(err, noticias) {
-		if (err) return next(err);
-		res.send(noticias);
-	});
+	Noticia.count({}, function(err,result){
+        if (err){
+            console.log(err.message);
+            return res.send(500,err.message);
+        }
+        var query = Noticia.find();
+        query.limit(1000);
+        query.exec(function(err, noticias) {
+            if (err) return next(err);
+            var object = {elementos:noticias,count:result};
+            console.log(object);
+            res.send(object);
+        });
+    })
+
+
 });
 
 app.get('/api/noticias/:id', function(req, res, next) {
@@ -343,17 +353,17 @@ app.put('/api/noticias/:id', jwtauth, requireAuth, function (req, res){
 
 app.delete('/api/noticias/:id', bodyParser(), jwtauth, requireAuth, function(req, res, next) {
     console.log(req.params.id);
-    Evento.findById(req.params.id,function(err,evento){
+    Noticia.findById(req.params.id,function(err,noticia){
         if(err) console.log(err);
         try{
             try {
-                fs.remove(evento.directory, function (err) {
-                    console.log("Could not remove image from " + evento.titulo);
+                fs.remove(noticia.directory, function (err) {
+                    console.log("Could not remove image from " + noticia.titulo);
                 });
             } catch (err2) {
                 console.log(err2.message);
             }
-            evento.remove();
+            noticia.remove();
             res.send(200);
         } catch (err) {
             res.send(500,err.message);
@@ -367,7 +377,7 @@ app.delete('/api/noticias/:id', bodyParser(), jwtauth, requireAuth, function(req
 // REQUESTS FROM EVENTOS
 app.get('/api/eventos', function(req, res, next) {
 	var query = Evento.find();
-	query.limit(10);
+	query.limit(100);
 	query.exec(function(err, eventos) {
 		if (err) return next(err);
 		res.send(eventos);
@@ -685,6 +695,9 @@ app.delete('/api/projetos/:id', bodyParser(), jwtauth, requireAuth, function(req
 
 // END OF REQUESTS FROM PROJETOS
 
+
+// REQUESTS FROM USUARIO
+
 app.post('/api/login', function(req, res, next) {
 	User.findOne({username: req.body.username }, function(err, user) {
 	    if (err) return res.send(401);
@@ -707,4 +720,41 @@ app.post('/api/login', function(req, res, next) {
 	        });
 	    });
 	});
+});
+
+app.put('/api/user/mudar_senha', bodyParser(), jwtauth, requireAuth, function(req,res,next){
+    var usuario = req.body.usuario;
+    var senha_antiga = req.body.senha_antiga;
+    var senha_nova = req.body.senha_nova;
+    User.findOne({username: usuario}, function(err,user){
+        if(err) return res.send(401,"Banco de Dados indisponível");
+        if(!user) return res.send(401,"Usuário não encontrado");
+
+        user.comparePassword(senha_antiga, function(err,isMatch){
+            if(err || !isMatch) return res.send(401,"Senha Antiga não confere");
+
+            user.password = senha_nova;
+            user.save();
+            return res.send(200,"Senha Alterada com Sucesso");
+        })
+
+    });
+});
+
+app.post('/api/user/add', bodyParser(), jwtauth, requireAuth, function(req,res,next){
+    var usuario = req.body.usuario;
+    var senha = req.body.senha;
+
+    User.findOne({username: usuario}, function(err,user){
+        if(err) return res.send(401,"Banco de Dados indisponível");
+        if(user) return res.send(401,"Usuário já existente");
+
+        var user = new User({
+            username:usuario,
+            password:senha
+        });
+
+        user.save();
+        res.send(200,"Usuário Cadastrado com Sucesso");
+    });
 });
