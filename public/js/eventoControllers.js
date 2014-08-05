@@ -8,6 +8,27 @@
 
 var eventoControllers = angular.module('eventoControllers', []);
 
+/* Common functions */
+
+var filtroEntreDatas = function(elemento,query){
+    var dataElemento = new Date(elemento.data);
+
+    if (query.dataAntes != undefined && query.dataAntes != ''){
+        var dataAntes = new Date(query.dataAntes);
+        if(dataAntes > dataElemento){
+            return false;
+        }
+    }
+    if (query.dataDepois != undefined && query.dataDepois != ''){
+        var dataDepois = new Date(query.dataDepois);
+
+        if(dataDepois < dataElemento){
+            return false;
+        }
+    }
+    return true;
+};
+
 eventoControllers.controller('EventosCtrl',
     ['$scope','$http','$location','Evento','AuthenticationService','$route',
         function($scope,$http,$location,Evento,AuthenticationService,$route) {
@@ -24,49 +45,50 @@ eventoControllers.controller('EventosCtrl',
 
             $scope.query.limitTo = 10;
 
-            $scope.entreDatas = function(elemento){
-                var dataElemento = new Date(elemento.data);
+            $scope.offset = {};
+            $scope.offset.options = [{number:1}];
+            $scope.query.offset = $scope.offset.options[0];
 
-                if ($scope.query.dataAntes != undefined && $scope.query.dataAntes != ''){
-                    var dataAntes = new Date($scope.query.dataAntes);
-                    if(dataAntes > dataElemento){
-                        return false;
-                    }
-                }
-                if ($scope.query.dataDepois != undefined && $scope.query.dataDepois != ''){
-                    var dataDepois = new Date($scope.query.dataDepois);
-
-                    if(dataDepois < dataElemento){
-                        return false;
-                    }
-                }
-                return true;
-            };
-
-            $scope.tipo_elemento = 'eventos';
+            $scope.tipo_elemento = 'Eventos';
+            $scope.tipo_url = 'eventos';
 
             var idElementSelected = null;
+
+            /* QUERIES TO GET DATA */
 
             $http.get('texts/texts.json').success(function(data) {
                 $scope.titulo_secao = data.eventos;
             });
 
-            $scope.elementos = Evento.query();
+            $scope.results = Evento.query(function(){
+                var count = $scope.results.count;
+                var limit = $scope.query.limitTo;
+                var numPages = count/limit;
+                $scope.offset = {};
+                $scope.offset.options = [];
+                $scope.elementos = $scope.results.elementos;
+                for(var i = 0; i<numPages; i++){
+                    $scope.offset.options.push({number:i+1});
+                }
+                $scope.query.offset = $scope.offset.options[0];
+            });
+
+            /* UI FUNCTIONS */
 
             $scope.isElementSelected = function(id) {
                 if(id == idElementSelected){
                     return "selected";
                 }
                 return "";
-            }
+            };
 
             $scope.selectElement = function(id) {
                 idElementSelected = id;
-            }
+            };
 
             $scope.isLoggedIn = function() {
                 return AuthenticationService.isLogged;
-            }
+            };
 
             $scope.excluirElemento = function(id){
                 var objToRemove = {};
@@ -76,11 +98,34 @@ eventoControllers.controller('EventosCtrl',
                     $scope.$apply();
                     $route.reload();
                 });
-            }
+            };
 
             $scope.editarElemento = function(id) {
                 $location.path("/eventos/editar/" + id);
                 $route.reload();
+            };
+
+            $scope.deAcordoQuery = function(elemento){
+                var count = $scope.results.count;
+                var limit = $scope.query.limitTo;
+                var elementoIndex = getElementPosition(elemento);
+                var offset = $scope.query.offset.number;
+                var reverse = $scope.query.orderby.value == "-data";
+
+                var filtroDatas = filtroEntreDatas(elemento,$scope.query);
+
+                var filtroOffset = ((elementoIndex >= (offset - 1)*limit)&&!reverse)||
+                    ((elementoIndex < count-((offset-1)*limit))&&reverse);
+                return filtroDatas && filtroOffset;
+            };
+
+            var getElementPosition = function(elemento){
+                var elementos = $scope.results.elementos;
+                for (var i=0;i<elementos.length;i++){
+                    if(elemento._id == elementos[i]._id){
+                        return i;
+                    }
+                }
             }
 
         }]);
@@ -99,6 +144,7 @@ eventoControllers.controller('SecaoEventoCtrl',
                 $scope.texto_secao = htmlCompiler.compile(evento.texto);
                 $scope.local_secao = evento.local;
                 $scope.data_secao = evento.data;
+                $scope.distance_top = evento.distanceTop;
             });
 
             $scope.mustAppear = function(item){

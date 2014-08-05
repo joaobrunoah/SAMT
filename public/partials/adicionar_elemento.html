@@ -2,10 +2,14 @@
     <div class="row preview_secao" ng-class="mustAppear('preview')">
         <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
             <div class="imagem_secao" style="background-color: #FFFFFF">
-                <img ng-src="{{srcimagem_elemento}}" class="imagem_secao_escolhida"/>
+                <img ng-src="{{srcimagem_elemento}}" class="imagem_secao_escolhida" style="top:{{-info.distanceTop}}%"/>
                 <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento" fileread="srcimagem_elemento" class="image_selector"/>
             </div>
-            <div class="titulo_secao"><input name="titulo" type="text" cols="100" ng-model="info.titulo"/></div>
+            <div class="titulo_secao"><input name="titulo" type="text" ng-model="info.titulo" style="width: 100%;"/></div>
+            <div class="alinhar_imagem_container">
+                <label for="distancetop">Alinhar imagem: </label>
+                <input id="distancetop" name="distancetop" type="number" min="0" max="10000" ng-model="info.distanceTop"/>
+            </div>
             <div class="conteudo_secao">
                 <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{dataAtual | date: 'HH:mm'}} de {{dataAtual | date : 'dd/MM/yyyy'}}</div>
                 <div class="input_secao">

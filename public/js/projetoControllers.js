@@ -21,7 +21,8 @@ projetoControllers.controller('ProjetosCtrl',
 
             $scope.query.limitTo = 1000;
 
-            $scope.tipo_elemento = 'projetos';
+            $scope.tipo_elemento = 'Projetos';
+            $scope.tipo_url = 'projetos';
 
             var idElementSelected = null;
 
@@ -87,6 +88,7 @@ projetoControllers.controller('SecaoProjetoCtrl',
                 $scope.imagem_secao = projeto.imagemUrl;
                 $scope.titulo_secao = projeto.nome;
                 $scope.texto_secao = htmlCompiler.compile(projeto.texto);
+                $scope.distance_top = projeto.distanceTop;
             });
 
             $scope.mustAppear = function(item){

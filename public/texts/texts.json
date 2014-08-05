@@ -1,4 +1,4 @@
-{
+﻿{
 	"_comment1":"Barra de Navegação",
 	"inicio": "Início", 
     "quem_somos": "Quem Somos", 
@@ -22,12 +22,15 @@
 	"_comment3": "Quem Somos",
 	"quem_somos_text":"<p style='text-align:center; padding:30px 0px;'><iframe width='560' height='315' src='//www.youtube.com/embed/0_MqYm-cyD0' frameborder='0' allowfullscreen></iframe></p><p>A Associação de Assistência Social, Trabalho e Cidadania (SAMT) é uma instituição privada fundada em 1987 com o propósito de proteger crianças e adolescentes em situa;cão de risco social. Com a criação do Estatuto da Criança e do Adolescente (ECA), a instituição precisou adequar-se no decorrer do tempo.</p><p>A partir de 2013, em parceria com a nova administração municipal, a SAMT passa a buscar a sua identidade, consolidando um trabalho voltado à qualificação profissional, aliada à construção de potencialidades, desenvolvimento e valorização do ser humano, independentemente de sua idade, com destaque ao papel feminino na sociedade.</p><p style='margin-bottom:0px;'>Incondicionalmente, a SAMT instiga no ser humano as suas principais virtudes, provoca seus melhores instintos e prepara, hoje, o futuro promissor de milhares de lageanos e lageanas, ensinando que tudo que se planta regado com amor, dedicação e disciplina pode render frutos incríveis. E você, já fez o bem hoje? Vem com a gente, vem com a SAMT!</p>",
 	"quem_somos_imagem":"img/site/quem_somos.jpg",
+	"quem_somos_distance_top":46,
 
     "_comment4":"Trabalhe Conosco",
     "trabalhe_text":"<p style='text-align:center; padding:30px 0px; margin-bottom:0px;'><iframe src='https://docs.google.com/spreadsheet/embeddedform?formkey=dDNOUnk5V1duQnlmZl9LSzZyZGN2WkE6MA' width='760' height='1000' frameborder='0' marginheight='0' marginwidth='0'>Carregando...</iframe></p>",
     "trabalhe_imagem":"img/site/trabalhe_conosco.jpg",
+    "trabalhe_distance_top":36,
 
-    "_comment4":"Trabalhe Conosco",
+    "_comment5":"Contato",
     "contato_imagem":"img/site/contato.jpg",
-    "contato_text":"CONTATO"
+    "contato_text":"CONTATO",
+    "contato_distance_top":38
 }

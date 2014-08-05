@@ -225,9 +225,7 @@ app.get('/api/noticias', function(req, res, next) {
             console.log(object);
             res.send(object);
         });
-    })
-
-
+    });
 });
 
 app.get('/api/noticias/:id', function(req, res, next) {
@@ -285,9 +283,12 @@ app.post('/api/noticias', jwtauth, requireAuth, function (req, res){
             distanceTop:distanceTop
         });
 
-        noticia.save();
-        res.writeHead(200, { Connection: 'close' });
-        res.end();
+        noticia.save(function (err, product, numberAffected) {
+            if (err) return res.send(500,err.message);
+            res.writeHead(200, { Connection: 'close' });
+            res.end();
+        });
+
     });
 
     req.pipe(busboy);
@@ -340,9 +341,12 @@ app.put('/api/noticias/:id', jwtauth, requireAuth, function (req, res){
                     noticia.directory=saveTo;
                     noticia.imagemUrl=imgDir2web;
                 }
-                noticia.save();
-                res.writeHead(200, { Connection: 'close' });
-                res.end();
+
+                noticia.save(function (err, product, numberAffected) {
+                    if (err) return res.send(500,err.message);
+                    res.writeHead(200, { Connection: 'close' });
+                    res.end();
+                });
             }
         });
 
@@ -376,12 +380,21 @@ app.delete('/api/noticias/:id', bodyParser(), jwtauth, requireAuth, function(req
 
 // REQUESTS FROM EVENTOS
 app.get('/api/eventos', function(req, res, next) {
-	var query = Evento.find();
-	query.limit(100);
-	query.exec(function(err, eventos) {
-		if (err) return next(err);
-		res.send(eventos);
-	});
+
+    Evento.count({}, function(err,result){
+        if (err){
+            console.log(err.message);
+            return res.send(500,err.message);
+        }
+        var query = Evento.find();
+        query.limit(1000);
+        query.exec(function(err, eventos) {
+            if (err) return next(err);
+            var object = {elementos:eventos,count:result};
+            console.log(object);
+            res.send(object);
+        });
+    });
 });
 
 app.get('/api/eventos/:id', function(req, res, next) {
@@ -445,9 +458,12 @@ app.post('/api/eventos', jwtauth, requireAuth, function (req, res){
             distanceTop:distanceTop
         });
 
-        evento.save();
-        res.writeHead(200, { Connection: 'close' });
-        res.end();
+        evento.save(function (err, product, numberAffected) {
+            if (err) return res.send(500,err.message);
+            res.writeHead(200, { Connection: 'close' });
+            res.end();
+        });
+
     });
 
     req.pipe(busboy);
@@ -508,9 +524,11 @@ app.put('/api/eventos/:id', jwtauth, requireAuth, function (req, res){
                     evento.directory=saveTo;
                     evento.imagemUrl=imgDir2web;
                 }
-                evento.save();
-                res.writeHead(200, { Connection: 'close' });
-                res.end();
+                evento.save(function (err, product, numberAffected) {
+                    if (err) return res.send(500,err.message);
+                    res.writeHead(200, { Connection: 'close' });
+                    res.end();
+                });
             }
         });
 
@@ -606,9 +624,11 @@ app.post('/api/projetos', jwtauth, requireAuth, function (req, res){
             distanceTop:distanceTop
         });
 
-        projeto.save();
-        res.writeHead(200, { Connection: 'close' });
-        res.end();
+        projeto.save(function (err, product, numberAffected) {
+            if (err) return res.send(500,err.message);
+            res.writeHead(200, { Connection: 'close' });
+            res.end();
+        });
     });
 
     req.pipe(busboy);
@@ -661,9 +681,12 @@ app.put('/api/projetos/:id', jwtauth, requireAuth, function (req, res){
                     projeto.directory=saveTo;
                     projeto.imagemUrl=imgDir2web;
                 }
-                projeto.save();
-                res.writeHead(200, { Connection: 'close' });
-                res.end();
+
+                projeto.save(function (err, product, numberAffected) {
+                    if (err) return res.send(500,err.message);
+                    res.writeHead(200, { Connection: 'close' });
+                    res.end();
+                });
             }
         });
 

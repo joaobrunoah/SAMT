@@ -18,17 +18,19 @@
 
             <ul class="lista_elementos">
                 <li style="position:relative;" class="elemento adicionarElemento" ng-class="{appear:isLoggedIn()}">
-                    <div><a href="/#/{{tipo_elemento}}/adicionar"><img class="imagem_elemento"
+                    <div><a href="/#/{{tipo_url}}/adicionar"><img class="imagem_adicionar"
                                                                        src="img/site/adicionar_elemento.jpg"></a></div>
                     <div class="titulo_elemento"><a>Adicionar {{tipo_elemento}}</a></div>
                     <div class="linha_amarela"></div>
                 </li>
                 <li style="position:relative;"
-                    ng-repeat="elemento in results.elementos | orderBy:query.orderby.value |
-                        filter:entreDatas | filter:{$:query.texto} |
+                    ng-repeat="elemento in elementos | orderBy:query.orderby.value |
+                        filter:deAcordoQuery | filter:{$:query.texto} |
                         limitTo:query.limitTo"
                     class="elemento" ng-click="selectElement(elemento._id)" ng-class="isElementSelected(elemento._id)">
-                    <div><a><img class="imagem_elemento" ng-src="{{elemento.imagemUrl}}"></a></div>
+                    <div class="imagem_elemento_container">
+                        <img class="imagem_elemento" ng-src="{{elemento.imagemUrl}}" style="top:{{-elemento.distanceTop}}%;">
+                    </div>
                     <div class="titulo_elemento" ng-class="{true:'titulo_elemento_direita',false:''}[$index%2==1]">
                         <a>{{elemento.titulo}}</a>
 
@@ -41,7 +43,7 @@
                     <div class="resumo_elemento">
                         {{elemento.resumo}}
                         <div class="leia_mais_elemento">
-                            <a href="#/{{tipo_elemento}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla"
+                            <a href="#/{{tipo_url}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla"
                                                                                           src="img/site/flecha-dupla-preta.svg"/></a>
                         </div>
                     </div>

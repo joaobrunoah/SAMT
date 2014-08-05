@@ -41,6 +41,7 @@ samtServices.factory('Evento',
 		['$resource',
 		 function($resource){
 			return $resource('/api/eventos/:eventoId', {}, {
+                query: {method:'GET',isArray:false},
 				get: {method:'GET', params:{eventoId:'eventoId'}, isArray:false}
 			});
 		}]);

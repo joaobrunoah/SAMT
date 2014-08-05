@@ -1,7 +1,9 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
-			<div class="imagem_secao" style="background-image: url({{imagem_secao}})"></div>
+            <div class="imagem_secao" style="background-color: #FFFFFF">
+                <img ng-src="{{imagem_secao}}" class="imagem_secao_escolhida" style="top:{{-distance_top}}%"/>
+            </div>
 			<div class="titulo_secao">{{titulo_secao}}</div>
 			<div class="conteudo_secao">
 				<div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{data_secao | date: 'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}</div>

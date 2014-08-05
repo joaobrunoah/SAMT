@@ -47,8 +47,6 @@ samtControllers.controller('InicioCtrl',
     ['$scope', '$http','$interval','Noticia','Projeto',
         function($scope, $http, $interval, Noticia,Projeto) {
 
-            var tempoEntreNoticias = 5000;
-
             $scope.abaNoticia=true;
             $scope.abaEvento=false;
 
@@ -58,7 +56,11 @@ samtControllers.controller('InicioCtrl',
                 $scope.texts = data;
             });
 
-            $scope.noticias = Noticia.query();
+            $scope.noticias = {};
+
+            $scope.noticiaQuery = Noticia.query(function(){
+                $scope.noticias = $scope.noticiaQuery.elementos;
+            });
             $scope.projetos = Projeto.query();
             $scope.ordenarPor = '-data';
 
@@ -215,6 +217,7 @@ samtControllers.controller('QuemSomosCtrl',
                 $scope.titulo_secao = data.quem_somos;
                 $scope.texto_secao = $sce.trustAsHtml(data.quem_somos_text);
                 $scope.imagem_secao = data.quem_somos_imagem;
+                $scope.distance_top = data.quem_somos_distance_top;
             });
 
             $scope.mustAppear = function(subsecao) {
@@ -298,6 +301,7 @@ samtControllers.controller('TrabalheCtrl',
                 $scope.titulo_secao = data.trabalhe_conosco;
                 $scope.texto_secao = $sce.trustAsHtml(data.trabalhe_text);
                 $scope.imagem_secao = data.trabalhe_imagem;
+                $scope.distance_top = data.trabalhe_distance_top;
             });
 
             $scope.mustAppear = function(subsecao) {
@@ -320,6 +324,7 @@ samtControllers.controller('ContatoCtrl',
                 $scope.titulo_secao = data.contato;
                 $scope.texto_secao = $sce.trustAsHtml(data.contato_text);
                 $scope.imagem_secao = data.contato_imagem;
+                $scope.distance_top = data.contato_distance_top;
             });
 
             $scope.mustAppear = function(subsecao) {

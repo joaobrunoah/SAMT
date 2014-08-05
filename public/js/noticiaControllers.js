@@ -8,6 +8,27 @@
 
 var noticiaControllers = angular.module('noticiaControllers', []);
 
+/* Common functions */
+
+var filtroEntreDatas = function(elemento,query){
+    var dataElemento = new Date(elemento.data);
+
+    if (query.dataAntes != undefined && query.dataAntes != ''){
+        var dataAntes = new Date(query.dataAntes);
+        if(dataAntes > dataElemento){
+            return false;
+        }
+    }
+    if (query.dataDepois != undefined && query.dataDepois != ''){
+        var dataDepois = new Date(query.dataDepois);
+
+        if(dataDepois < dataElemento){
+            return false;
+        }
+    }
+    return true;
+};
+
 noticiaControllers.controller('NoticiasCtrl',
     ['$scope','$http','$location','Noticia','AuthenticationService','$route',
         function($scope,$http,$location,Noticia,AuthenticationService,$route) {
@@ -22,30 +43,18 @@ noticiaControllers.controller('NoticiasCtrl',
             $scope.query = {};
             $scope.query.orderby = $scope.orderby.options[0];
 
-            $scope.query.limitTo = 1;
+            $scope.query.limitTo = 10;
 
-            $scope.entreDatas = function(elemento){
-                var dataElemento = new Date(elemento.data);
-
-                if ($scope.query.dataAntes != undefined && $scope.query.dataAntes != ''){
-                    var dataAntes = new Date($scope.query.dataAntes);
-                    if(dataAntes > dataElemento){
-                        return false;
-                    }
-                }
-                if ($scope.query.dataDepois != undefined && $scope.query.dataDepois != ''){
-                    var dataDepois = new Date($scope.query.dataDepois);
-
-                    if(dataDepois < dataElemento){
-                        return false;
-                    }
-                }
-                return true;
-            };
+            $scope.offset = {};
+            $scope.offset.options = [{number:1}];
+            $scope.query.offset = $scope.offset.options[0];
 
             $scope.tipo_elemento = 'Notícias';
+            $scope.tipo_url = 'noticias';
 
             var idElementSelected = null;
+
+            /* QUERIES TO GET DATA */
 
             $http.get('texts/texts.json').success(function(data) {
                 $scope.titulo_secao = data.noticias;
@@ -57,25 +66,29 @@ noticiaControllers.controller('NoticiasCtrl',
                 var numPages = count/limit;
                 $scope.offset = {};
                 $scope.offset.options = [];
+                $scope.elementos = $scope.results.elementos;
                 for(var i = 0; i<numPages; i++){
                     $scope.offset.options.push({number:i+1});
                 }
+                $scope.query.offset = $scope.offset.options[0];
             });
+
+            /* UI FUNCTIONS */
 
             $scope.isElementSelected = function(id) {
                 if(id == idElementSelected){
                     return "selected";
                 }
                 return "";
-            }
+            };
 
             $scope.selectElement = function(id) {
                 idElementSelected = id;
-            }
+            };
 
             $scope.isLoggedIn = function() {
                 return AuthenticationService.isLogged;
-            }
+            };
 
             $scope.excluirElemento = function(id){
                 var objToRemove = {};
@@ -85,14 +98,35 @@ noticiaControllers.controller('NoticiasCtrl',
                     $scope.$apply();
                     $route.reload();
                 });
-            }
+            };
 
             $scope.editarElemento = function(id) {
                 $location.path("/noticias/editar/" + id);
                 $route.reload();
+            };
+
+            $scope.deAcordoQuery = function(elemento){
+                var count = $scope.results.count;
+                var limit = $scope.query.limitTo;
+                var elementoIndex = getElementPosition(elemento);
+                var offset = $scope.query.offset.number;
+                var reverse = $scope.query.orderby.value == "-data";
+
+                var filtroDatas = filtroEntreDatas(elemento,$scope.query);
+
+                var filtroOffset = ((elementoIndex >= (offset - 1)*limit)&&!reverse)||
+                    ((elementoIndex < count-((offset-1)*limit))&&reverse);
+                return filtroDatas && filtroOffset;
+            };
+
+            var getElementPosition = function(elemento){
+                var elementos = $scope.results.elementos;
+                for (var i=0;i<elementos.length;i++){
+                    if(elemento._id == elementos[i]._id){
+                        return i;
+                    }
+                }
             }
-
-
 
         }]);
 
@@ -109,6 +143,7 @@ noticiaControllers.controller('SecaoNoticiaCtrl',
                 $scope.titulo_secao = noticia.titulo;
                 $scope.data_secao = noticia.data;
                 $scope.texto_secao = htmlCompiler.compile(noticia.texto);
+                $scope.distance_top = noticia.distanceTop;
             });
 
             $scope.mustAppear = function(item){
