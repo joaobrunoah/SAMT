@@ -13,10 +13,10 @@
 		</div>
 	</div>  -->
 
-	<!-- NOTÍCIAS E EVENTOS -->
+	<!-- NOTï¿½CIAS E EVENTOS -->
 	<div class="row">
-		<div class="samt_news" style="
-			background-image:url({{getNoticia().imagemUrl}});">
+		<div class="samt_news">
+            <img class="imagem_samt_news" ng-src="{{getNoticia().imagemUrl}}" style="top:{{1.5*-getNoticia().distanceTop}}%"/>
 			<div class="samt_news_body">
 			<div class="samt_news_abas">
 			<div class="samt_news_aba not-select-text" ng-click="selectAba('noticia')" ng-class="{'active':abaNoticia}">{{texts.noticias}}

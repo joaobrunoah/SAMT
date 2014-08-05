@@ -12,6 +12,8 @@ projetoControllers.controller('ProjetosCtrl',
     ['$scope','$http','$interval','$location','Projeto','AuthenticationService','$route',
         function($scope,$http,$interval,$location,Projeto,AuthenticationService,$route) {
 
+            $scope.appearDialog = false;
+
             $scope.orderby = {};
             $scope.orderby.options = [{name:'A -> Z',value:'nome'},
                 {name:'Z -> A',value:'-nome'}];
@@ -60,19 +62,38 @@ projetoControllers.controller('ProjetosCtrl',
                 return AuthenticationService.isLogged;
             }
 
-            $scope.excluirElemento = function(id){
+            $scope.excluirElemento = function(id) {
                 var objToRemove = {};
                 objToRemove.projetoId = id;
-                Projeto.delete(objToRemove,function(){
-                    $scope.elementos = Projeto.query();
-                    $scope.$apply();
-                    $route.reload();
+                $scope.dialog_title = "Excluir Projeto";
+                $scope.dialog_text = "Tem certeza que deseja excluir este projeto?";
+                $scope.appearDialog = true;
+                $('#dialog-confirm').dialog({
+                    resizable: false,
+                    height:200,
+                    modal: true,
+                    buttons: {
+                        "Excluir": function() {
+                            $( this ).dialog( "close" );
+                            Projeto.delete(objToRemove,function(){
+                                $scope.elementos = Projeto.query();
+                                $route.reload();
+                            });
+                        },
+                        "Cancelar": function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
                 });
-            }
+            };
 
             $scope.editarElemento = function(id) {
                 $location.path("/projetos/editar/" + id);
                 $route.reload();
+            }
+
+            $scope.dialogAppear = function(){
+                return $scope.appearDialog;
             }
 
         }]);

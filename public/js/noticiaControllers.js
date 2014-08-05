@@ -36,6 +36,8 @@ noticiaControllers.controller('NoticiasCtrl',
             $('#query_from').datetimepicker();
             $('#query_to').datetimepicker();
 
+            $scope.appearDialog = false;
+
             $scope.orderby = {};
             $scope.orderby.options = [{name:'Mais Novas',value:'-data'},
                 {name:'Mais Antigas',value:'data'}];
@@ -58,6 +60,7 @@ noticiaControllers.controller('NoticiasCtrl',
 
             $http.get('texts/texts.json').success(function(data) {
                 $scope.titulo_secao = data.noticias;
+                $scope.data_postado = data.data_postado;
             });
 
             $scope.results = Noticia.query(function(){
@@ -90,13 +93,28 @@ noticiaControllers.controller('NoticiasCtrl',
                 return AuthenticationService.isLogged;
             };
 
-            $scope.excluirElemento = function(id){
+            $scope.excluirElemento = function(id) {
                 var objToRemove = {};
                 objToRemove.noticiaId = id;
-                Noticia.delete(objToRemove,function(){
-                    $scope.elementos = Noticia.query();
-                    $scope.$apply();
-                    $route.reload();
+                $scope.dialog_title = "Excluir Notícia";
+                $scope.dialog_text = "Tem certeza que deseja excluir esta notícia?";
+                $scope.appearDialog = true;
+                $('#dialog-confirm').dialog({
+                    resizable: false,
+                    height:200,
+                    modal: true,
+                    buttons: {
+                        "Excluir": function() {
+                            $( this ).dialog( "close" );
+                            Noticia.delete(objToRemove,function(){
+                                $scope.elementos = Noticia.query();
+                                $route.reload();
+                            });
+                        },
+                        "Cancelar": function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
                 });
             };
 
@@ -126,6 +144,10 @@ noticiaControllers.controller('NoticiasCtrl',
                         return i;
                     }
                 }
+            }
+
+            $scope.dialogAppear = function(){
+                return $scope.appearDialog;
             }
 
         }]);

@@ -12,6 +12,8 @@ parceiroControllers.controller('ParceirosCtrl',
     ['$scope','$interval','Parceiro','AuthenticationService','$route','$location',
         function($scope,$interval,Parceiro,AuthenticationService,$route,$location) {
 
+            $scope.appearDialog = false;
+
             $scope.scrollPos = 0; // scroll position of each view
 
             $(window).on('scroll', function() {
@@ -30,7 +32,7 @@ parceiroControllers.controller('ParceirosCtrl',
                 var parceirosTemp = [];
                 var parceirosArrayTemp = [];
                 var iMax = parceiros.length;
-                if (iMax==0){
+                if (iMax==0 && $scope.isLoggedIn()){
                     parceirosTemp.push(adicionarParceiro);
                     parceirosArrayTemp.push(parceirosTemp);
                 } else {
@@ -62,23 +64,40 @@ parceiroControllers.controller('ParceirosCtrl',
 
             $scope.isLoggedIn = function() {
                 return AuthenticationService.isLogged;
-            }
+            };
 
             $scope.excluirParceiro = function(id) {
                 var objToRemove = {};
-                alert(id);
                 objToRemove.parceiroId = id;
-                Parceiro.delete(objToRemove,function(){
-                    $scope.parceiros = Parceiro.query();
-                    $scope.$apply();
-                    $route.reload();
-                    $(window).scrollTop($scope.scrollPos);
+                $scope.dialog_title = "Excluir Parceiro";
+                $scope.dialog_text = "Tem certeza que deseja excluir este parceiro?";
+                $scope.appearDialog = true;
+                $('#dialog-confirm').dialog({
+                    resizable: false,
+                    height:200,
+                    modal: true,
+                    buttons: {
+                        "Excluir": function() {
+                            $( this ).dialog( "close" );
+                            Parceiro.delete(objToRemove,function(){
+                                $scope.parceiros = Parceiro.query();
+                                $route.reload();
+                            });
+                        },
+                        "Cancelar": function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
                 });
-            }
+            };
 
             $scope.editarParceiro = function(id) {
                 $location.path("/parceiros/editar/" + id);
                 $route.reload();
+            }
+
+            $scope.dialogAppear = function(){
+                return $scope.appearDialog;
             }
         }]);
 

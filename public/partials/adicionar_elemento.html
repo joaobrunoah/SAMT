@@ -32,9 +32,29 @@
         </div>
     </div>
 
-	<div class="row">
-		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%;">
-			<form ng-submit="sendInfo()">
+    <div class="row">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%; padding-right: 10%">
+            <div class="subtitulo_site">
+                Agenda
+            </div>
+            <div class="linha_amarela_subtitulo"></div>
+            <label for="bairro">Escreva seu bairro aqui: </label>
+            <input id="bairro" type="text" style="width:50px;" ng-model="filtroAgenda"/>
+            <table>
+                <tr>
+                    <th>Data</th>
+                    <th>Bairro</th>
+                </tr>
+                <tr ng-repeat="curso in info.cursos">
+                    
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%;">
+            <form ng-submit="sendInfo()">
                 <div class="form_parceiro" ng-class="mustAppear('form_parceiro')">
                     <label for="nome">Nome:</label>
                     <input id="nome" name="nome" type="text" ng-model="info.nome"/><br/>
@@ -49,11 +69,11 @@
                     <img id="imagemParceiroEscolhida" style="width:175px; height:175px" ng-src="{{srcimagem}}"/><br/>
                 </div>
 
-				<input type="submit" value="Upload" />
-			</form>
+                <input type="submit" value="Upload" />
+            </form>
 
-		</div>
-	</div>
+        </div>
+    </div>
 	<div class="row">
 		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
 			<div class="fim_conteudo_secao"></div>

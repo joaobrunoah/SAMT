@@ -36,6 +36,8 @@ eventoControllers.controller('EventosCtrl',
             $('#query_from').datetimepicker();
             $('#query_to').datetimepicker();
 
+            $scope.appearDialog = false;
+
             $scope.orderby = {};
             $scope.orderby.options = [{name:'Mais Novas',value:'-data'},
                 {name:'Mais Antigas',value:'data'}];
@@ -90,13 +92,28 @@ eventoControllers.controller('EventosCtrl',
                 return AuthenticationService.isLogged;
             };
 
-            $scope.excluirElemento = function(id){
+            $scope.excluirElemento = function(id) {
                 var objToRemove = {};
                 objToRemove.eventoId = id;
-                Evento.delete(objToRemove,function(){
-                    $scope.elementos = Evento.query();
-                    $scope.$apply();
-                    $route.reload();
+                $scope.dialog_title = "Excluir Evento";
+                $scope.dialog_text = "Tem certeza que deseja excluir este evento?";
+                $scope.appearDialog = true;
+                $('#dialog-confirm').dialog({
+                    resizable: false,
+                    height:200,
+                    modal: true,
+                    buttons: {
+                        "Excluir": function() {
+                            $( this ).dialog( "close" );
+                            Evento.delete(objToRemove,function(){
+                                $scope.elementos = Evento.query();
+                                $route.reload();
+                            });
+                        },
+                        "Cancelar": function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
                 });
             };
 
@@ -126,6 +143,10 @@ eventoControllers.controller('EventosCtrl',
                         return i;
                     }
                 }
+            }
+
+            $scope.dialogAppear = function(){
+                return $scope.appearDialog;
             }
 
         }]);

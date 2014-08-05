@@ -41,6 +41,9 @@
                         </div>
                     </div>
                     <div class="resumo_elemento">
+                        <div ng-if="tipo_elemento == 'Notícias'">
+                            <b>{{data_postado}} {{elemento.data | date: 'HH:mm'}} de {{elemento.data | date : 'dd/MM/yyyy'}}</b>
+                        </div>
                         {{elemento.resumo}}
                         <div class="leia_mais_elemento">
                             <a href="#/{{tipo_url}}/{{elemento._id}}">Leia Mais <img class="flecha-dupla"
@@ -57,5 +60,9 @@
             </div>
 
         </div>
+    </div>
+
+    <div class="confirmDialog" id="dialog-confirm" title="{{dialog_title}}" ng-class="{appear:dialogAppear()}">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{{dialog_text}}</p>
     </div>
 </div>
