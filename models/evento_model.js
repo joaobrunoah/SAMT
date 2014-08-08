@@ -9,7 +9,11 @@ var EventoSchema = new mongoose.Schema({
     texto: { type: String, required: true},
     local: { type: String, required: true},
     data: { type: Date, required: true},
-    distanceTop: {type:Number, required: false}
+    distanceTop: {type:Number, required: false},
+    fotos: [{
+        nome: {type:String,required:false},
+        imagemUrl: {type:String,required:false}
+    }]
 });
 
 module.exports = mongoose.model('Evento', EventoSchema);

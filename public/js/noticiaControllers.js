@@ -153,8 +153,8 @@ noticiaControllers.controller('NoticiasCtrl',
         }]);
 
 noticiaControllers.controller('SecaoNoticiaCtrl',
-    ['$scope', '$http', '$routeParams', 'Noticia','htmlCompiler',
-        function($scope, $http, $routeParams, Noticia,htmlCompiler) {
+    ['$scope', '$http', '$routeParams', 'Noticia','htmlCompiler','galeriaFotos',
+        function($scope, $http, $routeParams, Noticia,htmlCompiler,galeriaFotos) {
 
             $http.get('texts/texts.json').success(function(data) {
                 $scope.texts = data;
@@ -166,6 +166,11 @@ noticiaControllers.controller('SecaoNoticiaCtrl',
                 $scope.data_secao = noticia.data;
                 $scope.texto_secao = htmlCompiler.compile(noticia.texto);
                 $scope.distance_top = noticia.distanceTop;
+                $scope.galeria_fotos = projeto.fotos;
+                if($scope.galeria_fotos == undefined){
+                    $scope.galeria_fotos = [];
+                }
+                $scope.galeria_fotos = galeriaFotos.transformarMatriz($scope.galeria_fotos);
             });
 
             $scope.mustAppear = function(item){
@@ -177,8 +182,8 @@ noticiaControllers.controller('SecaoNoticiaCtrl',
         }]);
 
 noticiaControllers.controller('AdicionarNoticiaCtrl',
-    ['$scope','$http','$window','elementUpload','htmlCompiler',
-        function($scope,$http,$window,elementUpload,htmlCompiler) {
+    ['$scope','$http','$location','$window','elementUpload','htmlCompiler',
+        function($scope,$http,$location,$window,elementUpload,htmlCompiler) {
 
             $scope.mustAppear = function(item){
                 if(item == 'texto'|| item == 'fotos'|| item == 'data' || item=='preview'||item=='form_noticia'){
@@ -220,8 +225,8 @@ noticiaControllers.controller('AdicionarNoticiaCtrl',
         }]);
 
 noticiaControllers.controller('EditarNoticiaCtrl',
-    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Noticia','htmlCompiler',
-        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Noticia,htmlCompiler) {
+    ['$scope','$http','$location','$route','$routeParams','elementUpload','Noticia','htmlCompiler','galeriaFotos','AuthenticationService',
+        function($scope,$http,$location,$route,$routeParams,elementUpload,Noticia,htmlCompiler,galeriaFotos,AuthenticationService) {
 
             var noticiaId = $routeParams.noticiaId;
 
@@ -246,18 +251,40 @@ noticiaControllers.controller('EditarNoticiaCtrl',
                 });
             });
 
-            $scope.token = $window.localStorage.samtToken;
-
             $scope.sendInfo = function() {
                 $scope.info.image = $scope.info.image_elemento;
+
+                $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
+                $scope.info.fotos = galeriaFotos.tratarNomeArquivos($scope.info.fotos,'noticias',projetoId);
                 elementUpload.updateElement($scope.info,'/api/noticias/'+noticiaId).success(
                     function() {
-                        alert("Conteúdo Enviado com Sucesso");
-                        $location.path("/noticias");
-                        $route.reload();
-                    }
-                );
+                        $http.put('/api/noticias/inserirarrays/'+noticiaId,{fotos:$scope.info.fotos}).success(
+                            function(){
+                                alert("Conteúdo Enviado com Sucesso");
+                                $location.path("/noticias");
+                                $route.reload();
+                            });
+                    });
 
+            };
+
+            $scope.addFoto = function(){
+                $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
+                $scope.info.fotos.push({imagemUrl:'',nome:''});
+                $scope.info.fotosMatriz = galeriaFotos.transformarMatriz($scope.info.fotos);
+            };
+
+            $scope.postImage = function(elemento){
+                var image = elemento.files[0];
+                elementUpload.uploadFoto(image,'projetos',projetoId);
+            }
+
+            $scope.isLoggedIn = function() {
+                return AuthenticationService.isLogged;
+            }
+
+            $scope.deleteFoto = function(foto){
+                elementUpload.deleteFoto(foto,'projetos',projetoId).success(function(){$route.reload();});
             }
 
         }]);

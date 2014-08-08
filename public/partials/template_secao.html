@@ -1,63 +1,170 @@
 <div class="container-fluid">
-	<div class="row">
-		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
+    <div class="row">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
             <div class="imagem_secao" style="background-color: #FFFFFF">
                 <img ng-src="{{imagem_secao}}" class="imagem_secao_escolhida" style="top:{{-distance_top}}%"/>
             </div>
-			<div class="titulo_secao">{{titulo_secao}}</div>
-			<div class="conteudo_secao">
-				<div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{data_secao | date: 'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}</div>
-				<div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
-				<div class="informacoes_evento_secao" ng-class="mustAppear('info')">
-				<p class="informacoes">{{texts.informacoes}}:</p>
-				<p class="local_data">Local:</p>
-				<p class="conteudo">{{local_secao}}</p>
-				<p class="local_data">Data:</p>
-				<p class="conteudo">{{data_secao | date: 'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}</p>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="titulo_secao">{{titulo_secao}}</div>
+            <div class="conteudo_secao">
+                <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{data_secao | date:
+                    'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}
+                </div>
+                <div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="texto_secao"></div>
+                <div class="informacoes_evento_secao" ng-class="mustAppear('info')">
+                    <p class="informacoes">{{texts.informacoes}}:</p>
+
+                    <p class="local_data">Local:</p>
+
+                    <p class="conteudo">{{local_secao}}</p>
+
+                    <p class="local_data">Data:</p>
+
+                    <p class="conteudo">{{data_secao | date: 'HH:mm'}} de {{data_secao | date : 'dd/MM/yyyy'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row agenda_secao" ng-class="mustAppear('agenda')">
-        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px;">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+             style="background-color: #FFFFFF; padding-top:130px;">
             <div class="subtitulo_site">
                 Agenda
             </div>
             <div class="linha_amarela_subtitulo"></div>
-            <label for="bairro">Escreva seu bairro aqui: </label>
-            <input id="bairro" type="text" style="width:150px;" ng-model="filtroAgenda"/>
-            <table>
-                <tr>
-                    <th>Data</th>
-                    <th>Bairro</th>
-                </tr>
-                <tr ng-repeat="curso in cursos_secao | filter:{bairro:filtroAgenda} | filter:passouData | orderBy:'data'">
-                    <td>{{curso.data | date: 'HH:mm'}} de {{curso.data | date : 'dd/MM/yyyy'}}</td>
-                    <td>{{curso.bairro}}</td>
-                </tr>
-            </table>
+            <div class="agenda_search">
+                <label for="bairro">Escreva seu bairro aqui: </label>
+                <input id="bairro" type="text" style="width:150px;" ng-model="filtroAgenda"/>
+            </div>
+            <div class="agenda_table_container">
+                <table class="agenda_table">
+                    <tr>
+                        <th>Bairro</th>
+                        <th>Local</th>
+                        <th>Data</th>
+                    </tr>
+                    <tr>
+                        <td class="agenda_table_space">
+                        </td>
+                        <td class="agenda_table_space">
+                        </td>
+                        <td class="agenda_table_space">
+                        </td>
+                    </tr>
+                    <tr ng-repeat="curso in cursos_secao | filter:{bairro:filtroAgenda} | filter:passouData | orderBy:'data'">
+                        <td>{{curso.bairro}}</td>
+                        <td>{{curso.local}}</td>
+                        <td>{{curso.data | date: 'HH:mm'}} de {{curso.data | date : 'dd/MM/yyyy'}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
-	<div class="galeria_fotos_secao row" ng-class="mustAppear('fotos')">
-        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px;">
-            <div class="subtitulo_site">
-                Galeria de Fotos
+    <div class="galeria_fotos_secao" ng-class="mustAppear('fotos')">
+        <div class="row">
+            <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+                 style="background-color: #FFFFFF; padding-top:130px;">
+                <div class="subtitulo_site">
+                    Galeria de Fotos
+                </div>
+                <div class="linha_amarela_subtitulo"></div>
             </div>
-            <div class="linha_amarela_subtitulo"></div>
         </div>
-		<div class="galeria_fotos_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>
-		<div class="galeria_fotos_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>
-		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_1.jpg"/></div>
-		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_2.jpg"/></div>
-		<div class="div_foto_galeria col-lg-2 col-md-3 col-sm-4 col-xs-4"><img class="foto_galeria" src="img/projetos/projeto_3.jpg"/></div>
-		<div class="galeria_fotos_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
-		<div class="galeria_fotos_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>
-	</div>
-	<div class="row">
-		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
-			<div class="fim_conteudo_secao"></div>
-		</div>
-	</div>
+
+        <div ng-repeat="fotosLinha in galeria_fotos">
+            <div class="row">
+                <div class="div_parceiro_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>
+                <div class="div_parceiro_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>
+
+                <div ng-repeat="foto in fotosLinha">
+                    <div class="div_foto col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                        <img class="foto_elemento" ng-src="{{foto.imagemUrl}}"/>
+                        <div class="nome_foto_elemento">{{foto.nome}}</div>
+                    </div>
+
+                    <div ng-if="$index%3==2">
+                        <div
+                                class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+                        <div
+                                class="div_parceiro_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>
+                    </div>
+                    <div ng-if="$index%3==0 && $last">
+                        <div
+                                class="div_parceiro_lateral col-md-5 hidden-lg hidden-sm hidden-xs"></div>
+                        <div
+                                class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+                        <div
+                                class="div_parceiro_lateral col-lg-5 hidden-md hidden-sm hidden-xs"></div>
+                        <div
+                                class="div_parceiro_lateral col-sm-8 col-xs-8 hidden-lg hidden-md"></div>
+                    </div>
+                    <div ng-if="$index%3==1 && $last">
+                        <div
+                                class="div_parceiro_lateral col-md-3 hidden-lg hidden-sm hidden-xs"></div>
+                        <div
+                                class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+                        <div
+                                class="div_parceiro_lateral col-lg-3 hidden-md hidden-sm hidden-xs"></div>
+                        <div
+                                class="div_parceiro_lateral col-sm-4 col-xs-4 hidden-lg hidden-md"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--<div class="inserir_produtos" ng-repeat="fotosLinha in galeria_fotos" ng-class="inserirProdutos()">-->
+            <!--<div class="row">-->
+                <!--<div class="div_parceiro_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>-->
+                <!--<div class="div_parceiro_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>-->
+
+                <!--<div ng-repeat="foto in fotosLinha">-->
+                    <!--<div class="div_foto col-lg-2 col-md-3 col-sm-4 col-xs-4">-->
+                        <!--<img class="foto_elemento" ng-src="{{foto.imagemUrl}}"/>-->
+                        <!--<div class="nome_foto_elemento"><input type="text" ng-model="foto.nome"></div>-->
+                        <!--<div class="botaoExcluirFoto" ng-class="{appear:isLoggedIn()}" ng-click="deleteFoto(foto)">-->
+                            <!--Excluir<img src="img/site/excluir.svg"/>-->
+                        <!--</div>-->
+                        <!--<input ng-if="foto.imagemUrl==''" type="file" file-model="foto.imagem_elemento"-->
+                               <!--fileread="foto.imagemUrl" class="image_selector"-->
+                               <!--onchange="angular.element(this).scope().postImage(this)"/>-->
+                    <!--</div>-->
+
+                    <!--<div ng-if="$index%3==2">-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>-->
+                    <!--</div>-->
+                    <!--<div ng-if="$index%3==0 && $last">-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-md-5 hidden-lg hidden-sm hidden-xs"></div>-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-lg-5 hidden-md hidden-sm hidden-xs"></div>-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-sm-8 col-xs-8 hidden-lg hidden-md"></div>-->
+                    <!--</div>-->
+                    <!--<div ng-if="$index%3==1 && $last">-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-md-3 hidden-lg hidden-sm hidden-xs"></div>-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-lg-3 hidden-md hidden-sm hidden-xs"></div>-->
+                        <!--<div-->
+                                <!--class="div_parceiro_lateral col-sm-4 col-xs-4 hidden-lg hidden-md"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    <div class="row">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
+            <div class="fim_conteudo_secao"></div>
+        </div>
+    </div>
 </div>

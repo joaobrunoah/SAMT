@@ -8,7 +8,11 @@ var NoticiaSchema = new mongoose.Schema({
 	resumo: { type: String, required: true},
 	texto: { type: String, required: true},
 	data: { type: Date, required: true},
-    distanceTop: {type:Number, required: false}
+    distanceTop: {type:Number, required: false},
+    fotos: [{
+        nome: {type:String,required:false},
+        imagemUrl: {type:String,required:false}
+    }]
 });
 
 module.exports = mongoose.model('Noticia', NoticiaSchema);

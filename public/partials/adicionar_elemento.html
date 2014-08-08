@@ -3,15 +3,20 @@
         <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
             <div class="imagem_secao" style="background-color: #FFFFFF">
                 <img ng-src="{{srcimagem_elemento}}" class="imagem_secao_escolhida" style="top:{{-info.distanceTop}}%"/>
-                <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento" fileread="srcimagem_elemento" class="image_selector"/>
+                <input id="imagemElemento" name="imagemElemento" type="file" file-model="info.image_elemento"
+                       fileread="srcimagem_elemento" class="image_selector"/>
             </div>
-            <div class="titulo_secao"><input name="titulo" type="text" ng-model="info.titulo" style="width: 100%;"/></div>
+            <div class="titulo_secao"><input name="titulo" type="text" ng-model="info.titulo" style="width: 100%;"/>
+            </div>
             <div class="alinhar_imagem_container">
                 <label for="distancetop">Alinhar imagem: </label>
-                <input id="distancetop" name="distancetop" type="number" min="0" max="10000" ng-model="info.distanceTop"/>
+                <input id="distancetop" name="distancetop" type="number" min="0" max="10000"
+                       ng-model="info.distanceTop"/>
             </div>
             <div class="conteudo_secao">
-                <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{dataAtual | date: 'HH:mm'}} de {{dataAtual | date : 'dd/MM/yyyy'}}</div>
+                <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{dataAtual | date:
+                    'HH:mm'}} de {{dataAtual | date : 'dd/MM/yyyy'}}
+                </div>
                 <div class="input_secao">
                     <label for="texto">Texto:</label><br/>
                     <textarea id="texto" name="texto" type="text" rows="10" cols="100" ng-model="info.texto"></textarea>
@@ -19,43 +24,140 @@
                 <div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="info.texto_html"></div>
                 <div class="informacoes_evento_secao" ng-class="mustAppear('info')">
                     <p class="informacoes">{{texts.informacoes}}:</p>
+
                     <p class="local_data">Local:</p>
+
                     <p class="conteudo"><input id="local" name="local" type="text" ng-model="info.local"/></p>
+
                     <p class="local_data">Data:</p>
-                    <p class="conteudo"><input id="data" name="data" type="text" ng-model="info.data"/><!--TODO DATE PICKER!--></p>
+
+                    <p class="conteudo"><input id="data" name="data" type="text" ng-model="info.data"/><!--TODO DATE PICKER!-->
+                    </p>
                 </div>
                 <div class="input_secao">
                     <label for="resumo">Resumo:</label><br/>
-                    <textarea id="resumo" name="resumo" type="text" rows="4" cols="60" ng-model="info.resumo"></textarea>
+                    <textarea id="resumo" name="resumo" type="text" rows="4" cols="60"
+                              ng-model="info.resumo"></textarea>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row agenda_secao" ng-class="mustAppear('agenda')">
-        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px;">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+             style="background-color: #FFFFFF; padding-top:130px;">
             <div class="subtitulo_site">
                 Agenda
             </div>
             <div class="linha_amarela_subtitulo"></div>
-            <label for="bairro">Escreva seu bairro aqui: </label>
-            <input id="bairro" type="text" style="width:150px;" ng-model="filtroAgenda"/>
-            <button ng-click="inserirCurso()">Inserir Novo Curso</button>
-            <table>
-                <tr>
-                    <th>Data</th>
-                    <th>Bairro</th>
-                </tr>
-                <tr ng-repeat="curso in info.cursos">
-                    <td><input type="text" class="curso_data" ng-model="curso.data"></td>
-                    <td><input type="text" ng-model="curso.bairro"></td>
-                </tr>
-            </table>
+            <div class="agenda_search">
+                <label for="bairro">Escreva seu bairro aqui: </label>
+                <input id="bairro" type="text" style="width:150px;" ng-model="filtroAgenda"/>
+                <button ng-click="inserirCurso()">Inserir Novo Curso</button>
+                <br/>
+
+                <div style="color:#FF0000">
+                    1) Não é necessário ordenar os cursos por data. Eles serão ordenados automaticamente!<br/>
+                    2) Cursos com datas ultrapassadas serão eliminados pelo servidor. Não é necessário removê-los.
+                </div>
+            </div>
+            <div class="agenda_table_container">
+                <table class="agenda_table">
+                    <tr>
+                        <th>Bairro</th>
+                        <th>Local</th>
+                        <th>Data</th>
+                    </tr>
+                    <tr>
+                        <td class="agenda_table_space">
+                        </td>
+                        <td class="agenda_table_space">
+                        </td>
+                        <td class="agenda_table_space">
+                        </td>
+                    </tr>
+                    <tr ng-repeat="curso in info.cursos">
+                        <td><input type="text" ng-model="curso.bairro"></td>
+                        <td><input type="text" ng-model="curso.local"></td>
+                        <td><input type="text" class="curso_data" ng-model="curso.data"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1" style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%;">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+             style="background-color: #FFFFFF; padding-top:130px;">
+            <div class="subtitulo_site">
+                Galeria de Fotos
+            </div>
+            <div class="linha_amarela_subtitulo"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+             style="background-color: #FFFFFF;">
+            <div class="botao_galeria">
+                <button ng-click="addFoto()">Adicionar Foto à Galeria</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-repeat="fotosLinha in info.fotosMatriz">
+        <div class="row">
+            <div class="div_parceiro_lateral col-lg-1 col-lg-offset-2 hidden-md hidden-sm hidden-xs"></div>
+            <div class="div_parceiro_lateral col-md-meio col-md-offset-1 hidden-lg hidden-sm hidden-xs"></div>
+
+            <div ng-repeat="foto in fotosLinha">
+                <div class="div_foto col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                    <img class="foto_elemento" ng-src="{{foto.imagemUrl}}"/>
+                    <div class="nome_foto_elemento"><input type="text" ng-model="foto.nome"></div>
+                    <div class="botaoExcluirFoto" ng-class="{appear:isLoggedIn()}" ng-click="deleteFoto(foto)">
+                        Excluir<img src="img/site/excluir.svg"/>
+                    </div>
+                    <input ng-if="foto.imagemUrl==''" type="file" file-model="foto.imagem_elemento"
+                           fileread="foto.imagemUrl" class="image_selector"
+                           onchange="angular.element(this).scope().postImage(this)"/>
+                </div>
+
+                <div ng-if="$index%3==2">
+                    <div
+                            class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+                    <div
+                            class="div_parceiro_lateral col-lg-1 hidden-md hidden-sm hidden-xs"></div>
+                </div>
+                <div ng-if="$index%3==0 && $last">
+                    <div
+                            class="div_parceiro_lateral col-md-5 hidden-lg hidden-sm hidden-xs"></div>
+                    <div
+                            class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+                    <div
+                            class="div_parceiro_lateral col-lg-5 hidden-md hidden-sm hidden-xs"></div>
+                    <div
+                            class="div_parceiro_lateral col-sm-8 col-xs-8 hidden-lg hidden-md"></div>
+                </div>
+                <div ng-if="$index%3==1 && $last">
+                    <div
+                            class="div_parceiro_lateral col-md-3 hidden-lg hidden-sm hidden-xs"></div>
+                    <div
+                            class="div_parceiro_lateral col-md-meio hidden-lg hidden-sm hidden-xs"></div>
+                    <div
+                            class="div_parceiro_lateral col-lg-3 hidden-md hidden-sm hidden-xs"></div>
+                    <div
+                            class="div_parceiro_lateral col-sm-4 col-xs-4 hidden-lg hidden-md"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+             style="background-color: #FFFFFF; padding-top:130px; padding-left: 10%;">
             <form ng-submit="sendInfo()">
                 <div class="form_parceiro" ng-class="mustAppear('form_parceiro')">
                     <label for="nome">Nome:</label>
@@ -65,20 +167,21 @@
                     <input id="url" name="url" type="text" ng-model="info.url"/><br/>
 
                     <label for="imagemparceiro">Imagem do Parceiro:</label>
-                    <input id="imagemparceiro" name="imagemparceiro" type="file" file-model="info.image" fileread="srcimagem"/><br/>
+                    <input id="imagemparceiro" name="imagemparceiro" type="file" file-model="info.image"
+                           fileread="srcimagem"/><br/>
 
                     <label for="imagemParceiroEscolhida">Imagem escolhida:</label>
                     <img id="imagemParceiroEscolhida" style="width:175px; height:175px" ng-src="{{srcimagem}}"/><br/>
                 </div>
 
-                <input type="submit" value="Upload" />
+                <input type="submit" value="Upload"/>
             </form>
 
         </div>
     </div>
-	<div class="row">
-		<div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
-			<div class="fim_conteudo_secao"></div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">
+            <div class="fim_conteudo_secao"></div>
+        </div>
+    </div>
 </div>

@@ -60,7 +60,7 @@ projetoControllers.controller('ProjetosCtrl',
 
             $scope.isLoggedIn = function() {
                 return AuthenticationService.isLogged;
-            }
+            };
 
             $scope.excluirElemento = function(id) {
                 var objToRemove = {};
@@ -99,8 +99,8 @@ projetoControllers.controller('ProjetosCtrl',
         }]);
 
 projetoControllers.controller('SecaoProjetoCtrl',
-    ['$scope', '$http','$routeParams', 'Projeto','htmlCompiler',
-        function($scope,$http, $routeParams, Projeto,htmlCompiler) {
+    ['$scope', '$http','$routeParams', 'Projeto','htmlCompiler','galeriaFotos',
+        function($scope,$http, $routeParams, Projeto,htmlCompiler,galeriaFotos) {
             $http.get('texts/texts.json').success(function(data) {
                 $scope.texts = data;
             });
@@ -111,6 +111,11 @@ projetoControllers.controller('SecaoProjetoCtrl',
                 $scope.texto_secao = htmlCompiler.compile(projeto.texto);
                 $scope.distance_top = projeto.distanceTop;
                 $scope.cursos_secao = projeto.cursos;
+                $scope.galeria_fotos = projeto.fotos;
+                if($scope.galeria_fotos == undefined){
+                    $scope.galeria_fotos = [];
+                }
+                $scope.galeria_fotos = galeriaFotos.transformarMatriz($scope.galeria_fotos);
             });
 
             $scope.mustAppear = function(item){
@@ -173,8 +178,8 @@ projetoControllers.controller('AdicionarProjetoCtrl',
         }]);
 
 projetoControllers.controller('EditarProjetoCtrl',
-    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Projeto','htmlCompiler','$interval',
-        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Projeto,htmlCompiler,$interval) {
+    ['$scope','$http','$location','$route','$routeParams','elementUpload','Projeto','htmlCompiler','$interval','galeriaFotos','AuthenticationService',
+        function($scope,$http,$location,$route,$routeParams,elementUpload,Projeto,htmlCompiler,$interval,galeriaFotos,AuthenticationService) {
 
             var projetoId = $routeParams.projetoId;
 
@@ -205,16 +210,21 @@ projetoControllers.controller('EditarProjetoCtrl',
                 if($scope.info.cursos == undefined){
                     $scope.info.cursos = [];
                 }
+                $scope.info.fotos = projeto.fotos;
+                if($scope.info.fotos == undefined){
+                    $scope.info.fotos = [];
+                }
+                $scope.info.fotosMatriz = galeriaFotos.transformarMatriz($scope.info.fotos);
             });
-
-            $scope.token = $window.localStorage.samtToken;
 
             $scope.sendInfo = function() {
                 $scope.info.image = $scope.info.image_elemento;
                 $scope.info.nome = $scope.info.titulo;
+                $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
+                $scope.info.fotos = galeriaFotos.tratarNomeArquivos($scope.info.fotos,'projetos',projetoId);
                 elementUpload.updateElement($scope.info,'/api/projetos/'+projetoId).success(
                     function() {
-                        $http.put('/api/projetos/inserircursos/'+projetoId,{cursos:$scope.info.cursos}).success(
+                        $http.put('/api/projetos/inserirarrays/'+projetoId,{cursos:$scope.info.cursos,fotos:$scope.info.fotos}).success(
                             function(){
                                 alert("Conteúdo Enviado com Sucesso");
                                 $location.path("/projetos");
@@ -224,11 +234,35 @@ projetoControllers.controller('EditarProjetoCtrl',
             };
 
             $scope.inserirCurso = function(){
-                $scope.info.cursos.push({data:'',bairro:''});
+                $scope.info.cursos.push({data:'',bairro:'',local:''});
                 $interval(function(){
                     $('.curso_data').datetimepicker();
                 },100,5);
-
             };
+
+            $scope.addFoto = function(){
+                $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
+                $scope.info.fotos.push({imagemUrl:'',nome:''});
+                $scope.info.fotosMatriz = galeriaFotos.transformarMatriz($scope.info.fotos);
+            };
+
+            $scope.postImage = function(elemento){
+                var image = elemento.files[0];
+
+                elementUpload.uploadFoto(image,'projetos',projetoId);
+            }
+
+            $scope.isLoggedIn = function() {
+                return AuthenticationService.isLogged;
+            }
+
+            $scope.deleteFoto = function(foto){
+                var index = $scope.info.fotos.indexOf(foto);
+                $scope.info.fotos.splice(index,1);
+                $scope.info.fotosMatriz = galeriaFotos.transformarMatriz($scope.info.fotos);
+                var nomeFoto = galeriaFotos.getNomeFoto(foto);
+
+                elementUpload.deleteFoto(nomeFoto,'projetos',projetoId);
+            }
 
         }]);

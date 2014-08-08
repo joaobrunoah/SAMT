@@ -152,8 +152,8 @@ eventoControllers.controller('EventosCtrl',
         }]);
 
 eventoControllers.controller('SecaoEventoCtrl',
-    ['$scope', '$http', '$routeParams', 'Evento','htmlCompiler',
-        function($scope, $http, $routeParams, Evento,htmlCompiler) {
+    ['$scope', '$http', '$routeParams', 'Evento','htmlCompiler','galeriaFotos',
+        function($scope, $http, $routeParams, Evento,htmlCompiler,galeriaFotos) {
 
             $http.get('texts/texts.json').success(function(data) {
                 $scope.texts = data;
@@ -166,6 +166,11 @@ eventoControllers.controller('SecaoEventoCtrl',
                 $scope.local_secao = evento.local;
                 $scope.data_secao = evento.data;
                 $scope.distance_top = evento.distanceTop;
+                $scope.galeria_fotos = projeto.fotos;
+                if($scope.galeria_fotos == undefined){
+                    $scope.galeria_fotos = [];
+                }
+                $scope.galeria_fotos = galeriaFotos.transformarMatriz($scope.galeria_fotos);
             });
 
             $scope.mustAppear = function(item){
@@ -177,8 +182,8 @@ eventoControllers.controller('SecaoEventoCtrl',
         }]);
 
 eventoControllers.controller('AdicionarEventoCtrl',
-    ['$scope','$http','$window','elementUpload','htmlCompiler',
-        function($scope,$http,$window,elementUpload,htmlCompiler) {
+    ['$scope','$http','$window','elementUpload','htmlCompiler','$location',
+        function($scope,$http,$window,elementUpload,htmlCompiler,$location) {
 
             $('#data').datetimepicker();
 
@@ -221,8 +226,8 @@ eventoControllers.controller('AdicionarEventoCtrl',
         }]);
 
 projetoControllers.controller('EditarEventoCtrl',
-    ['$scope','$http','$window','$location','$route','$routeParams','elementUpload','Evento','htmlCompiler',
-        function($scope,$http,$window,$location,$route,$routeParams,elementUpload,Evento,htmlCompiler) {
+    ['$scope','$http','$location','$route','$routeParams','elementUpload','Evento','htmlCompiler','galeriaFotos','AuthenticationService',
+        function($scope,$http,$location,$route,$routeParams,elementUpload,Evento,htmlCompiler,galeriaFotos,AuthenticationService) {
 
             $('#data').datetimepicker();
 
@@ -248,17 +253,40 @@ projetoControllers.controller('EditarEventoCtrl',
                 });
             });
 
-            $scope.token = $window.localStorage.samtToken;
-
             $scope.sendInfo = function() {
                 $scope.info.image = $scope.info.image_elemento;
+
+                $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
+                $scope.info.fotos = galeriaFotos.tratarNomeArquivos($scope.info.fotos,'eventos',projetoId);
                 elementUpload.updateElement($scope.info,'/api/eventos/'+eventoId).success(
                     function() {
-                        alert("Conteúdo Enviado com Sucesso");
-                        $location.path("/eventos");
-                        $route.reload();
-                    }
-                );
+                        $http.put('/api/eventos/inserirarrays/'+eventoId,{fotos:$scope.info.fotos}).success(
+                            function(){
+                                alert("Conteúdo Enviado com Sucesso");
+                                $location.path("/eventos");
+                                $route.reload();
+                            });
+                    });
+
+            };
+
+            $scope.addFoto = function(){
+                $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
+                $scope.info.fotos.push({imagemUrl:'',nome:''});
+                $scope.info.fotosMatriz = galeriaFotos.transformarMatriz($scope.info.fotos);
+            };
+
+            $scope.postImage = function(elemento){
+                var image = elemento.files[0];
+                elementUpload.uploadFoto(image,'projetos',projetoId);
+            };
+
+            $scope.isLoggedIn = function() {
+                return AuthenticationService.isLogged;
+            }
+
+            $scope.deleteFoto = function(foto){
+                elementUpload.deleteFoto(foto,'projetos',projetoId).success(function(){$route.reload();});
             }
 
         }]);

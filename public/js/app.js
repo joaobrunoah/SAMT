@@ -95,6 +95,10 @@ samtApp.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'partials/template_secao.html',
             controller: 'ContatoCtrl'
         }).
+        when('/loja', {
+            templateUrl: 'partials/template_secao.html',
+            controller: 'LojaCtrl'
+        }).
         when('/administrador', {
             templateUrl: 'partials/administrador.html',
             controller: 'AdminCtrl'

@@ -38,13 +38,13 @@ samtServices.factory('Noticia',
 		}]);
 
 samtServices.factory('Evento',
-		['$resource',
-		 function($resource){
-			return $resource('/api/eventos/:eventoId', {}, {
+    ['$resource',
+        function($resource){
+            return $resource('/api/eventos/:eventoId', {}, {
                 query: {method:'GET',isArray:false},
-				get: {method:'GET', params:{eventoId:'eventoId'}, isArray:false}
-			});
-		}]);
+                get: {method:'GET', params:{eventoId:'eventoId'}, isArray:false}
+            });
+        }]);
 
 samtServices.factory('UserService', function($http) {
     return {
@@ -103,13 +103,86 @@ samtServices.service('elementUpload',['$http',function($http){
             transformRequest:angular.identity,
             headers:{'Content-Type': undefined}
         });
+    };
+
+    this.uploadFoto = function(image,tipo,id){
+        var formData = new FormData();
+        formData.append('image',image);
+        return $http.post('/api/'+tipo+'/imagem/'+id,formData,{
+            transformRequest:angular.identity,
+            headers:{'Content-Type':undefined}
+        });
+    }
+
+    this.deleteFoto = function(nomeFoto,tipo,id){
+        return $http.delete('/api/'+tipo+'/imagem/'+id+"/"+nomeFoto);
     }
 }]);
 
 samtServices.service('htmlCompiler',['$sce',function($sce){
     this.compile = function(text){
         text = text.replace(/\n/g,"<br/>");
-        var html = $sce.trustAsHtml(text);
-        return html;
+        return $sce.trustAsHtml(text);
     };
 }]);
+
+samtServices.service('galeriaFotos',['$http',
+    function($http){
+
+        this.gerarUrlImagem = function(foto,tipo,id){
+            if(foto.imagem_elemento != undefined){
+                foto.imagemUrl = 'img/'+tipo+'/'+id+'/'+foto.imagem_elemento.name;
+            }
+            return foto.imagemUrl;
+        };
+
+        this.getNomeFoto = function(foto){
+            if(foto.imagem_elemento != undefined){
+                return foto.imagem_elemento.name;
+            }
+            return foto.imagemUrl.substring(foto.imagemUrl.lastIndexOf('/')+1,foto.imagemUrl.length);
+        };
+
+        this.tratarNomeArquivos = function(fotos,tipo,id){
+            var novoFotos = [];
+
+            for(var i = 0;i<fotos.length;i++){
+                var foto = {};
+                foto.nome = fotos[i].nome;
+                foto.imagemUrl = this.gerarUrlImagem(fotos[i],tipo,id);
+
+                novoFotos.push(foto);
+            }
+            return novoFotos;
+        };
+
+        this.transformarMatriz = function(elementos){
+            var array = [];
+            var subarray = [];
+            for (var i = 0;i<elementos.length;i++){
+                subarray.push(elementos[i]);
+                if(subarray.length>=3){
+                    array.push(subarray);
+                    subarray = [];
+                }
+            }
+            if(subarray.length>0){
+                array.push(subarray);
+            }
+
+            return array;
+        };
+
+        this.transformarArray = function(matriz){
+            var array = [];
+            var linha = [];
+            for(var i = 0; i<matriz.length;i++){
+                linha = matriz[i];
+                for(var j = 0;j<linha.length;j++){
+                    array.push(linha[j]);
+                }
+            }
+
+            return array;
+        };
+    }]);

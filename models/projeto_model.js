@@ -10,7 +10,12 @@ var ProjetoSchema = new mongoose.Schema({
     distanceTop: {type:Number, required: false},
     cursos: [{
         data: {type:Date, required: false},
-        bairro: {type:String, required: false}
+        bairro: {type:String, required: false},
+        local: {type:String, required: false}
+    }],
+    fotos: [{
+        nome: {type:String,required:false},
+        imagemUrl: {type:String,required:false}
     }]
 });
 

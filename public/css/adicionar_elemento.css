@@ -61,3 +61,33 @@
 .alinhar_imagem_container{
     background-color:#FFFFFF;
 }
+
+.botao_galeria {
+    padding: 30px 10%;
+    font-size:11pt;
+}
+
+.botaoExcluirFoto {
+    background-color: #FFF100;
+    color: #000000;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-right: 15px;
+    text-align: center;
+    display:none;
+    padding:5px;
+    cursor: pointer;
+}
+
+.botaoExcluirFoto.appear {
+    display:block;
+}
+
+.botaoExcluirFoto > img {
+    width:17px;
+    height:17px;
+    position:relative;
+    bottom:1px;
+    padding-left: 3px;
+}

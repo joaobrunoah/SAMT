@@ -64,10 +64,18 @@ samtControllers.controller('InicioCtrl',
             $scope.projetos = Projeto.query();
             $scope.ordenarPor = '-data';
 
-            $interval(function(){
+            var initialize = $interval(function(){
                 var menorRand = 1;
                 var selectedProject = 0;
-                $scope.activeNoticia=$scope.noticias[0]._id;
+                var noticiaMaisNovaData = 0;
+                for (var i = 0; i<$scope.noticias.length; i++){
+                    var dataElemento = new Date($scope.noticias[i].data);
+                    if(dataElemento > noticiaMaisNovaData){
+                        //alert(_id)
+                        noticiaMaisNovaData = dataElemento;
+                        $scope.activeNoticia = $scope.noticias[i]._id;
+                    }
+                }
                 for (var i = 0; i<$scope.projetos.length; i++){
                     $scope.projetos[i].random = Math.random();
                     if($scope.projetos[i].random<menorRand){
@@ -76,7 +84,8 @@ samtControllers.controller('InicioCtrl',
                     }
                 }
                 $scope.activeProjeto=$scope.projetos[selectedProject]._id;
-            },2000,1);
+                $interval.cancel(initialize);
+            },100,20);
 
             /* FUNCOES DE NOTICIA */
 
@@ -338,3 +347,44 @@ samtControllers.controller('ContatoCtrl',
                 return AuthenticationService.isLogged;
             }
         }]);
+
+//samtControllers.controller('LojaCtrl',
+//    ['$scope','$http','$sce','AuthenticationService',
+//        function($scope,$http,$sce,AuthenticationService) {
+//
+//            $http.get('texts/texts.json').success(function(data) {
+//                $scope.titulo_secao = data.loja;
+//                $scope.texto_secao = $sce.trustAsHtml(data.loja_text);
+//                $scope.imagem_secao = data.loja_imagem;
+//                $scope.distance_top = data.loja_distance_top;
+//            });
+//
+//            $http.get('/api/loja').success(function(lojas){
+//                if (lojas) {
+//                    var loja = lojas[0];
+//                    $scope.galeria_fotos = loja.produtos;
+//                    if ($scope.galeria_fotos == undefined) {
+//                        $scope.galeria_fotos = [];
+//                    }
+//                    $scope.galeria_fotos = galeriaFotos.transformarMatriz($scope.galeria_fotos);
+//                }
+//            });
+//
+//            $scope.mustAppear = function(subsecao) {
+//                if(subsecao == 'texto' || subsecao == 'fotos'){
+//                    return "appear";
+//                }
+//                return "";
+//            }
+//
+//            $scope.isLoggedIn = function() {
+//                return AuthenticationService.isLogged;
+//            }
+//
+//            $scope.inserirProdutos = function(){
+//                if($scope.isLoggedin()){
+//                    return "appear";
+//                }
+//                return "";
+//            }
+//        }]);

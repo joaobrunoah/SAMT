@@ -35,28 +35,16 @@ body {
 
 .navbar-fixed-top {
     height: 25px;
-    padding: 0% 18%;
+    padding: 0% 10%;
 }
 
-@media (max-width:1600px){
+@media (max-width:1650px){
 	.navbar-fixed-top {
-    	padding: 0% 15%;
+    	padding: 0% 7%;
 	}
 }
 
 @media (max-width:1450px){
-	.navbar-fixed-top {
-    	padding: 0% 10%;
-	}
-}
-
-@media (max-width:1250px){
-	.navbar-fixed-top {
-    	padding: 0% 5%;
-	}
-}
-
-@media (max-width:1100px){
 	.navbar-fixed-top {
     	padding: 0% 0%;
 	}
