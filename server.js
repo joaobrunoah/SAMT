@@ -239,10 +239,6 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
             res.writeHead(200, { Connection: 'close' });
             res.end();
         });
-
-        elemento.save();
-        res.writeHead(200, { Connection: 'close' });
-        res.end();
     });
 
     req.pipe(busboy);
