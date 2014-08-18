@@ -44,13 +44,13 @@ samtControllers.controller('TopNavCtrl',
         }]);
 
 samtControllers.controller('InicioCtrl',
-    ['$scope', '$http','$interval','Noticia','Projeto',
-        function($scope, $http, $interval, Noticia,Projeto) {
+    ['$scope', '$http','$interval','Noticia','Projeto','Evento',
+        function($scope, $http, $interval, Noticia,Projeto,Evento) {
 
             $scope.abaNoticia=true;
             $scope.abaEvento=false;
 
-            $scope.newsCounter = 0;
+            $scope.elementosCounter = 0;
 
             $http.get('texts/texts.json').success(function(data) {
                 $scope.texts = data;
@@ -58,24 +58,24 @@ samtControllers.controller('InicioCtrl',
 
             $scope.noticias = {};
 
+            $scope.eventos = {};
+
+            // Elemento escolhido nas abas!
+            $scope.elementos = {};
+
             $scope.noticiaQuery = Noticia.query(function(){
                 $scope.noticias = $scope.noticiaQuery.elementos;
+                $scope.elementos = $scope.noticias;
+                $scope.setElementoMaisNovoActive();
             });
-            $scope.projetos = Projeto.query();
-            $scope.ordenarPor = '-data';
 
-            var initialize = $interval(function(){
+            $scope.eventoQuery = Evento.query(function(){
+                $scope.eventos = $scope.eventoQuery.elementos;
+            });
+
+            $scope.projetos = Projeto.query(function(){
                 var menorRand = 1;
                 var selectedProject = 0;
-                var noticiaMaisNovaData = 0;
-                for (var i = 0; i<$scope.noticias.length; i++){
-                    var dataElemento = new Date($scope.noticias[i].data);
-                    if(dataElemento > noticiaMaisNovaData){
-                        //alert(_id)
-                        noticiaMaisNovaData = dataElemento;
-                        $scope.activeNoticia = $scope.noticias[i]._id;
-                    }
-                }
                 for (var i = 0; i<$scope.projetos.length; i++){
                     $scope.projetos[i].random = Math.random();
                     if($scope.projetos[i].random<menorRand){
@@ -84,107 +84,124 @@ samtControllers.controller('InicioCtrl',
                     }
                 }
                 $scope.activeProjeto=$scope.projetos[selectedProject]._id;
-                $interval.cancel(initialize);
-            },100,20);
+            });
+            $scope.ordenarPor = '-data';
 
-            /* FUNCOES DE NOTICIA */
+            /* FUNCOES DE NOTICIA E EVENTO */
 
             $scope.selectAba = function(aba){
                 if(aba=='noticia'){
                     $scope.abaNoticia=true;
                     $scope.abaEvento=false;
+                    $scope.elementos = $scope.noticias;
+                    $scope.setElementoMaisNovoActive();
                 } else if(aba=='evento'){
                     $scope.abaNoticia=false;
                     $scope.abaEvento=true;
+                    $scope.elementos = $scope.eventos;
+                    $scope.setElementoMaisNovoActive();
                 } else {
                     $scope.abaNoticia=true;
                     $scope.abaEvento=false;
+                    $scope.elementos = $scope.noticias;
+                    $scope.setElementoMaisNovoActive();
                 }
             }
 
-            $scope.isNoticiaActive = function(idNoticia){
-                if (idNoticia==$scope.activeNoticia){
+            $scope.isElementoActive = function(idElemento){
+                if(idElemento == $scope.activeElemento){
                     return "active";
                 } else {
                     return "";
                 }
+            };
+
+            $scope.setElementoMaisNovoActive = function(){
+                var elementoMaisNovoData = 0;
+                for (var i = 0; i<$scope.elementos.length; i++){
+                    var dataElemento = new Date($scope.elementos[i].data);
+                    if(dataElemento > elementoMaisNovoData){
+                        elementoMaisNovoData = dataElemento;
+                        $scope.activeElemento = $scope.elementos[i]._id;
+                    }
+                }
             }
 
-            $scope.setNoticiaActive = function(idNoticia){
-                $scope.activeNoticia=idNoticia;
-                $scope.newsCounter = idNoticia-1;
-                $interval.cancel($scope.iterateOverNews);
-                $scope.iterateOverNews = $interval(function(){
-                    $scope.newsCounter += 1;
-                    if($scope.newsCounter >= $scope.noticias.length){
-                        $scope.newsCounter = 0;
+            $scope.setElementoActive = function(idElemento){
+                $scope.activeElemento=idElemento;
+                $scope.elementosCounter = idElemento-1;
+                $interval.cancel($scope.iterateOverElementos);
+                $scope.iterateOverElementos = $interval(function(){
+                    $scope.elementosCounter += 1;
+                    if($scope.elementosCounter >= $scope.elementos.length){
+                        $scope.elementosCounter = 0;
                     }
-                    $scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
-                    $interval.cancel($scope.iterateOverNews);
-                    $scope.iterateOverNews = $interval(function(){
-                        $scope.newsCounter += 1;
-                        if($scope.newsCounter >= $scope.noticias.length){
-                            $scope.newsCounter = 0;
+                    $scope.activeElemento=$scope.elementos[$scope.elementosCounter]._id;
+                    $interval.cancel($scope.iterateOverElementos);
+                    $scope.iterateOverElementos = $interval(function(){
+                        $scope.elementosCounter += 1;
+                        if($scope.elementosCounter >= $scope.elementos.length){
+                            $scope.elementosCounter = 0;
                         }
-                        $scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+                        $scope.activeElemento=$scope.elementos[$scope.elementosCounter]._id;
 
                     },5000);
                 },20000);
             }
 
-            $scope.getNoticia = function(){
-                for (var i=0; i<$scope.noticias.length; i++) {
-                    if($scope.noticias[i]._id==$scope.activeNoticia){
-                        return $scope.noticias[i];
+            $scope.getElemento = function(){
+                for (var i=0; i<$scope.elementos.length; i++) {
+                    if($scope.elementos[i]._id==$scope.activeElemento){
+                        return $scope.elementos[i];
                     }
                 }
                 return null;
             }
 
-            $scope.iterateOverNews = $interval(function(){
-                $scope.newsCounter += 1;
-                if($scope.newsCounter >= $scope.noticias.length){
-                    $scope.newsCounter = 0;
+            $scope.iterateOverElementos = $interval(function(){
+                $scope.elementosCounter += 1;
+                if($scope.elementosCounter >= $scope.elementos.length){
+                    $scope.elementosCounter = 0;
                 }
-                $scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+                $scope.activeElemento=$scope.elementos[$scope.elementosCounter]._id;
             },5000);
 
             /* toRight = 1 => right */
-            $scope.iterateNews = function(toRight){
-                $interval.cancel($scope.iterateOverNews);
+            $scope.iterateElementos = function(toRight){
+                $interval.cancel($scope.iterateOverElementos);
                 if (toRight == 1) {
-                    $scope.newsCounter += 1;
-                    if($scope.newsCounter >= $scope.noticias.length){
-                        $scope.newsCounter = 0;
+                    $scope.elementosCounter += 1;
+                    if($scope.elementosCounter >= $scope.elementos.length){
+                        $scope.elementosCounter = 0;
                     }
-                    $scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+                    $scope.activeElemento=$scope.elementos[$scope.elementosCounter]._id;
                 } else {
-                    $scope.newsCounter -= 1;
-                    if($scope.newsCounter < 0 ){
-                        $scope.newsCounter = $scope.noticias.length-1;
+                    $scope.elementosCounter -= 1;
+                    if($scope.elementosCounter < 0 ){
+                        $scope.elementosCounter = $scope.elementos.length-1;
                     }
-                    $scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+                    $scope.activeElemento=$scope.elementos[$scope.elementosCounter]._id;
                 }
-                $scope.iterateOverNews = $interval(function(){
-                    $scope.newsCounter += 1;
-                    if($scope.newsCounter >= $scope.noticias.length){
-                        $scope.newsCounter = 0;
+                $scope.iterateOverElementos = $interval(function(){
+                    $scope.elementosCounter += 1;
+                    if($scope.elementosCounter >= $scope.elementos.length){
+                        $scope.elementosCounter = 0;
                     }
-                    $scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+                    $scope.activeElemento=$scope.elementos[$scope.elementosCounter]._id;
 
-                    $interval.cancel($scope.iterateOverNews);
-                    $scope.iterateOverNews = $interval(function(){
-                        $scope.newsCounter += 1;
-                        if($scope.newsCounter >= $scope.noticias.length){
-                            $scope.newsCounter = 0;
+                    $interval.cancel($scope.iterateOverElementos);
+                    $scope.iterateOverElementos = $interval(function(){
+                        $scope.elementosCounter += 1;
+                        if($scope.elementosCounter >= $scope.elementos.length){
+                            $scope.elementosCounter = 0;
                         }
-                        $scope.activeNoticia=$scope.noticias[$scope.newsCounter]._id;
+                        $scope.activeElemento=$scope.elementos[$scope.elementosCounter]._id;
 
                     },5000);
                 },20000);
             }
 
-            /* FIM DE FUNCOES DE NOTICIA */
+            /* FIM DE FUNCOES DE NOTICIA E EVENTO*/
 
             /* FUNCOES DE PROJETO */
 

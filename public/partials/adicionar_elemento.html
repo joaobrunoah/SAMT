@@ -86,25 +86,26 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
-             style="background-color: #FFFFFF; padding-top:130px;">
-            <div class="subtitulo_site">
-                Galeria de Fotos
-            </div>
-            <div class="linha_amarela_subtitulo"></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
-             style="background-color: #FFFFFF;">
-            <div class="botao_galeria">
-                <button ng-click="addFoto()">Adicionar Foto à Galeria</button>
+    <div class="fotos_secao" ng-class="mustAppear('fotos')">
+        <div class="row">
+            <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+                 style="background-color: #FFFFFF; padding-top:130px;">
+                <div class="subtitulo_site">
+                    Galeria de Fotos
+                </div>
+                <div class="linha_amarela_subtitulo"></div>
             </div>
         </div>
-    </div>
 
+        <div class="row">
+            <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1"
+                 style="background-color: #FFFFFF;">
+                <div class="botao_galeria">
+                    <button ng-click="addFoto()">Adicionar Foto à Galeria</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div ng-repeat="fotosLinha in info.fotosMatriz">
         <div class="row">

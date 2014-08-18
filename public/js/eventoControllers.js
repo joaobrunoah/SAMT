@@ -174,7 +174,9 @@ eventoControllers.controller('SecaoEventoCtrl',
             });
 
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos' || item == 'info'){
+                if(item == 'texto'|| item == 'info'){
+                    return 'appear';
+                }  else if(item=='fotos' && $scope.galeria_fotos != [] && $scope.galeria_fotos != '' && $scope.galeria_fotos != undefined){
                     return 'appear';
                 }
                 return "";
@@ -188,7 +190,7 @@ eventoControllers.controller('AdicionarEventoCtrl',
             $('#data').datetimepicker();
 
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos'|| item == 'info' || item=='preview'||item=='form_evento'){
+                if(item == 'texto'|| item == 'info' || item=='preview'||item=='form_evento'){
                     return 'appear';
                 }
                 return "";

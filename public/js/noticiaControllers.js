@@ -160,12 +160,12 @@ noticiaControllers.controller('SecaoNoticiaCtrl',
                 $scope.texts = data;
             });
 
-            $scope.noticia = Noticia.get({noticiaId: $routeParams.noticiaId}, function(noticia) {
-                $scope.imagem_secao = noticia.imagemUrl;
-                $scope.titulo_secao = noticia.titulo;
-                $scope.data_secao = noticia.data;
-                $scope.texto_secao = htmlCompiler.compile(noticia.texto);
-                $scope.distance_top = noticia.distanceTop;
+            $scope.elemento = Noticia.get({noticiaId: $routeParams.noticiaId}, function(noticia) {
+                $scope.imagem_secao = elemento.imagemUrl;
+                $scope.titulo_secao = elemento.titulo;
+                $scope.data_secao = elemento.data;
+                $scope.texto_secao = htmlCompiler.compile(elemento.texto);
+                $scope.distance_top = elemento.distanceTop;
                 $scope.galeria_fotos = projeto.fotos;
                 if($scope.galeria_fotos == undefined){
                     $scope.galeria_fotos = [];
@@ -174,7 +174,9 @@ noticiaControllers.controller('SecaoNoticiaCtrl',
             });
 
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos' || item == 'data'){
+                if(item == 'texto'|| item == 'data'){
+                    return 'appear';
+                } else if(item=='fotos' && $scope.galeria_fotos != [] && $scope.galeria_fotos != '' && $scope.galeria_fotos != undefined){
                     return 'appear';
                 }
                 return "";
@@ -186,7 +188,7 @@ noticiaControllers.controller('AdicionarNoticiaCtrl',
         function($scope,$http,$location,$window,elementUpload,htmlCompiler) {
 
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos'|| item == 'data' || item=='preview'||item=='form_noticia'){
+                if(item == 'texto'|| item == 'data' || item=='preview'||item=='form_noticia'){
                     return 'appear';
                 }
                 return "";
@@ -242,9 +244,9 @@ noticiaControllers.controller('EditarNoticiaCtrl',
             });
 
             Noticia.get({noticiaId: noticiaId}, function(noticia) {
-                $scope.info = noticia;
-                $scope.srcimagem_elemento = noticia.imagemUrl;
-                $scope.dataAtual = noticia.data;
+                $scope.info = elemento;
+                $scope.srcimagem_elemento = elemento.imagemUrl;
+                $scope.dataAtual = elemento.data;
                 $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
                 $scope.$watch('info.texto',function(newValue,oldValue) {
                     $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);

@@ -119,7 +119,11 @@ projetoControllers.controller('SecaoProjetoCtrl',
             });
 
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos' || item == 'agenda'){
+                if(item == 'texto'){
+                    return 'appear';
+                } else if(item=='fotos' && $scope.galeria_fotos != [] && $scope.galeria_fotos != '' && $scope.galeria_fotos != undefined){
+                    return 'appear';
+                } else if(item == 'agenda' && $scope.cursos_secao != [] && $scope.cursos_secao != '' && $scope.cursos_secao != undefined) {
                     return 'appear';
                 }
                 return "";
@@ -140,7 +144,7 @@ projetoControllers.controller('AdicionarProjetoCtrl',
         function($scope,$http,$window,elementUpload,htmlCompiler,$location) {
 
             $scope.mustAppear = function(item){
-                if(item == 'texto'|| item == 'fotos'||item=='preview'||item=='form_projeto'){
+                if(item == 'texto'|| item=='preview'||item=='form_projeto'){
                     return 'appear';
                 }
                 return "";

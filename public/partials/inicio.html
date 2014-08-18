@@ -16,22 +16,22 @@
     <!-- NOT�CIAS E EVENTOS -->
     <div class="row">
         <div class="samt_news">
-            <img class="imagem_samt_news" ng-src="{{getNoticia().imagemUrl}}"
-                 style="top:{{1.5*-getNoticia().distanceTop}}%"/>
+            <img class="imagem_samt_news" ng-src="{{getElemento().imagemUrl}}"
+                 style="top:{{1.5*-getElemento().distanceTop}}%"/>
 
             <div class="samt_news_body">
                 <div class="samt_news_abas">
                     <div class="samt_news_aba not-select-text" ng-click="selectAba('noticia')"
                          ng-class="{'active':abaNoticia}">{{texts.noticias}}
                     </div>
-                    <!--<div class="samt_news_aba not-select-text" ng-click="selectAba('evento')"-->
-                         <!--ng-class="{'active':abaEvento}">{{texts.eventos}}-->
-                    <!--</div>-->
+                    <div class="samt_news_aba not-select-text" ng-click="selectAba('evento')"
+                         ng-class="{'active':abaEvento}">{{texts.eventos}}
+                    </div>
                 </div>
                 <div class="samt_news_text">
-                    <p class="samt_news_titulo">{{getNoticia().titulo}}</p>
+                    <p class="samt_news_titulo">{{getElemento().titulo}}</p>
 
-                    <p class="samt_news_resumo">{{getNoticia().resumo}}</p>
+                    <p class="samt_news_resumo">{{getElemento().resumo}}</p>
 
                     <div class="samt_news_leia_mais not-select-text">
                         Leia Mais <img class="flecha-dupla" src="img/site/flecha-dupla-branca.svg"/>
@@ -39,15 +39,15 @@
                 </div>
                 <div class="samt_news_seletor not-select-text">
                     <div class="samt_news_flecha samt_news_flecha_esquerda"><img
-                            src="img/site/seletor_esquerda.svg" ng-click="iterateNews(0)"></div>
+                            src="img/site/seletor_esquerda.svg" ng-click="iterateElementos(0)"></div>
                     <ul class="samt_news_seletor_bolinhas">
-                        <li ng-repeat="noticia in noticias | orderBy:'-data' | limitTo:10"
-                            ng-class="isNoticiaActive(noticia._id)"><a href=""
-                                                                       ng-click="setNoticiaActive(noticia._id)">_</a>
+                        <li ng-repeat="elemento in elementos | orderBy:'-data' | limitTo:10"
+                            ng-class="isElementoActive(elemento._id)"><a href=""
+                                                                       ng-click="setElementoActive(elemento._id)">_</a>
                         </li>
                     </ul>
                     <div class="samt_news_flecha samt_news_flecha_direita"><img
-                            src="img/site/seletor_direita.svg" ng-click="iterateNews(1)"></div>
+                            src="img/site/seletor_direita.svg" ng-click="iterateElementos(1)"></div>
                 </div>
             </div>
         </div>

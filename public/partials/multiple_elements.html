@@ -53,7 +53,7 @@
                 </li>
             </ul>
 
-            <div class="page_selector">
+            <div class="page_selector" ng-if="tipo_elemento != 'Projetos'">
                 <label for="query_offset">Escolha a página de {{tipo_elemento}}:</label>
                 <select id="query_offset" ng-model="query.offset" ng-options="option.number for option in offset.options"></select>
             </div>

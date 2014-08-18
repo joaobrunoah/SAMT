@@ -356,16 +356,16 @@ app.put('/api/:tipo/:id', jwtauth, requireAuth, function (req, res) {
         } else if (req.params.tipo == 'noticias') {
             Noticia.findById(req.params.id, function (err, noticia) {
                 if (!err) {
-                    noticia.titulo = titulo;
-                    noticia.resumo = resumo;
-                    noticia.texto = texto;
-                    noticia.distanceTop = distanceTop;
+                    elemento.titulo = titulo;
+                    elemento.resumo = resumo;
+                    elemento.texto = texto;
+                    elemento.distanceTop = distanceTop;
                     if (imgDir2web != "") {
-                        noticia.directory = saveTo;
-                        noticia.imagemUrl = imgDir2web;
+                        elemento.directory = saveTo;
+                        elemento.imagemUrl = imgDir2web;
                     }
 
-                    noticia.save(function (err, product, numberAffected) {
+                    elemento.save(function (err, product, numberAffected) {
                         if (err) return res.send(500, err.message);
                         res.writeHead(200, { Connection: 'close' });
                         res.end();
@@ -472,8 +472,8 @@ app.put('/api/noticias/inserirarrays/:id', jwtauth, requireAuth, function (req, 
 
     Noticia.findById(req.params.id, function (err, noticia) {
         if (err) return res.send(500, "Notícia Não Encontrada");
-        noticia.fotos = req.body.fotos;
-        noticia.save(function (err, product, numberAffected) {
+        elemento.fotos = req.body.fotos;
+        elemento.save(function (err, product, numberAffected) {
             if (err) {
                 console.log(err.message);
                 return res.send(500, err.message);
@@ -490,13 +490,13 @@ app.delete('/api/noticias/:id', bodyParser(), jwtauth, requireAuth, function (re
         if (err) console.log(err);
         try {
             try {
-                fs.remove(noticia.directory, function (err) {
-                    console.log("Could not remove image from " + noticia.titulo);
+                fs.remove(elemento.directory, function (err) {
+                    console.log("Could not remove image from " + elemento.titulo);
                 });
             } catch (err2) {
                 console.log(err2.message);
             }
-            noticia.remove();
+            elemento.remove();
             res.send(200);
         } catch (err) {
             res.send(500, err.message);
