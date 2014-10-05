@@ -202,15 +202,12 @@ noticiaControllers.controller('AdicionarNoticiaCtrl',
 
             $scope.dataAtual = Date.now();
 
-            $scope.info = {
-                titulo:"Escreva o Nome da Notícia Aqui",
-                texto:"Escreva o texto da Notícia Aqui",
-                resumo:"Escreva o resumo da Notícia Aqui"
-            };
+            $scope.info = {};
 
-            $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
             $scope.$watch('info.texto',function(newValue,oldValue) {
-                $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                if($scope.info.texto != undefined){
+                    $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                }
             });
 
             $scope.sendInfo = function() {

@@ -202,16 +202,12 @@ eventoControllers.controller('AdicionarEventoCtrl',
 
             $scope.token = $window.localStorage.samtToken;
 
-            $scope.info = {
-                titulo:"Escreva o Nome do Evento Aqui",
-                texto:"Escreva o texto do Evento Aqui",
-                resumo:"Escreva o resumo do Evento Aqui",
-                local:"Escreva o local do Evento aqui"
-            };
+            $scope.info = {};
 
-            $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
             $scope.$watch('info.texto',function(newValue,oldValue) {
-                $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                if($scope.info.texto != undefined){
+                    $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
+                }
             });
 
             $scope.sendInfo = function() {
