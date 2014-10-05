@@ -99,6 +99,10 @@
 	font-size: 10pt;
 }
 
+.samt_news_leia_mais > a{
+    color: #FFFFFF;
+}
+
 .samt_news_seletor {
 	background-color: #230000;
 	display: block;
