@@ -166,7 +166,7 @@ eventoControllers.controller('SecaoEventoCtrl',
                 $scope.local_secao = evento.local;
                 $scope.data_secao = evento.data;
                 $scope.distance_top = evento.distanceTop;
-                $scope.galeria_fotos = projeto.fotos;
+                $scope.galeria_fotos = evento.fotos;
                 if($scope.galeria_fotos == undefined){
                     $scope.galeria_fotos = [];
                 }
