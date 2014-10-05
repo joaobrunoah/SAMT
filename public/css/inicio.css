@@ -24,6 +24,16 @@
 	position: absolute;
 	right: 10%;
 	top: 11%;
+    opacity: 0.5;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.samt_news_body:hover {
+    opacity: 1;
 }
 
 .samt_news_aba {
