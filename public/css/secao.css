@@ -160,6 +160,8 @@
     overflow:hidden;
     background-color:#FFFFFF;
     height: 200px;
+    border-top: 10px solid #FFFFFF;
+    border-bottom: 10px solid #FFFFFF;
 }
 
 .div_foto > img {

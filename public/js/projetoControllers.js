@@ -115,6 +115,9 @@ projetoControllers.controller('SecaoProjetoCtrl',
                 if($scope.galeria_fotos == undefined){
                     $scope.galeria_fotos = [];
                 }
+                for(var i = 0; i<$scope.galeria_fotos.length; i++){
+                    $scope.galeria_fotos[i].appearName = !($scope.galeria_fotos[i].nome == "" || $scope.galeria_fotos[i].nome == undefined);
+                }
                 $scope.galeria_fotos = galeriaFotos.transformarMatriz($scope.galeria_fotos);
             });
 
