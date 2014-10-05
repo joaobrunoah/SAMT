@@ -161,12 +161,12 @@ noticiaControllers.controller('SecaoNoticiaCtrl',
             });
 
             $scope.elemento = Noticia.get({noticiaId: $routeParams.noticiaId}, function(noticia) {
-                $scope.imagem_secao = elemento.imagemUrl;
-                $scope.titulo_secao = elemento.titulo;
-                $scope.data_secao = elemento.data;
-                $scope.texto_secao = htmlCompiler.compile(elemento.texto);
-                $scope.distance_top = elemento.distanceTop;
-                $scope.galeria_fotos = projeto.fotos;
+                $scope.imagem_secao = noticia.imagemUrl;
+                $scope.titulo_secao = noticia.titulo;
+                $scope.data_secao = noticia.data;
+                $scope.texto_secao = htmlCompiler.compile(noticia.texto);
+                $scope.distance_top = noticia.distanceTop;
+                $scope.galeria_fotos = noticia.fotos;
                 if($scope.galeria_fotos == undefined){
                     $scope.galeria_fotos = [];
                 }
