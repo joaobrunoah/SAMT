@@ -159,7 +159,7 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
         console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         var appDir = path.dirname(require.main.filename);
         imgDir = "public" + path.sep + "img" + path.sep + req.params.tipo + path.sep + filename;
-        imgDir2web = "img/"+req.params.tipo+"/" + filename;
+        imgDir2web = "img/" + req.params.tipo + "/" + filename;
         saveTo = appDir + path.sep + imgDir;
         console.log("Saving file in: " + saveTo);
         file.pipe(fs.createWriteStream(saveTo));
@@ -191,7 +191,7 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
         }
     });
     busboy.on('finish', function () {
-        console.log('Saving object in '+req.params.tipo+'!');
+        console.log('Saving object in ' + req.params.tipo + '!');
 
         var elemento = {};
 
@@ -202,7 +202,7 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
                 imagemUrl: imgDir2web,
                 directory: saveTo
             });
-        } else if(req.params.tipo == 'noticias') {
+        } else if (req.params.tipo == 'noticias') {
             elemento = new Noticia({
                 titulo: titulo,
                 resumo: resumo,
@@ -212,7 +212,7 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
                 directory: saveTo,
                 distanceTop: distanceTop
             });
-        } else if(req.params.tipo == 'eventos') {
+        } else if (req.params.tipo == 'eventos') {
             elemento = new Evento({
                 titulo: titulo,
                 resumo: resumo,
@@ -223,7 +223,7 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
                 directory: saveTo,
                 distanceTop: distanceTop
             });
-        } else if(req.params.tipo == 'projetos') {
+        } else if (req.params.tipo == 'projetos') {
             elemento = new Projeto({
                 nome: nome,
                 resumo: resumo,
@@ -255,7 +255,7 @@ app.delete('/api/:tipo/imagem/:id/:nomeFoto', jwtauth, requireAuth, function (re
 
     try {
         fs.remove(appDir + path.sep + imgDir, function (err) {
-            if(err) {
+            if (err) {
                 console.log("Could not remove image: " + req.params.urlFoto);
                 return res.send(500, "Imagem não foi removida");
             }
@@ -317,27 +317,30 @@ app.put('/api/:tipo/:id', jwtauth, requireAuth, function (req, res) {
     });
     busboy.on('finish', function () {
         console.log('Updating object in ' + req.params.tipo + '!');
+        resumo = resumo == "" ? " " : resumo;
+        texto = texto == "" ? " " : texto;
         if (req.params.tipo == 'projetos') {
             Projeto.findById(req.params.id, function (err, projeto) {
-                if (!err) {
-                    projeto.nome = nome;
-                    projeto.resumo = resumo;
-                    projeto.texto = texto;
-                    projeto.distanceTop = distanceTop;
-                    if (imgDir2web != "") {
-                        projeto.directory = saveTo;
-                        projeto.imagemUrl = imgDir2web;
-                    }
 
-                    projeto.save(function (err, product, numberAffected) {
-                        if (err) {
-                            console.log(err.message);
-                            return res.send(500, err.message);
-                        }
-                        res.writeHead(200, { Connection: 'close' });
-                        res.end();
-                    });
+                if (err) return res.send(err.status, err.message);
+
+                projeto.nome = nome;
+                projeto.resumo = resumo;
+                projeto.texto = texto;
+                projeto.distanceTop = distanceTop;
+                if (imgDir2web != "") {
+                    projeto.directory = saveTo;
+                    projeto.imagemUrl = imgDir2web;
                 }
+
+                projeto.save(function (err, product, numberAffected) {
+                    if (err) {
+                        console.log(err.message);
+                        return res.send(500, err.message);
+                    }
+                    res.writeHead(200, { Connection: 'close' });
+                    res.end();
+                });
             });
         } else if (req.params.tipo == 'parceiros') {
             Parceiro.findById(req.params.id, function (err, parceiro) {
@@ -691,11 +694,11 @@ app.get('/api/loja', function (req, res, next) {
     });
 });
 
-app.post('/api/loja/produtos', bodyParser(),jwtauth, requireAuth, function (req, res) {
+app.post('/api/loja/produtos', bodyParser(), jwtauth, requireAuth, function (req, res) {
 
     Loja.find({}, function (err, lojas) {
         if (err) return res.send(500, "Connection Problem");
-        if(!lojas){
+        if (!lojas) {
             loja = new Loja({
                 produtos: req.body.produtos
             });
