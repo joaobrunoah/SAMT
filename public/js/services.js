@@ -126,8 +126,7 @@ samtServices.service('htmlCompiler',['$sce',function($sce){
     };
 }]);
 
-samtServices.service('galeriaFotos',['$http',
-    function($http){
+samtServices.service('galeriaFotos',[function(){
 
         this.gerarUrlImagem = function(foto,tipo,id){
             if(foto.imagem_elemento != undefined){
@@ -146,12 +145,14 @@ samtServices.service('galeriaFotos',['$http',
         this.tratarNomeArquivos = function(fotos,tipo,id){
             var novoFotos = [];
 
-            for(var i = 0;i<fotos.length;i++){
-                var foto = {};
-                foto.nome = fotos[i].nome;
-                foto.imagemUrl = this.gerarUrlImagem(fotos[i],tipo,id);
+            if(fotos != undefined) {
+                for (var i = 0; i < fotos.length; i++) {
+                    var foto = {};
+                    foto.nome = fotos[i].nome;
+                    foto.imagemUrl = this.gerarUrlImagem(fotos[i], tipo, id);
 
-                novoFotos.push(foto);
+                    novoFotos.push(foto);
+                }
             }
             return novoFotos;
         };
@@ -159,15 +160,17 @@ samtServices.service('galeriaFotos',['$http',
         this.transformarMatriz = function(elementos){
             var array = [];
             var subarray = [];
-            for (var i = 0;i<elementos.length;i++){
-                subarray.push(elementos[i]);
-                if(subarray.length>=3){
-                    array.push(subarray);
-                    subarray = [];
+            if(elementos != undefined) {
+                for (var i = 0; i < elementos.length; i++) {
+                    subarray.push(elementos[i]);
+                    if (subarray.length >= 3) {
+                        array.push(subarray);
+                        subarray = [];
+                    }
                 }
-            }
-            if(subarray.length>0){
-                array.push(subarray);
+                if (subarray.length > 0) {
+                    array.push(subarray);
+                }
             }
 
             return array;
@@ -176,13 +179,14 @@ samtServices.service('galeriaFotos',['$http',
         this.transformarArray = function(matriz){
             var array = [];
             var linha = [];
-            for(var i = 0; i<matriz.length;i++){
-                linha = matriz[i];
-                for(var j = 0;j<linha.length;j++){
-                    array.push(linha[j]);
+            if(matriz != undefined) {
+                for (var i = 0; i < matriz.length; i++) {
+                    linha = matriz[i];
+                    for (var j = 0; j < linha.length; j++) {
+                        array.push(linha[j]);
+                    }
                 }
             }
-
             return array;
         };
     }]);
