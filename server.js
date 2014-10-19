@@ -235,7 +235,7 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
         }
 
         elemento.save(function (err, product, numberAffected) {
-            if (err) return res.send(500, err.message);
+            if (err) return res.status(500).send(err);
             res.writeHead(200, { Connection: 'close' });
             res.end();
         });

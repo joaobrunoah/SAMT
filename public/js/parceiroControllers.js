@@ -127,7 +127,9 @@ parceiroControllers.controller('AdicionarParceiroCtrl',
                         $location.path("/parceiros");
                         $route.reload();
                     }
-                );
+                ).error(function(err) {
+                        console.log(err);
+                    });
 
             }
 
