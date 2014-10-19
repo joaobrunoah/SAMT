@@ -34,7 +34,16 @@ projetoControllers.controller('ProjetosCtrl',
                 $scope.titulo_secao = data.projetos;
             });
 
-            $scope.elementos = Projeto.query();
+            $scope.elementos = Projeto.query(
+                function(){
+                    if($scope.elementos != undefined && $scope.isLoggedIn()) {
+                        for (var j = 0; j < $scope.elementos.length; j++){
+                            if($scope.elementos[j].titulo.length > 33)
+                                $scope.elementos[j].titulo = $scope.elementos[j].titulo.substring(0,32) + "...";
+                        }
+                    }
+                }
+            );
 
             var mudarNomeParaTitulo = $interval(function () {
                 var i = 0;
