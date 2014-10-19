@@ -475,8 +475,8 @@ app.put('/api/noticias/inserirarrays/:id', jwtauth, requireAuth, function (req, 
 
     Noticia.findById(req.params.id, function (err, noticia) {
         if (err) return res.send(500, "Notícia Não Encontrada");
-        elemento.fotos = req.body.fotos;
-        elemento.save(function (err, product, numberAffected) {
+        noticia.fotos = req.body.fotos;
+        noticia.save(function (err, product, numberAffected) {
             if (err) {
                 console.log(err.message);
                 return res.send(500, err.message);
@@ -493,13 +493,13 @@ app.delete('/api/noticias/:id', bodyParser(), jwtauth, requireAuth, function (re
         if (err) console.log(err);
         try {
             try {
-                fs.remove(elemento.directory, function (err) {
-                    console.log("Could not remove image from " + elemento.titulo);
+                fs.remove(noticia.directory, function (err) {
+                    console.log("Could not remove image from " + noticia.titulo);
                 });
             } catch (err2) {
                 console.log(err2.message);
             }
-            elemento.remove();
+            noticia.remove();
             res.send(200);
         } catch (err) {
             res.send(500, err.message);
