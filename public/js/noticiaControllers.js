@@ -79,8 +79,8 @@ noticiaControllers.controller('NoticiasCtrl',
                 }
                 if($scope.elementos != undefined && $scope.isLoggedIn()) {
                     for (var j = 0; j < $scope.elementos.length; j++){
-                        if($scope.elementos[j].titulo.length > 33)
-                        $scope.elementos[j].titulo = $scope.elementos[j].titulo.substring(0,32) + "...";
+                        if($scope.elementos[j].titulo.length > 40)
+                        $scope.elementos[j].titulo = $scope.elementos[j].titulo.substring(0,39) + "...";
                     }
                 }
                 $scope.query.offset = $scope.offset.options[0];
