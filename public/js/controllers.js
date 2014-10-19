@@ -296,6 +296,10 @@ samtControllers.controller('AdminCtrl',
                 return AuthenticationService.isLogged;
             };
 
+            $scope.isAdmin = function() {
+                return $window.localStorage.usuario == 'admin';
+            };
+
             $scope.passInfo = {};
             $scope.passInfo.confirmacao = '';
 

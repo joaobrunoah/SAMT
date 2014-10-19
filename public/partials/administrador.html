@@ -1,14 +1,15 @@
 <div class="container-fluid">
-	<form name="loginForm" ng-submit="Login(credentials)" novalidate class="loginForm" ng-class="{appear:!isLoggedIn()}">
-		
-		<label for="username">Nome de Usuário:</label>
-		<input type="text" id="username" ng-model="credentials.username">
-		
-		<label for="password">Senha:</label>
-		<input type="password" id="password" ng-model="credentials.password">
-		<button type="submit">Login</button>
-		
-	</form>
+    <form name="loginForm" ng-submit="Login(credentials)" novalidate class="loginForm"
+          ng-class="{appear:!isLoggedIn()}">
+
+        <label for="username">Nome de Usuário:</label>
+        <input type="text" id="username" ng-model="credentials.username">
+
+        <label for="password">Senha:</label>
+        <input type="password" id="password" ng-model="credentials.password">
+        <button type="submit">Login</button>
+
+    </form>
 
     <div class="adminOpts" ng-class="{appear:isLoggedIn()}">
         <div class="row">
@@ -36,30 +37,33 @@
                         </label><br/><br/>
 
                         <button type="submit">Submeter Alteração de Senha</button>
-                    </form><br/><br/>
-
-                    <b>Formulário para Adicionar Usuário</b>
-
-                    <form name="addUser" ng-submit="adicionarUsuario(userInfo)" novalidate class="addUserForm">
-
-                        <label for="usuario">Novo Usuário:</label><br/>
-                        <input type="text" id="usuario" ng-model="userInfo.usuario"><br/><br/>
-
-                        <label for="senha">Senha Nova:</label><br/>
-                        <input type="password" id="senha" ng-model="userInfo.senha"
-                               ng-class="{caixaVermelha:userInfo.senha!=userInfo.confirmacao&&userInfo.confirmacao!=''}"><br/>
-
-                        <label for="confirmacao">Repetir Senha Nova:</label><br/>
-                        <input type="password" id="confirmacao" ng-model="userInfo.confirmacao"
-                               ng-class="{caixaVermelha:userInfo.senha!=userInfo.confirmacao&&userInfo.confirmacao!=''}"><br/><br/>
-
-                        <label class="wrongPassword"
-                               ng-class="{appear:userInfo.senha!=userInfo.confirmacao&&userInfo.confirmacao!=''}">
-                            A nova senha não está igual à confirmação.
-                        </label><br/><br/>
-
-                        <button type="submit">Submeter Novo Usuário</button>
                     </form>
+                    <br/><br/>
+
+                    <div ng-if="isAdmin()">
+                        <b>Formulário para Adicionar Usuário</b>
+
+                        <form name="addUser" ng-submit="adicionarUsuario(userInfo)" novalidate class="addUserForm">
+
+                            <label for="usuario">Novo Usuário:</label><br/>
+                            <input type="text" id="usuario" ng-model="userInfo.usuario"><br/><br/>
+
+                            <label for="senha">Senha Nova:</label><br/>
+                            <input type="password" id="senha" ng-model="userInfo.senha"
+                                   ng-class="{caixaVermelha:userInfo.senha!=userInfo.confirmacao&&userInfo.confirmacao!=''}"><br/>
+
+                            <label for="confirmacao">Repetir Senha Nova:</label><br/>
+                            <input type="password" id="confirmacao" ng-model="userInfo.confirmacao"
+                                   ng-class="{caixaVermelha:userInfo.senha!=userInfo.confirmacao&&userInfo.confirmacao!=''}"><br/><br/>
+
+                            <label class="wrongPassword"
+                                   ng-class="{appear:userInfo.senha!=userInfo.confirmacao&&userInfo.confirmacao!=''}">
+                                A nova senha não está igual à confirmação.
+                            </label><br/><br/>
+
+                            <button type="submit">Submeter Novo Usuário</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="corpo_secao col-lg-8 col-md-10 col-sm-12 col-lg-offset-2 col-md-offset-1">

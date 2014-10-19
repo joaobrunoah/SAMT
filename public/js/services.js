@@ -7,7 +7,7 @@ var samtServices = angular.module('samtServices', ['ngResource']);
 samtServices.factory('AuthenticationService', function() {
 	var auth = {
 		isLogged: false
-	}
+	};
 	return auth;
 });
 
