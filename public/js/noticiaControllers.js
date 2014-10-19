@@ -248,9 +248,9 @@ noticiaControllers.controller('EditarNoticiaCtrl',
             });
 
             Noticia.get({noticiaId: noticiaId}, function (noticia) {
-                $scope.info = elemento;
-                $scope.srcimagem_elemento = elemento.imagemUrl;
-                $scope.dataAtual = elemento.data;
+                $scope.info = noticia;
+                $scope.srcimagem_elemento = noticia.imagemUrl;
+                $scope.dataAtual = noticia.data;
                 $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
                 $scope.$watch('info.texto', function (newValue, oldValue) {
                     $scope.info.texto_html = htmlCompiler.compile($scope.info.texto);
@@ -270,7 +270,7 @@ noticiaControllers.controller('EditarNoticiaCtrl',
                 $scope.info.image = $scope.info.image_elemento;
 
                 $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
-                $scope.info.fotos = galeriaFotos.tratarNomeArquivos($scope.info.fotos, 'noticias', projetoId);
+                $scope.info.fotos = galeriaFotos.tratarNomeArquivos($scope.info.fotos, 'noticias', noticiaId);
                 elementUpload.updateElement($scope.info, '/api/noticias/' + noticiaId).success(
                     function () {
                         $http.put('/api/noticias/inserirarrays/' + noticiaId, {fotos: $scope.info.fotos}).success(
@@ -293,15 +293,15 @@ noticiaControllers.controller('EditarNoticiaCtrl',
 
             $scope.postImage = function (elemento) {
                 var image = elemento.files[0];
-                elementUpload.uploadFoto(image, 'projetos', projetoId);
-            }
+                elementUpload.uploadFoto(image, 'noticias', noticiaId);
+            };
 
             $scope.isLoggedIn = function () {
                 return AuthenticationService.isLogged;
-            }
+            };
 
             $scope.deleteFoto = function (foto) {
-                elementUpload.deleteFoto(foto, 'projetos', projetoId).success(function () {
+                elementUpload.deleteFoto(foto, 'noticias', noticiaId).success(function () {
                     $route.reload();
                 });
             }

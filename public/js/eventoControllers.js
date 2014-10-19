@@ -270,7 +270,7 @@ projetoControllers.controller('EditarEventoCtrl',
                 $scope.info.image = $scope.info.image_elemento;
 
                 $scope.info.fotos = galeriaFotos.transformarArray($scope.info.fotosMatriz);
-                $scope.info.fotos = galeriaFotos.tratarNomeArquivos($scope.info.fotos, 'eventos', projetoId);
+                $scope.info.fotos = galeriaFotos.tratarNomeArquivos($scope.info.fotos, 'eventos', eventoId);
                 elementUpload.updateElement($scope.info, '/api/eventos/' + eventoId).success(
                     function () {
                         $http.put('/api/eventos/inserirarrays/' + eventoId, {fotos: $scope.info.fotos}).success(
@@ -293,7 +293,7 @@ projetoControllers.controller('EditarEventoCtrl',
 
             $scope.postImage = function (elemento) {
                 var image = elemento.files[0];
-                elementUpload.uploadFoto(image, 'projetos', projetoId);
+                elementUpload.uploadFoto(image, 'eventos', eventoId);
             };
 
             $scope.isLoggedIn = function () {
@@ -301,7 +301,7 @@ projetoControllers.controller('EditarEventoCtrl',
             }
 
             $scope.deleteFoto = function (foto) {
-                elementUpload.deleteFoto(foto, 'projetos', projetoId).success(function () {
+                elementUpload.deleteFoto(foto, 'eventos', eventoId).success(function () {
                     $route.reload();
                 });
             }
