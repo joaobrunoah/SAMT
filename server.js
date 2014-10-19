@@ -359,16 +359,16 @@ app.put('/api/:tipo/:id', jwtauth, requireAuth, function (req, res) {
         } else if (req.params.tipo == 'noticias') {
             Noticia.findById(req.params.id, function (err, noticia) {
                 if (!err) {
-                    elemento.titulo = titulo;
-                    elemento.resumo = resumo;
-                    elemento.texto = texto;
-                    elemento.distanceTop = distanceTop;
+                    noticia.titulo = titulo;
+                    noticia.resumo = resumo;
+                    noticia.texto = texto;
+                    noticia.distanceTop = distanceTop;
                     if (imgDir2web != "") {
-                        elemento.directory = saveTo;
-                        elemento.imagemUrl = imgDir2web;
+                        noticia.directory = saveTo;
+                        noticia.imagemUrl = imgDir2web;
                     }
 
-                    elemento.save(function (err, product, numberAffected) {
+                    noticia.save(function (err, product, numberAffected) {
                         if (err) return res.send(500, err.message);
                         res.writeHead(200, { Connection: 'close' });
                         res.end();
