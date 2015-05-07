@@ -719,3 +719,9 @@ app.post('/api/loja/produtos', bodyParser(), jwtauth, requireAuth, function (req
 });
 
 // END OF LOJA REQUESTS
+
+// IMG Request
+
+//app.post('/api/img/:tipo/:nome', bodyParser(), function(req,res){
+//    var tipo =
+//});
