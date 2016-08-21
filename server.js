@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 var jwt = require('jwt-simple');
 var jwtauth = require('./lib/jwtauth');
 var url = require('url');
+var Thumbnail = require('thumbnail');
 var variables = require('./lib/samt_variables');
 
 // To handle Multipart requests
@@ -725,3 +726,15 @@ app.post('/api/loja/produtos', bodyParser(), jwtauth, requireAuth, function (req
 //app.post('/api/img/:tipo/:nome', bodyParser(), function(req,res){
 //    var tipo =
 //});
+
+// THUMBNAILS REQUEST
+
+app.get('/thumbnail', function (req, res, next) {
+    
+    var imgUrl = req.query.imgUrl;
+
+    console.log(imgUrl);
+
+    //var thumbnail = new Thumbnail('public' + imgUrl,'public/thumbnail' + imgUrl)
+
+}
