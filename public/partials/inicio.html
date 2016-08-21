@@ -11,9 +11,9 @@
                     <div class="samt_news_aba not-select-text" ng-click="selectAba('noticia')"
                          ng-class="{'active':abaNoticia}">{{texts.noticias}}
                     </div>
-                    <div class="samt_news_aba not-select-text" ng-click="selectAba('evento')"
+                    <!--<div class="samt_news_aba not-select-text" ng-click="selectAba('evento')"
                          ng-class="{'active':abaEvento}">{{texts.eventos}}
-                    </div>
+                    </div>-->
                 </div>
                 <div class="samt_news_text">
                     <p class="samt_news_titulo">{{getElemento().titulo}}</p>
@@ -73,7 +73,7 @@
         <div class="col-md-3 samt_projeto" ng-repeat="projeto in projetos | orderBy:'random' | limitTo:4"
              ng-click="setProjectActive(projeto._id)"
              ng-class="[isProjectActive(projeto._id), isLast($last,$first), isMiddle($middle,$first)]">
-            <img ng-src="{{projeto.imagemUrl}}"/>
+            <img ng-src="'/thumbnail?imgUrl=' + {{projeto.imagemUrl}}"/>
 
             <div class="samt_projeto_nome not-select-text">{{projeto.nome}}</div>
             <div class="samt_projeto_flecha"><img src="img/site/seta_projetos.svg"/></div>
