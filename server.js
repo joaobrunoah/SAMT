@@ -737,4 +737,4 @@ app.get('/thumbnail', function (req, res, next) {
 
     //var thumbnail = new Thumbnail('public' + imgUrl,'public/thumbnail' + imgUrl)
 
-}
+});
