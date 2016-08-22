@@ -66,9 +66,23 @@ samtControllers.controller('InicioCtrl',
             $scope.elementos = {};
 
             $scope.noticiaQuery = Noticia.query({limit:10}, function () {
+
+                for (var i = 0; i < $scope.noticiaQuery.elementos.length; i++) {
+
+                    var el = $scope.noticiaQuery.elementos[i];
+
+                    if((el.resumo === undefined) ||
+                        (el.resumo == null) || (el.resumo == "undefined")) {
+                        el.resumo = el.texto.substring(0,100) + "...";
+                    }
+
+                    $scope.noticiaQuery.elementos[i] = el
+                }
+                
                 $scope.noticias = $scope.noticiaQuery.elementos;
                 $scope.elementos = $scope.noticias;
                 numberOfElements = $scope.elementos.length;
+
                 $scope.setElementoMaisNovoActive();
             });
 

@@ -1,1 +1,1 @@
-uglifyjs app.js animations.js controllers.js parceiroControllers.js projetoControllers.js noticiaControllers.js eventoControllers.js directives.js filters.js services.js > samt.min.js
+uglifyjs app.js animations.js controllers.js parceiroControllers.js projetoControllers.js noticiaControllers.js eventoControllers.js directives.js filters.js services.js -o samt.min.js

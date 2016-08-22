@@ -30,7 +30,7 @@ var Evento = require('./models/evento_model');
 var Projeto = require('./models/projeto_model');
 var Loja = require('./models/loja_model');
 
-mongoose.connect('52.27.251.27');
+mongoose.connect('localhost');
 
 app.set('port', process.env.PORT || 80);
 app.set('jwtTokenSecret', variables.tokenSecret);
