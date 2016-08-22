@@ -18,10 +18,13 @@
                 <div class="data_secao" ng-class="mustAppear('data')">{{texts.data_postado}} {{dataAtual | date:
                     'HH:mm'}} de {{dataAtual | date : 'dd/MM/yyyy'}}
                 </div>
-                <div class="input_secao">
-                    <label for="texto">Texto:</label><br/>
+                <div class="input_secao" ng-model="info.texto">
+
+                    <text-angular ng-model="info.texto" ta-toolbar-class="btn-toolbar" ta-toolbar-group-class="btn-group" ta-toolbar-button-class="btn btn-default" ta-toolbar-active-button-class="active"></text-angular>
+
+                    <!--<label for="texto">Texto:</label><br/>
                     <textarea id="texto" name="texto" type="text" rows="10" cols="100" ng-model="info.texto"
-                              placeholder="Escreva o Conteúdo Aqui"></textarea>
+                              placeholder="Escreva o Conteúdo Aqui"></textarea>-->
                 </div>
                 <div class="texto_secao" ng-class="mustAppear('texto')" ng-bind-html="info.texto_html"></div>
                 <div class="informacoes_evento_secao" ng-class="mustAppear('info')">

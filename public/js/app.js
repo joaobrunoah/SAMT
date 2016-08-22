@@ -14,7 +14,8 @@ var samtApp = angular.module('samtApp',
         'samtFilters',
         'samtServices',
         'samtDirectives',
-        'ngSanitize'
+        //'ngSanitize',
+        'textAngular'
     ]);
 
 samtApp.config(['$routeProvider', function ($routeProvider) {
