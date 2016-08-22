@@ -31,6 +31,7 @@ var Projeto = require('./models/projeto_model');
 var Loja = require('./models/loja_model');
 
 mongoose.connect('localhost');
+//mongoose.connect('52.27.251.27');
 
 app.set('port', process.env.PORT || 80);
 app.set('jwtTokenSecret', variables.tokenSecret);

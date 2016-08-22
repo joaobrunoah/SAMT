@@ -73,7 +73,7 @@ samtControllers.controller('InicioCtrl',
 
                     if((el.resumo === undefined) ||
                         (el.resumo == null) || (el.resumo == "undefined")) {
-                        el.resumo = el.texto.substring(0,100) + "...";
+                        el.resumo = el.texto.substring(0,150) + "...";
                     }
 
                     $scope.noticiaQuery.elementos[i] = el
@@ -81,9 +81,9 @@ samtControllers.controller('InicioCtrl',
                 
                 $scope.noticias = $scope.noticiaQuery.elementos;
                 $scope.elementos = $scope.noticias;
-                numberOfElements = $scope.elementos.length;
 
-                $scope.setElementoMaisNovoActive();
+                numberOfElements = $scope.elementos.length;
+                $scope.activeElemento = $scope.elementos[0]._id;
             });
 
             $scope.eventoQuery = Evento.query(function () {
@@ -122,7 +122,7 @@ samtControllers.controller('InicioCtrl',
 
                 }
                 numberOfElements = $scope.elementos.length;
-                $scope.setElementoMaisNovoActive();
+                $scope.activeElemento = $scope.elementos[0]._id;
             };
 
             $scope.isElementoActive = function (idElemento) {
@@ -133,21 +133,9 @@ samtControllers.controller('InicioCtrl',
                 }
             };
 
-            $scope.setElementoMaisNovoActive = function () {
-                var elementoMaisNovoData = 0;
-                for (var i = 0; i < $scope.elementos.length; i++) {
-                    var dataElemento = new Date($scope.elementos[i].data);
-                    if (dataElemento > elementoMaisNovoData) {
-                        elementoMaisNovoData = dataElemento;
-                        $scope.activeElemento = $scope.elementos[i]._id;
-                    }
-                }
-                $scope.elementosCounter = numberOfElements - 1;
-            };
-
-            $scope.setElementoActive = function (idElemento) {
-                $scope.activeElemento = idElemento;
-                $scope.elementosCounter = idElemento - 1;
+            $scope.setElementoActive = function (elNumber) {
+                $scope.activeElemento = $scope.elementos[elNumber]._id;
+                $scope.elementosCounter = elNumber;
                 $interval.cancel($scope.iterateOverElementos);
                 $scope.iterateOverElementos = $interval(function () {
                     $scope.elementosCounter += 1;
@@ -177,17 +165,17 @@ samtControllers.controller('InicioCtrl',
             }
 
             $scope.iterateOverElementos = $interval(function () {
-                $scope.elementosCounter -= 1;
-                if ($scope.elementosCounter < 0) {
-                    $scope.elementosCounter = numberOfElements - 1;
+                $scope.elementosCounter += 1;
+                if ($scope.elementosCounter >= numberOfElements) {
+                    $scope.elementosCounter = 0;
                 }
                 $scope.activeElemento = $scope.elementos[$scope.elementosCounter]._id;
             }, 5000);
 
-            /* toRight = 1 => right */
-            $scope.iterateElementos = function (toRight) {
+            /* toLeft = 1 => left */
+            $scope.iterateElementos = function (toLeft) {
                 $interval.cancel($scope.iterateOverElementos);
-                if (toRight == 1) {
+                if (toLeft == 1) {
                     $scope.elementosCounter -= 1;
                     if ($scope.elementosCounter < 0) {
                         $scope.elementosCounter = numberOfElements - 1;

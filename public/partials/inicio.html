@@ -26,15 +26,15 @@
                 </div>
                 <div class="samt_news_seletor not-select-text">
                     <div class="samt_news_flecha samt_news_flecha_esquerda"><img
-                            src="img/site/seletor_esquerda.svg" ng-click="iterateElementos(0)"></div>
+                            src="img/site/seletor_esquerda.svg" ng-click="iterateElementos(1)"></div>
                     <ul class="samt_news_seletor_bolinhas">
-                        <li ng-repeat="elemento in elementos | orderBy:'-data' | limitTo:10"
+                        <li ng-repeat="elemento in elementos | limitTo:10"
                             ng-class="isElementoActive(elemento._id)"><a href=""
-                                                                       ng-click="setElementoActive(elemento._id)">_</a>
+                                                                       ng-click="setElementoActive($index)">_</a>
                         </li>
                     </ul>
                     <div class="samt_news_flecha samt_news_flecha_direita"><img
-                            src="img/site/seletor_direita.svg" ng-click="iterateElementos(1)"></div>
+                            src="img/site/seletor_direita.svg" ng-click="iterateElementos(0)"></div>
                 </div>
             </div>
         </div>
