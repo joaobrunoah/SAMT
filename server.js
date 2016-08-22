@@ -747,18 +747,27 @@ app.get('/thumbnail', function (req, res, next) {
     var dirname = "public/" + path.dirname(imgUrl);
 
     console.log(dirname + "/" + filename);
+
+    fs.exists(thumbpath, function(exists) {
+        if (exists) {
+            res.writeHead(200, { 'Content-Type': 'image/JPEG' });
+            fs.createReadStream(thumbpath).pipe(res);
+        } else {
+            gm(dirname + "/" + filename)
+                .resize(200)
+                .write(thumbpath, function(err){
+                    if (err) {
+                        console.error(err);
+                        res.send(500, "Image not found")
+                    }
+                    else {
+                        console.log(thumbpath);
+                        res.writeHead(200, { 'Content-Type': 'image/JPEG' });
+                        fs.createReadStream(thumbpath).pipe(res);
+                    }
+                });
+        }
+    });
     
-    gm(dirname + "/" + filename)
-        .resize(200)
-        .write(thumbpath, function(err){
-            if (err) {
-                console.error(err);
-                res.send(500, "Image not found")
-            }
-            else {
-                console.log(thumbpath);
-                res.writeHead(200, { 'Content-Type': 'image/JPEG' });
-                fs.createReadStream(thumbpath).pipe(res);
-            }
-        });
+    
 });
