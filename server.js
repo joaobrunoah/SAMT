@@ -15,7 +15,8 @@ var mongoose = require('mongoose');
 var jwt = require('jwt-simple');
 var jwtauth = require('./lib/jwtauth');
 var url = require('url');
-var Thumbnail = require('thumbnail');
+var gm = require('gm').subClass({imageMagick: true});
+//var gm = require('gm');
 var variables = require('./lib/samt_variables');
 
 // To handle Multipart requests
@@ -29,7 +30,7 @@ var Evento = require('./models/evento_model');
 var Projeto = require('./models/projeto_model');
 var Loja = require('./models/loja_model');
 
-mongoose.connect('localhost');
+mongoose.connect('52.27.251.27');
 
 app.set('port', process.env.PORT || 80);
 app.set('jwtTokenSecret', variables.tokenSecret);
@@ -742,22 +743,22 @@ app.get('/thumbnail', function (req, res, next) {
 
     var filename = path.basename(imgUrl);
     var thumbdirname = "public/thumbnail/";
+    var thumbpath = thumbdirname + "res_" + filename;
     var dirname = "public/" + path.dirname(imgUrl);
+
+    console.log(dirname + "/" + filename);
     
-    var thumbObj = new Thumbnail(dirname, thumbdirname);
-
-    thumbObj.ensureThumbnail(filename,200,null,function(err, filenameThumb){
-        
-        if (err) {
-            console.error(err);
-            res.send(500, "Image not found")
-        }
-        else {
-            console.log(thumbdirname + filenameThumb);
-            res.writeHead(200, { 'Content-Type': 'image/JPEG' });
-            fs.createReadStream(thumbdirname + filenameThumb).pipe(res);
-        }
-
-    });
-
+    gm(dirname + "/" + filename)
+        .resize(200)
+        .write(thumbpath, function(err){
+            if (err) {
+                console.error(err);
+                res.send(500, "Image not found")
+            }
+            else {
+                console.log(thumbpath);
+                res.writeHead(200, { 'Content-Type': 'image/JPEG' });
+                fs.createReadStream(thumbpath).pipe(res);
+            }
+        });
 });

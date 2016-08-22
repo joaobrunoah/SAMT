@@ -38,13 +38,13 @@
     "express": "^4.5.1",
     "formidable": "^1.0.15",
     "fs-extra": "^0.10.0",
+    "gm": "^1.23.0",
     "jwt-simple": "^0.2.0",
     "mongoose": "^4.5.9",
     "morgan": "^1.1.1",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "quickthumb": "0.0.9",
-    "static-favicon": "^2.0.0-alpha",
-    "thumbnail": "^0.1.9"
+    "static-favicon": "^2.0.0-alpha"
   }
 }
