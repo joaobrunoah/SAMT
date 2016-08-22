@@ -79,7 +79,7 @@
 
                 <div ng-repeat="foto in fotosLinha">
                     <div class="div_foto col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                        <img class="foto_elemento" ng-src="{{foto.imagemUrl}}"/>
+                        <img class="foto_elemento" ng-src="thumbnail?imgUrl={{foto.imagemUrl}}"/>
                         <div ng-if="foto.appearName" class="nome_foto_elemento">{{foto.nome}}</div>
                     </div>
 

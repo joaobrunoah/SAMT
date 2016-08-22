@@ -65,7 +65,7 @@ samtControllers.controller('InicioCtrl',
             // Elemento escolhido nas abas!
             $scope.elementos = {};
 
-            $scope.noticiaQuery = Noticia.query(function () {
+            $scope.noticiaQuery = Noticia.query({limit:10}, function () {
                 $scope.noticias = $scope.noticiaQuery.elementos;
                 $scope.elementos = $scope.noticias;
                 numberOfElements = $scope.elementos.length;

@@ -114,23 +114,23 @@ app.post('/api/:tipo/imagem/:id', jwtauth, requireAuth, function (req, res) {
     var busboy = new Busboy({headers: req.headers});
 
     busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        //console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         var appDir = path.dirname(require.main.filename);
         imgDir = "public" + path.sep + "img" + path.sep + req.params.tipo + path.sep + req.params.id;
 
         fs.mkdirp(imgDir, function (e) {
             if (!e || (e && e.code === 'EEXIST')) {
                 saveTo = appDir + path.sep + imgDir + path.sep + filename;
-                console.log("Saving file in: " + saveTo);
+                //console.log("Saving file in: " + saveTo);
                 file.pipe(fs.createWriteStream(saveTo));
             } else {
                 //debug
-                console.log(e);
+                //console.log(e);
             }
         });
     });
     busboy.on('field', function (fieldname, val, fieldnameTrunc, valTrunc) {
-        console.log('Field [' + fieldname + ']: value: ' + val);
+        //console.log('Field [' + fieldname + ']: value: ' + val);
     });
 
     req.pipe(busboy);
@@ -157,16 +157,16 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
     var saveTo = "";
 
     busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        //console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         var appDir = path.dirname(require.main.filename);
         imgDir = "public" + path.sep + "img" + path.sep + req.params.tipo + path.sep + filename;
         imgDir2web = "img/" + req.params.tipo + "/" + filename;
         saveTo = appDir + path.sep + imgDir;
-        console.log("Saving file in: " + saveTo);
+        //console.log("Saving file in: " + saveTo);
         file.pipe(fs.createWriteStream(saveTo));
     });
     busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
-        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        //console.log('Field [' + fieldname + ']: value: ' + inspect(val));
         if (fieldname == 'nome') {
             nome = inspect(val).replace(/'/g, "");
         } else if (fieldname == 'url') {
@@ -192,7 +192,7 @@ app.post('/api/:tipo', jwtauth, requireAuth, function (req, res) {
         }
     });
     busboy.on('finish', function () {
-        console.log('Saving object in ' + req.params.tipo + '!');
+        //console.log('Saving object in ' + req.params.tipo + '!');
 
         var elemento = {};
 
@@ -257,7 +257,7 @@ app.delete('/api/:tipo/imagem/:id/:nomeFoto', jwtauth, requireAuth, function (re
     try {
         fs.remove(appDir + path.sep + imgDir, function (err) {
             if (err) {
-                console.log("Could not remove image: " + req.params.urlFoto);
+                //console.log("Could not remove image: " + req.params.urlFoto);
                 return res.send(500, "Imagem não foi removida");
             }
             return res.send(200);
@@ -285,16 +285,16 @@ app.put('/api/:tipo/:id', jwtauth, requireAuth, function (req, res) {
     var saveTo = "";
 
     busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        //console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         var appDir = path.dirname(require.main.filename);
         imgDir = "public" + path.sep + "img" + path.sep + req.params.tipo + path.sep + filename;
         imgDir2web = "img/" + req.params.tipo + "/" + filename;
         saveTo = appDir + path.sep + imgDir;
-        console.log("Saving file in: " + saveTo);
+        //console.log("Saving file in: " + saveTo);
         file.pipe(fs.createWriteStream(saveTo));
     });
     busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
-        console.log('Field [' + fieldname + ']: value: ' + val);
+        //console.log('Field [' + fieldname + ']: value: ' + val);
         if (fieldname == 'nome') {
             nome = inspect(val).replace(/'/g, "");
         } else if (fieldname == 'resumo') {
@@ -317,7 +317,7 @@ app.put('/api/:tipo/:id', jwtauth, requireAuth, function (req, res) {
         }
     });
     busboy.on('finish', function () {
-        console.log('Updating object in ' + req.params.tipo + '!');
+        //console.log('Updating object in ' + req.params.tipo + '!');
         resumo = resumo == "" ? " " : resumo;
         texto = texto == "" ? " " : texto;
         if (req.params.tipo == 'projetos') {
@@ -423,7 +423,7 @@ app.get('/api/parceiros/:id', function (req, res, next) {
 });
 
 app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function (req, res, next) {
-    console.log(req.params.id);
+    //console.log(req.params.id);
     Parceiro.findById(req.params.id, function (err, parceiro) {
         if (err) console.log(err);
         try {
@@ -449,17 +449,24 @@ app.delete('/api/parceiros/:id', bodyParser(), jwtauth, requireAuth, function (r
 // NOTICIAS REQUESTS
 
 app.get('/api/noticias', function (req, res, next) {
+
+    var limit = Number(req.query.limit);
+    if (limit === null) {
+        limit = 1000
+    }
+
     Noticia.count({}, function (err, result) {
         if (err) {
             console.log(err.message);
             return res.send(500, err.message);
         }
         var query = Noticia.find();
-        query.limit(1000);
+        query.limit(limit);
+        query.sort({data:-1});
         query.exec(function (err, noticias) {
             if (err) return next(err);
             var object = {elementos: noticias, count: result};
-            console.log(object);
+            //console.log(object);
             res.send(object);
         });
     });
@@ -489,7 +496,7 @@ app.put('/api/noticias/inserirarrays/:id', jwtauth, requireAuth, function (req, 
 });
 
 app.delete('/api/noticias/:id', bodyParser(), jwtauth, requireAuth, function (req, res, next) {
-    console.log(req.params.id);
+    //console.log(req.params.id);
     Noticia.findById(req.params.id, function (err, noticia) {
         if (err) console.log(err);
         try {
@@ -524,7 +531,7 @@ app.get('/api/eventos', function (req, res, next) {
         query.exec(function (err, eventos) {
             if (err) return next(err);
             var object = {elementos: eventos, count: result};
-            console.log(object);
+            //console.log(object);
             res.send(object);
         });
     });
@@ -554,7 +561,7 @@ app.put('/api/eventos/inserirarrays/:id', jwtauth, requireAuth, function (req, r
 });
 
 app.delete('/api/eventos/:id', bodyParser(), jwtauth, requireAuth, function (req, res, next) {
-    console.log(req.params.id);
+    //console.log(req.params.id);
     Evento.findById(req.params.id, function (err, evento) {
         if (err) console.log(err);
         try {
@@ -621,7 +628,7 @@ app.put('/api/projetos/inserirarrays/:id', jwtauth, requireAuth, function (req, 
 });
 
 app.delete('/api/projetos/:id', bodyParser(), jwtauth, requireAuth, function (req, res, next) {
-    console.log(req.params.id);
+    //console.log(req.params.id);
     Projeto.findById(req.params.id, function (err, projeto) {
         if (err) console.log(err);
         try {
@@ -733,8 +740,24 @@ app.get('/thumbnail', function (req, res, next) {
     
     var imgUrl = req.query.imgUrl;
 
-    console.log(imgUrl);
+    var filename = path.basename(imgUrl);
+    var thumbdirname = "public/thumbnail/";
+    var dirname = "public/" + path.dirname(imgUrl);
+    
+    var thumbObj = new Thumbnail(dirname, thumbdirname);
 
-    //var thumbnail = new Thumbnail('public' + imgUrl,'public/thumbnail' + imgUrl)
+    thumbObj.ensureThumbnail(filename,200,null,function(err, filenameThumb){
+        
+        if (err) {
+            console.error(err);
+            res.send(500, "Image not found")
+        }
+        else {
+            console.log(thumbdirname + filenameThumb);
+            res.writeHead(200, { 'Content-Type': 'image/JPEG' });
+            fs.createReadStream(thumbdirname + filenameThumb).pipe(res);
+        }
+
+    });
 
 });
