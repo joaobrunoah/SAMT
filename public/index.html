@@ -3,15 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>SAMT</title>
-    <!--<link rel="stylesheet" href="css/bootstrap.css">-->
-    <!--<link rel="stylesheet" href="css/aaux_fonts.css">-->
-    <!--<link rel="stylesheet" href="css/index.css">-->
-    <!--<link rel="stylesheet" href="css/inicio.css">-->
-    <!--<link rel="stylesheet" href="css/parceiros.css">-->
-    <!--<link rel="stylesheet" href="css/secao.css">-->
-    <!--<link rel="stylesheet" href="css/multiple_elements.css">-->
-    <!--<link rel="stylesheet" href="css/admin.css">-->
-    <!--<link rel="stylesheet" href="css/adicionar_elemento.css">-->
+    <meta name="description" content="Você já conhece a SAMT? A Associação de
+        Assistência Social, Trabalho e Cidadania (SAMT) é uma instituição
+        privada fundada em 1987 em Lages, Santa Catarina, com o propósito de proteger crianças e
+        adolescentes em situação de risco social.">
+    <meta name="keywords" content="ONG, SAMT, Assistencia Social,
+        Assistencialismo, Lages, Serra Catarinense, Área Azul, Idoso">
+
     <link rel="stylesheet" href="css/samt.min.css">
 
     <link rel="stylesheet" href="../bower_components/jquery-ui/themes/sunny/jquery-ui.min.css">
@@ -58,6 +56,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                <li class="navSamt" ng-class="getClass('/inicio')"><a
+                        href="#/inicio">{{texts.inicio}}</a></li>
                 <li class="navSamt" ng-class="getClass('/quem_somos')"><a
                         href="#/quem_somos">{{texts.quem_somos}}</a></li>
                 <li class="navSamt" ng-class="getClass('/parceiros')"><a
